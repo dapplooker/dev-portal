@@ -12,7 +12,7 @@ export default function TestPage() {
   }, []);
 
   const fetchData = async () => {
-    let response = await axios.get(`http://localhost:3000/api/graph-details`);
+    let response = await axios.get(`http://localhost:3000/api/search-stats`);
     console.log("last response", response.data);
   };
 
