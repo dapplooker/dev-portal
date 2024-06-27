@@ -14,7 +14,7 @@ class StatsApi extends ApiServiceWrapper {
     const last30daysAgoDate = moment().subtract(30, 'days');
     const params = {
       q: `${keyword}`,
-      since: last30daysAgoDate
+      // since: last30daysAgoDate
     }
     try {
       const res = await this.GET(endpoint, { params: params })
@@ -22,7 +22,6 @@ class StatsApi extends ApiServiceWrapper {
     } catch (error) {
       return await this.rejectPromise(error)
     }
-
   }
 }
 
