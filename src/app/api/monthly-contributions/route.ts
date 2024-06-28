@@ -1,5 +1,5 @@
 import { monthsMap } from '@/app/constants';
-import { sortContributionsMap } from '@/app/lib/sortMonths/sortMonths';
+import { sortContributionsMap } from '@/app/lib/sortMap/sortMonths';
 import monthlyChartsApi from '@/app/services/monthly-charts';
 import { NextRequest, NextResponse } from 'next/server';
 

@@ -1,4 +1,5 @@
 import { monthsMap } from '@/app/constants';
+import { sortContributionsMap } from '@/app/lib/sortMap/sortMonths';
 import monthlyChartsApi from '@/app/services/monthly-charts';
 import statsApi from '@/app/services/stats';
 import axios, { all } from 'axios';
@@ -43,9 +44,13 @@ async function getResponse(req: any): Promise<any> {
       console.log("My Map", monthlyProjectCountMap.keys())
     }
 
+    const currentMonth = (monthsMap as any)[new Date().getMonth() + 1];
+    const sortedMonthsMap = sortContributionsMap(monthlyProjectCountMap, currentMonth)
+    console.log("sortedMonthsMap:", sortedMonthsMap)
+
     const projectsChartDetails = {
-      xAxisValues: monthlyProjectCountMap.keys(),
-      yAxisValues: monthlyProjectCountMap.values(),
+      xAxisValues: sortedMonthsMap.keys(),
+      yAxisValues: sortedMonthsMap.values(),
     }
 
     return NextResponse.json({ data: projectsChartDetails }, { status: 201 });
