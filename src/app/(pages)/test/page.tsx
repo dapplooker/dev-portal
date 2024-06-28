@@ -6,16 +6,21 @@ export default function TestPage() {
   useEffect(() => {
     (async () => {
       console.log("Render...");
-      // await fetchData();
+      await fetchSearchStats();
+      await fetchGrowthData();
       await fetchChartsData();
     })();
   }, []);
 
-  const fetchData = async () => {
+  const fetchSearchStats = async () => {
     let response = await axios.get(`http://localhost:3000/api/search-stats`);
     console.log("last response", response.data);
   };
 
+  const fetchGrowthData = async () => {
+    let response = await axios.get(`http://localhost:3000/api/ecosystem-growth`);
+    console.log("growth data", response.data);
+  };
   const fetchChartsData = async () => {
     // let response = await axios.get(`http://localhost:3000/api/monthly-projects`);
     // console.log("final monthly-projects", response);
