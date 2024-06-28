@@ -1,11 +1,10 @@
-import axios from 'axios';
 import { NextRequest, NextResponse } from 'next/server';
 import statsApi from '../../services/stats/index';
 
 async function getResponse(req: any): Promise<any> {
   try {
     // let response = await axios.get(`https://api.github.com/search/users?q=subgraphs`);
-    const totalDevelopersWithinAMonth: number = (await statsApi.getTotalDevelopers('thegraph',{ withinLast30Days: true })).total_count;
+    const totalDevelopersWithinAMonth: number = (await statsApi.getTotalDevelopers('thegraph', { withinLast30Days: true })).total_count;
     const totalDevelopers: number = (await statsApi.getTotalDevelopers('thegraph')).total_count;
     const totalProjects: number = (await statsApi.getTotalProjects('thegraph')).total_count;
     const totalProjectsWithinAMonth: number = (await statsApi.getTotalProjects('thegraph', { withinLast30Days: true })).total_count;
