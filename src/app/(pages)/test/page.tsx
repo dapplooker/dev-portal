@@ -8,6 +8,7 @@ export default function TestPage() {
     (async () => {
       console.log("Render...");
       await fetchData();
+      await fetchGrowthData();
     })();
   }, []);
 
@@ -15,6 +16,11 @@ export default function TestPage() {
     let response = await axios.get(`http://localhost:3000/api/search-stats`);
     console.log("last response", response.data);
   };
+
+  const fetchGrowthData = async () => {
+    let response = await axios.get(`http://localhost:3000/api/ecosystem-growth`);
+    console.log('growth data', response.data)
+  }
 
   return <>Hello</>;
 }
