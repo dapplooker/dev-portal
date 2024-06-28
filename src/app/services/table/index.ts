@@ -4,9 +4,15 @@ import moment from "moment";
 
 class TableApi extends ApiServiceWrapper {
   private baseUrl: string;
+  private headers: any;
   constructor() {
     super();
     this.baseUrl = ServiceConstants.githubBaseUrl;
+    console.log("ENV..", process.env.GITHUB_BEARER_TOKEN)
+    this.headers = {
+      "Authorization": `Bearer ${process.env.GITHUB_BEARER_TOKEN}`,
+      "Accept": "application/vnd.github+json"
+    }
   }
 
   //Top Developers
@@ -16,7 +22,7 @@ class TableApi extends ApiServiceWrapper {
     console.log("date", oneMonthAgoDate)
     console.log("endpint", endpoint)
     try {
-      const res = await this.GET(endpoint)
+      const res = await this.GET(endpoint, { headers: this.headers })
       return await this.resolvePromise(res);
     } catch (error) {
       return await this.rejectPromise(error)
@@ -29,7 +35,7 @@ class TableApi extends ApiServiceWrapper {
     console.log("date", oneMonthAgoDate)
     console.log("endpint", endpoint)
     try {
-      const res = await this.GET(endpoint)
+      const res = await this.GET(endpoint, { headers: this.headers })
       return await this.resolvePromise(res);
     } catch (error) {
       return await this.rejectPromise(error)
@@ -52,7 +58,7 @@ class TableApi extends ApiServiceWrapper {
     const endpoint = `${this.baseUrl}/repos/${fullName}/contributors?page=${page}&per_page=100`;
     console.log("endpint", endpoint)
     try {
-      const res = await this.GET(endpoint)
+      const res = await this.GET(endpoint, { headers: this.headers })
       return await this.resolvePromise(res);
     } catch (error) {
       return await this.rejectPromise(error)
@@ -63,7 +69,7 @@ class TableApi extends ApiServiceWrapper {
     const endpoint = `${this.baseUrl}/repos/${fullName}/commits?page=${page}&per_page=100`;
     console.log("endpint", endpoint)
     try {
-      const res = await this.GET(endpoint)
+      const res = await this.GET(endpoint, { headers: this.headers })
       return await this.resolvePromise(res);
     } catch (error) {
       return await this.rejectPromise(error)

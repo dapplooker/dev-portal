@@ -4,9 +4,14 @@ import moment from "moment";
 
 class StatsApi extends ApiServiceWrapper {
   private baseUrl: string;
+  private headers: any;
   constructor() {
     super();
     this.baseUrl = ServiceConstants.githubBaseUrl;
+    this.headers = {
+      "Authorization": `Bearer ${process.env.GITHUB_BEARER_TOKEN}`,
+      "Accept": "application/vnd.github+json"
+    }
   }
 
   public async getTotalDevelopers(keyword: string, dateParams: { withinLast30Days?: boolean, withinLastSixMonths?: boolean } = { withinLast30Days: false, withinLastSixMonths: false }): Promise<any | any> {
@@ -30,7 +35,7 @@ class StatsApi extends ApiServiceWrapper {
     };
 
     try {
-      const res = await this.GET(endpoint, { params });
+      const res = await this.GET(endpoint, { params, headers: this.headers });
       return await this.resolvePromise(res);
     } catch (error) {
       return await this.rejectPromise(error);
@@ -58,7 +63,7 @@ class StatsApi extends ApiServiceWrapper {
     };
 
     try {
-      const res = await this.GET(endpoint, { params });
+      const res = await this.GET(endpoint, { params, headers: this.headers });
       return await this.resolvePromise(res);
     } catch (error) {
       return await this.rejectPromise(error);
@@ -84,7 +89,7 @@ class StatsApi extends ApiServiceWrapper {
     const params = { q: query };
 
     try {
-      const res = await this.GET(endpoint, { params });
+      const res = await this.GET(endpoint, { params, headers: this.headers });
       return await this.resolvePromise(res);
     } catch (error) {
       console.error('Error:', error);
@@ -94,18 +99,15 @@ class StatsApi extends ApiServiceWrapper {
 
 
   public async getTotalPrs(keyword: string, withinLast30Days: boolean = false): Promise<any> {
-    const endpoint = `${this.baseUrl}/search/issues`;
-    let params: any = {
-      q: `${keyword}`
-    };
+    let endpoint = `${this.baseUrl}/search/issues?q=${keyword}+is:pull-request`;
 
     if (withinLast30Days) {
       const last30daysAgoDate = moment().subtract(30, 'days').format('YYYY-MM-DD');
-      params.q += `+created:>=${last30daysAgoDate}`;
+      endpoint += `+created:>=${last30daysAgoDate}`;
     }
 
     try {
-      const res = await this.GET(endpoint, { params: params });
+      const res = await this.GET(endpoint, { headers: this.headers });
       return await this.resolvePromise(res);
     } catch (error) {
       return await this.rejectPromise(error);

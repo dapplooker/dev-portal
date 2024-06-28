@@ -1,0 +1,38 @@
+.main {
+  width: 100vw;
+  height: 100vh;
+  font-style: normal;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-x: hidden;
+
+  .titleWrapper {
+    position: relative;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 100px;
+    margin-bottom: 40px;
+
+    @media screen and (max-width: 550px) {
+      padding: 100px 5px;
+    }
+
+    .pageTitle {
+      color: #f26822;
+      font-size: 42px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 64px;
+      letter-spacing: 2.1px;
+      text-transform: uppercase;
+      margin-top: 18px;
+    }
+  }
+}

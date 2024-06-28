@@ -1,0 +1,17 @@
+.monthlyChartsSection {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+
+  .activeProjectChartWrapper {
+    width: 553px;
+    height: 350px;
+    padding: 24px;
+    background-color: #16110f;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+  }
+}

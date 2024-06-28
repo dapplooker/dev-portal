@@ -1,4 +1,6 @@
+import devPortalConstant from '@/app/_components/dev-portal/constants';
 import { monthsMap } from '@/app/constants';
+import { ChartConfigInterface } from '@/app/interface';
 import { sortContributionsMap } from '@/app/lib/sortMap/sortMonths';
 import monthlyChartsApi from '@/app/services/monthly-charts';
 import { NextRequest, NextResponse } from 'next/server';
@@ -24,10 +26,7 @@ async function getResponse(req: any): Promise<any> {
       responseLen = response?.items?.length || 0;
     } while (responseLen >= 100);
 
-    console.log("allProjects contributins", totalContributions.length)
-
     if (totalContributions.length > 0) {
-      console.log("date", totalContributions[0].projects?.commit?.committer?.date)
       totalContributions.map((projects: any) => {
         const month = new Date(projects?.commit?.committer?.date).getMonth() + 1;
         const projectMonth = (monthsMap as any)[month];
@@ -38,26 +37,26 @@ async function getResponse(req: any): Promise<any> {
           monthlyProjectCountMap.set(projectMonth, 1)
         }
       })
-
-      console.log("My Map conributions", monthlyProjectCountMap)
     }
 
     const currentMonth = (monthsMap as any)[new Date().getMonth() + 1];
     const sortedMonthsMap = sortContributionsMap(monthlyProjectCountMap, currentMonth)
-    console.log("sortedMonthsMap:", sortedMonthsMap)
 
-    const projectsChartDetails = {
-      xAxisValues: sortedMonthsMap.keys(),
-      yAxisValues: sortedMonthsMap.values(),
+    const contributionsChartDetails: ChartConfigInterface = {
+      chartType: "line",
+      chartTitle: devPortalConstant.activeContributionsMonthly,
+      xAxisValues: Array.from(sortedMonthsMap.keys()),
+      yAxisValues: Array.from(sortedMonthsMap.values()),
+      xTitle: devPortalConstant.months,
+      yTitle: devPortalConstant.contributions,
     }
 
-    return NextResponse.json({ data: projectsChartDetails }, { status: 201 });
+    return NextResponse.json({ data: contributionsChartDetails }, { status: 201 });
   } catch (error) {
     console.error("Error", error);
     return NextResponse.json({ error: error }, { status: 500 });
   }
 }
-
 
 export async function GET(req: NextRequest): Promise<any> {
   return getResponse(req);

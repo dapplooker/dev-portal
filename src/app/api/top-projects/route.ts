@@ -19,7 +19,6 @@ interface RepositoriesInterface {
 
 async function getResponse(req: any): Promise<any> {
   try {
-
     const response: ActiveProjectsMonlthy = await tableApi.getTopProjects('thegraph');
     const topProjects = response.items;
     console.log("topProjects", topProjects);
@@ -80,8 +79,6 @@ const getTotalContributions = async (fullName: string) => {
     console.error("Error", error);
   }
 }
-
-
 
 export async function GET(req: NextRequest): Promise<any> {
   return getResponse(req);
