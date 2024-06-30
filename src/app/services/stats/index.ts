@@ -14,7 +14,7 @@ class StatsApi extends ApiServiceWrapper {
     }
   }
 
-  public async getTotalDevelopers(keyword: string, dateParams: { withinLast30Days?: boolean, withinLastSixMonths?: boolean } = { withinLast30Days: false, withinLastSixMonths: false }): Promise<any | any> {
+  public async getTotalDevelopers(keyword: string, dateParams: { withinLast30Days?: boolean, withinLastSixMonths?: boolean, withinLast12Months?: boolean } = { withinLast30Days: false, withinLastSixMonths: false, withinLast12Months: false }): Promise<any | any> {
     const endpoint = `${this.baseUrl}/search/users`;
     let query: string = `${keyword}`;
 
@@ -28,6 +28,9 @@ class StatsApi extends ApiServiceWrapper {
     } else if (dateParams.withinLastSixMonths) {
       const lastSixMonthsAgoDate = moment().subtract(6, 'months').format('YYYY-MM-DD');
       query += ` created:>=${lastSixMonthsAgoDate}`;
+    } else if (dateParams.withinLast12Months) {
+      const lastOneYearAgoDate = moment().subtract(12, 'months').format('YYYY-MM-DD');
+      query += ` created:>=${lastOneYearAgoDate}`;
     }
 
     const params: any = {
@@ -42,7 +45,7 @@ class StatsApi extends ApiServiceWrapper {
     }
   }
 
-  public async getTotalProjects(keyword: string, dateParams: { withinLast30Days?: boolean, withinLastSixMonths?: boolean } = { withinLast30Days: false, withinLastSixMonths: false }): Promise<any> {
+  public async getTotalProjects(keyword: string, dateParams: { withinLast30Days?: boolean, withinLastSixMonths?: boolean, withinLast12Months?: boolean } = { withinLast30Days: false, withinLastSixMonths: false, withinLast12Months: false }): Promise<any> {
     const endpoint = `${this.baseUrl}/search/repositories`;
     let query: string = `${keyword}`;
 
@@ -56,6 +59,9 @@ class StatsApi extends ApiServiceWrapper {
     } else if (dateParams.withinLastSixMonths) {
       const lastSixMonthsAgoDate = moment().subtract(6, 'months').format('YYYY-MM-DD');
       query += ` created:>=${lastSixMonthsAgoDate}`;
+    } else if (dateParams.withinLast12Months) {
+      const lastOneYearAgoDate = moment().subtract(12, 'months').format('YYYY-MM-DD');
+      query += ` created:>=${lastOneYearAgoDate}`;
     }
 
     const params: any = {
@@ -71,7 +77,7 @@ class StatsApi extends ApiServiceWrapper {
   }
 
 
-  public async getTotalCommits(keyword: string, dateParams: { withinLast30Days?: boolean, withinLastSixMonths?: boolean } = { withinLast30Days: false, withinLastSixMonths: false }): Promise<any> {
+  public async getTotalCommits(keyword: string, dateParams: { withinLast30Days?: boolean, withinLastSixMonths?: boolean, withinLast12Months?: boolean } = { withinLast30Days: false, withinLastSixMonths: false, withinLast12Months: false }): Promise<any> {
     const endpoint = `${this.baseUrl}/search/commits`;
     let query: string = `${keyword}`;
 
@@ -85,6 +91,9 @@ class StatsApi extends ApiServiceWrapper {
     } else if (dateParams.withinLastSixMonths) {
       const lastSixMonthsAgoDate = moment().subtract(6, 'months').format('YYYY-MM-DD');
       query += ` committer-date:>=${lastSixMonthsAgoDate}`;
+    } else if (dateParams.withinLast12Months) {
+      const lastOneYearAgoDate = moment().subtract(12, 'months').format('YYYY-MM-DD');
+      query += ` committer-date:>=${lastOneYearAgoDate}`;
     }
     const params = { q: query };
 

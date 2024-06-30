@@ -6,3 +6,26 @@ export interface ChartConfigInterface {
   xTitle: string;
   yTitle: string;
 }
+
+export interface RadialBarChartsConfigInterface {
+  chartType: string,
+  percentage: number,
+}
+
+export interface FormattedGeneralStatsResponse {
+  title: string;
+  totalCount: number;
+  last30DaysCount: number;
+  icon: string;
+}
+
+export interface FormattedEcosystemMetricsInterface {
+  title: string;
+  totalCount: number;
+  percentage: number;
+}
+
+export interface FormattedTopDevsInterface {
+  name: string;
+  commits: number;
+}

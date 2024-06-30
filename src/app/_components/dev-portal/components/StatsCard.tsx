@@ -1,6 +1,6 @@
 import { ArchiveIcon, CodeIcon, CommitIcon, DashboardIcon } from "@radix-ui/react-icons";
 import React from "react";
-import { FormattedGeneralStatsResponse } from "../interface";
+import { FormattedGeneralStatsResponse } from "@/app/interface";
 import devPortalConstant from "../constants";
 import styles from "./StatsCard.module.scss";
 

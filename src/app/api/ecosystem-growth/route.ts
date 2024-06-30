@@ -1,27 +1,39 @@
 import { NextRequest, NextResponse } from 'next/server';
 import statsApi from '../../services/stats/index';
+import { FormattedEcosystemMetricsInterface } from '@/app/interface';
 
 async function getResponse(req: any): Promise<any> {
   try {
-    const totalDevelopers: number = (await statsApi.getTotalDevelopers('thegraph')).total_count;
+    const totalDevelopersWithIn12Months: number = (await statsApi.getTotalDevelopers('thegraph', { withinLast12Months: true })).total_count;
     const totalDevelopersWithinSixMonths: number = (await statsApi.getTotalDevelopers('thegraph', { withinLastSixMonths: true })).total_count;
-    const totalProjects: number = (await statsApi.getTotalProjects('thegraph')).total_count;
+
+    const totalProjectsWithIn12Months: number = (await statsApi.getTotalProjects('thegraph', { withinLast12Months: true })).total_count;
     const totalProjectsWithinSixMonths: number = (await statsApi.getTotalProjects('thegraph', { withinLastSixMonths: true })).total_count;
-    const totalContributions: number = (await statsApi.getTotalCommits('thegraph')).total_count;
+
+    const totalContributionsWithIn12Months: number = (await statsApi.getTotalCommits('thegraph', { withinLast12Months: true })).total_count;
     const totalContributionsWithinSixMonths: number = (await statsApi.getTotalCommits('thegraph', { withinLastSixMonths: true })).total_count;
 
-    const developersGrowth: number = Math.round((totalDevelopersWithinSixMonths / totalDevelopers) * 100);
-    const projectsGrowth: number = Math.round((totalProjectsWithinSixMonths / totalProjects) * 100);
-    const contributionsGrowth: number = Math.round((totalContributionsWithinSixMonths / totalContributions) * 100);
+    const developersGrowth: number = Math.round((totalDevelopersWithinSixMonths / totalDevelopersWithIn12Months) * 100) || 0;
+    const projectsGrowth: number = Math.round((totalProjectsWithinSixMonths / totalProjectsWithIn12Months) * 100) || 0;
+    const contributionsGrowth: number = Math.round((totalContributionsWithinSixMonths / totalContributionsWithIn12Months) * 100) || 0;
 
-    const responseData = {
-      new_developers_within_six_months: totalDevelopersWithinSixMonths,
-      developers_growth_percentage: developersGrowth,
-      new_repositories_within_six_months: totalProjectsWithinSixMonths,
-      repositories_growth_percentage: projectsGrowth,
-      new_contributions_within_six_months: totalContributionsWithinSixMonths,
-      contributions_growth: contributionsGrowth,
-    }
+    const responseData: FormattedEcosystemMetricsInterface[] = [
+      {
+        title: "New Developer",
+        totalCount: totalDevelopersWithinSixMonths,
+        percentage: developersGrowth,
+      },
+      {
+        title: "New Repositories",
+        totalCount: totalProjectsWithinSixMonths,
+        percentage: projectsGrowth,
+      },
+      {
+        title: "Contributions",
+        totalCount: totalContributionsWithinSixMonths,
+        percentage: contributionsGrowth,
+      },
+    ]
 
     return NextResponse.json({ data: responseData }, { status: 201 });
   } catch (error) {

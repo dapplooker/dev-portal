@@ -1,3 +1,4 @@
+import { FormattedTopDevsInterface } from '@/app/interface';
 import { sortAndTakeTopEntries } from '@/app/lib/sortMap/sortDevelopers';
 import tableApi from '@/app/services/table';
 import { NextRequest, NextResponse } from 'next/server';
@@ -42,13 +43,14 @@ async function getResponse(req: any): Promise<any> {
 
     const top10Developers = sortAndTakeTopEntries(topDevelopersMap, 10);
 
-    const formattedDetails: any[] = [];
+    const formattedDetails: FormattedTopDevsInterface[] = [];
     top10Developers.forEach(async (value: number, key: string) => {
       const commits = await getCommitsDetails(key);
       formattedDetails.push({
         name: key,
-        total_contributions: commits
+        commits: commits || 0
       })
+      console.log("formatted PUSH", formattedDetails)
     });
 
     console.log("formattedDetails", formattedDetails)

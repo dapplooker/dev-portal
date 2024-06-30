@@ -35,4 +35,9 @@
       margin-top: 18px;
     }
   }
+  .layoutContent {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
 }

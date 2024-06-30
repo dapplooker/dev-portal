@@ -1,4 +1,4 @@
-import { ChartConfigInterface } from "@/app/interface";
+import { ChartConfigInterface, RadialBarChartsConfigInterface } from "@/app/interface";
 
 class ChartConfig {
 
@@ -79,6 +79,43 @@ class ChartConfig {
 
     return finalConfig
   }
+
+  public getRadialBarChart(percentage: number) {
+
+    const finalConfig = {
+      series: [percentage],
+      options: {
+        chart: {
+          width: 112,
+          height: 110,
+          type: 'radialBar',
+        },
+        plotOptions: {
+          radialBar: {
+            hollow: {
+              size: '60%'
+            },
+            dataLabels: {
+              name: {
+                show: false,
+              },
+              value: {
+                show: true, // Hide the numeric value
+                fontSize: '16px',
+                fontWeight: 'bold',
+                color: '#fff',
+                offsetY: 6,
+              },
+            },
+          },
+        },
+        labels: [`Percent`], // To Show Lable Enable show: true for name in dataLabels 
+      },
+    }
+
+    return finalConfig;
+  }
+
 }
 
 const ChartData = new ChartConfig();

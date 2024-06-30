@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./GeneralStats.module.scss";
-import { FormattedGeneralStatsResponse } from "../interface";
 import StatsCard from "../components/StatsCard";
+import { FormattedGeneralStatsResponse } from "@/app/interface";
 
 interface GeneralStatsProps {
   data: FormattedGeneralStatsResponse[];
