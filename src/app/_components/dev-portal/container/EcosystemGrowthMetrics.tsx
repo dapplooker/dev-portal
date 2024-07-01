@@ -4,9 +4,10 @@ import styles from "./EcosystemGrowthMetrics.module.scss";
 import CircularProgressBar from "../components/CircularProgressBar";
 import axios from "axios";
 import { FormattedEcosystemMetricsInterface } from "@/app/interface";
-import LoadingSpinner from "../../ui/components/Loading/LoadingSpinner";
 import env, { commonLabels } from "@/app/constants/common/labels";
 import useSessionStorage from "@/app/hooks/useSessionStorage/useSessionStorage";
+import devPortalConstant from "../constants";
+import { Skeleton } from "../../shadecn/ui/skeleton";
 
 interface EcosystemGrowthMetricsProps {
   searchKeyword: string;
@@ -41,14 +42,28 @@ const EcosystemGrowthMetrics = ({ searchKeyword }: EcosystemGrowthMetricsProps) 
     }
   };
 
-  return (
-    <section className={styles.ecosystemGrowthMetricsSection}>
-      <h3 className={styles.sectionTitle}>Ecosystem growth</h3>
-      <h3 className={styles.sectionSubTitle}>last 30 days</h3>
+  return loading ? (
+    <div className="flex flex-col w-[585px] h-[540px] space-y-3 justify-evenly">
+      <Skeleton className="h-[30px] w-[200px]" />
+      {Array.from(Array(3).keys()).map((_, index) => (
+        <div
+          key={index}
+          className="flex items-center space-x-4"
+        >
+          <Skeleton className="h-[120px] w-[120px] rounded-full" />
+          <div className="space-y-3">
+            <Skeleton className="h-[28px] w-[250px]" />
+            <Skeleton className="h-[28px] w-[200px]" />
+          </div>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <>
+      <section className={styles.ecosystemGrowthMetricsSection}>
+        <h3 className={styles.sectionTitle}>{devPortalConstant.ecosystemGrowth}</h3>
+        <h3 className={styles.sectionSubTitle}></h3>
 
-      {loading ? (
-        <LoadingSpinner />
-      ) : (
         <div className={styles.contentWrapper}>
           {data && data?.length ? (
             data?.map((metrics: FormattedEcosystemMetricsInterface, index: number) => (
@@ -63,11 +78,11 @@ const EcosystemGrowthMetrics = ({ searchKeyword }: EcosystemGrowthMetricsProps) 
               </div>
             ))
           ) : (
-            <h1 className={styles.noDataFound}>No Data Found</h1>
+            <h1 className={styles.noDataFound}>{commonLabels.noDataFound}</h1>
           )}
         </div>
-      )}
-    </section>
+      </section>
+    </>
   );
 };
 

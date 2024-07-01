@@ -9,47 +9,19 @@
   .table {
     height: auto;
     width: 100%;
-
-    // @media screen and (max-width: 1268px) {
-    //   max-width: 815px;
-    // }
-    // @media screen and (max-width: 1220px) {
-    //   max-width: 775px;
-    // }
-    // @media screen and (max-width: 1200px) {
-    //   max-width: 520px;
-    // }
-    // @media screen and (max-width: 960px) {
-    //   max-width: 100%;
-    //   margin-left: 0px;
-    // }
-
-    // &::-webkit-scrollbar {
-    //   width: 8px;
-    //   height: 8px;
-    // }
-    // &::-webkit-scrollbar-track {
-    //   background: var(--lunar-gray-16);
-    // }
-
-    // /* Handle */
-    // &::-webkit-scrollbar-thumb {
-    //   background: var(--lunar-gray-100);
-    //   cursor: grabbing;
-    // }
   }
 
   .tableHeader {
     font-size: 18px;
-    font-weight: 700;
     line-height: normal;
-    color: #aa9388;
     text-transform: uppercase;
 
     .tableColumn {
       height: 50px !important;
       text-align: left;
       padding-left: 8px;
+      font-weight: 700 !important;
+      color: #aa9388 !important;
 
       &:first-child {
         padding-left: 32px;
@@ -57,7 +29,6 @@
     }
   }
   .tableRow {
-    border: 1px solid white;
     &:hover {
       background-color: transparent;
     }

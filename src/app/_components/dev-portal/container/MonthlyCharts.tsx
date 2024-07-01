@@ -4,9 +4,9 @@ import ReactApexChart from "react-apexcharts";
 import styles from "./MonthlyCharts.module.scss";
 import axios from "axios";
 import ChartData from "@/app/lib/apexCharts/chartConfig";
-import LoadingSpinner from "../../ui/components/Loading/LoadingSpinner";
 import env, { commonLabels } from "@/app/constants/common/labels";
 import useSessionStorage from "@/app/hooks/useSessionStorage/useSessionStorage";
+import { Skeleton } from "../../shadecn/ui/skeleton";
 
 interface MonthlyChartsProps {
   searchKeyword: string;
@@ -55,10 +55,10 @@ const MonthlyCharts = ({ searchKeyword }: MonthlyChartsProps) => {
 
   return (
     <section className={styles.monthlyChartsSection}>
-      <div className={styles.activeProjectChartWrapper}>
-        {loading ? (
-          <LoadingSpinner />
-        ) : (
+      {loading ? (
+        <Skeleton className="h-[350px] w-[600px] rounded-xl" />
+      ) : (
+        <div className={styles.activeProjectChartWrapper}>
           <ReactApexChart
             options={data?.activeProjects?.options as any}
             series={data?.activeProjects?.series}
@@ -66,12 +66,13 @@ const MonthlyCharts = ({ searchKeyword }: MonthlyChartsProps) => {
             width="100%"
             height="100%"
           />
-        )}
-      </div>
-      <div className={styles.activeProjectChartWrapper}>
-        {loading ? (
-          <LoadingSpinner />
-        ) : (
+        </div>
+      )}
+
+      {loading ? (
+        <Skeleton className="h-[350px] w-[600px] rounded-xl" />
+      ) : (
+        <div className={styles.activeProjectChartWrapper}>
           <ReactApexChart
             options={data?.activeContributions?.options as any}
             series={data?.activeContributions?.series}
@@ -79,8 +80,8 @@ const MonthlyCharts = ({ searchKeyword }: MonthlyChartsProps) => {
             width="100%"
             height="100%"
           />
-        )}
-      </div>
+        </div>
+      )}
     </section>
   );
 };

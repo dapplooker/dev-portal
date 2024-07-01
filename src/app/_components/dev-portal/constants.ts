@@ -24,6 +24,22 @@ class DevPortalConstants {
     return "in last 30 days";
   }
 
+  get ecosystemGrowth(): string {
+    return "Ecosystem growth";
+  }
+
+  get last30days(): string {
+    return "last 30 days";
+  }
+
+  get topProjects(): string {
+    return "Top Projects";
+  }
+
+  get topDevelopers(): string {
+    return "Top Developers";
+  }
+
 }
 
 const devPortalConstant = new DevPortalConstants();

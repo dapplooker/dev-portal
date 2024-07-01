@@ -23,7 +23,7 @@ const ResultTable = ({ columnsData, rowsData }: ResultTableProps) => {
       if (column === "project name" || column === "name") {
         return {
           accessorKey: column,
-          header: () => <div className="text-right">{column}</div>,
+          header: () => <div>{column}</div>,
           cell: ({ row }: { row: any }) => {
             const projectInfo: ProjectInfo = row.getValue(column);
             const avatarUrl = projectInfo?.avatarUrl;
@@ -51,7 +51,7 @@ const ResultTable = ({ columnsData, rowsData }: ResultTableProps) => {
       if (column === "stars") {
         return {
           accessorKey: column,
-          header: () => <div className="text-right">{column}</div>,
+          header: () => <div>{column}</div>,
           cell: ({ row }: { row: any }) => {
             return <span className={styles.customColor}>{row.getValue(column)}</span>;
           },

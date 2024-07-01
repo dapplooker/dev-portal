@@ -6,8 +6,8 @@ import useSessionStorage from "@/app/hooks/useSessionStorage/useSessionStorage";
 import { commonLabels } from "@/app/constants";
 import axios from "axios";
 import env from "@/app/constants/common/labels";
-import LoadingSpinner from "../../ui/components/Loading/LoadingSpinner";
 import styles from "./GeneralStats.module.scss";
+import { Skeleton } from "../../shadecn/ui/skeleton";
 
 interface GeneralStatsProps {
   searchKeyword: string;
@@ -44,18 +44,19 @@ const GeneralStats = ({ searchKeyword }: GeneralStatsProps) => {
 
   return (
     <section className={styles.generalStatsSection}>
-      {loading ? (
-        <LoadingSpinner />
-      ) : (
-        // <div className={styles.contentWrapper}>
-        data!.map((item, index) => (
-          <StatsCard
-            key={index}
-            statsData={item}
-          />
-        ))
-        // </div>
-      )}
+      {loading
+        ? Array.from(Array(4).keys()).map((_, index) => (
+            <Skeleton
+              key={index}
+              className="h-[125px] w-[290px] rounded-xl"
+            />
+          ))
+        : data!.map((item, index) => (
+            <StatsCard
+              key={index}
+              statsData={item}
+            />
+          ))}
     </section>
   );
 };

@@ -4,9 +4,10 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styles from "./TopDapps.module.scss";
 import { FormattedTopDappsInterface } from "@/app/interface";
-import LoadingSpinner from "../../ui/components/Loading/LoadingSpinner";
 import ResultTable from "../components/ResultTable";
 import useSessionStorage from "@/app/hooks/useSessionStorage/useSessionStorage";
+import devPortalConstant from "../constants";
+import { Skeleton } from "../../shadecn/ui/skeleton";
 
 interface TopDappsProps {
   searchKeyword: string;
@@ -42,21 +43,29 @@ const TopDapps = ({ searchKeyword }: TopDappsProps) => {
     }
   };
 
-  return (
+  return loading ? (
+    <div className="flex flex-col w-full h-auto space-y-3 justify-evenly">
+      <Skeleton className="h-[30px] w-[200px]" />
+      {Array.from(Array(7).keys()).map((_, index) => (
+        <Skeleton
+          key={index}
+          className="h-[35px] w-full"
+        />
+      ))}
+    </div>
+  ) : (
     <div className={styles.sectionWrapper}>
       <h2 className={styles.tableTitle}>
-        Top Projects <span className={styles.subHeading}>(Last 30 days)</span>
+        {devPortalConstant.topProjects} <span className={styles.subHeading}>({devPortalConstant.last30days})</span>
       </h2>
       <section className={styles.topDapps}>
-        {loading ? (
-          <LoadingSpinner />
-        ) : data && data?.length > 0 ? (
+        {data && data?.length > 0 ? (
           <ResultTable
             columnsData={Object.keys(data[0])}
             rowsData={data}
           />
         ) : (
-          <h1 className={styles.noDataFound}>No Data Found</h1>
+          <h1 className={styles.noDataFound}>{commonLabels.noDataFound}</h1>
         )}
       </section>
     </div>

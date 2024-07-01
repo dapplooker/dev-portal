@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Instrument_Sans } from "next/font/google";
-import "./globals.css";
+import "./globals.scss";
 
 const instrumentSans = Instrument_Sans({
   weight: ["400", "500", "600", "700"],
@@ -20,7 +20,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      style={{ colorScheme: "dark" }}
+    >
       <body className={instrumentSans.className}>{children}</body>
     </html>
   );
