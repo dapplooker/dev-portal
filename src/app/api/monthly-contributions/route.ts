@@ -12,15 +12,15 @@ interface ActiveProjectsMonlthy {
 }
 
 async function getResponse(req: any): Promise<any> {
+  const KEYWORD = req.nextUrl.searchParams.get("keyword")
   try {
-
     let totalContributions: any[] = [];
     const monthlyProjectCountMap = new Map();
     let responseLen = 0;
     let page = 1;
 
     do {
-      let response: ActiveProjectsMonlthy = await monthlyChartsApi.getMonthlyContributions('thegraph', page);
+      let response: ActiveProjectsMonlthy = await monthlyChartsApi.getMonthlyContributions(KEYWORD, page);
       totalContributions = [...totalContributions, ...response?.items || []];
       page += 1;
       responseLen = response?.items?.length || 0;

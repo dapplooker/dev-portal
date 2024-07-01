@@ -17,8 +17,6 @@ class MonthlyChartsApi extends ApiServiceWrapper {
   public async getMonthlyProjects(keyword: string, page: number): Promise<any | any> {
     const oneYearAgoDate = moment().subtract(11, 'month').format('YYYY-MM-DD');
     const endpoint = `${this.baseUrl}/search/repositories?q=${keyword}+created:>=${oneYearAgoDate}&page=${page}&per_page=100`;
-    console.log("date", oneYearAgoDate)
-    console.log("endpint", endpoint)
     try {
       const res = await this.GET(endpoint, { headers: this.headers })
       return await this.resolvePromise(res);
@@ -30,8 +28,6 @@ class MonthlyChartsApi extends ApiServiceWrapper {
   public async getMonthlyContributions(keyword: string, page: number): Promise<any | any> {
     const oneYearAgoDate = moment().subtract(11, 'month').format('YYYY-MM-DD');
     const endpoint = `${this.baseUrl}/search/commits?q=${keyword}+committer-date:>=${oneYearAgoDate}&page=${page}&per_page=100`;
-    console.log("date", oneYearAgoDate)
-    console.log("endpint", endpoint)
     try {
       const res = await this.GET(endpoint, { headers: this.headers })
       return await this.resolvePromise(res);

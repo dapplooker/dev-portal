@@ -5,10 +5,16 @@ import CircularProgressBar from "../components/CircularProgressBar";
 import axios from "axios";
 import { FormattedEcosystemMetricsInterface } from "@/app/interface";
 import LoadingSpinner from "../../ui/components/Loading/LoadingSpinner";
-import env from "@/app/constants/common/labels";
+import env, { commonLabels } from "@/app/constants/common/labels";
+import useSessionStorage from "@/app/hooks/useSessionStorage/useSessionStorage";
 
-const EcosystemGrowthMetrics = () => {
-  const [ecosystemMetrics, setEcosystemMetrics] = useState<FormattedEcosystemMetricsInterface[] | null>(null);
+interface EcosystemGrowthMetricsProps {
+  searchKeyword: string;
+}
+
+const EcosystemGrowthMetrics = ({ searchKeyword }: EcosystemGrowthMetricsProps) => {
+  const [ecosystemMetrics, setEcosystemMetrics] = useSessionStorage("ecosystem-growth", commonLabels.emptyString);
+  const [data, setData] = useState<FormattedEcosystemMetricsInterface[] | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -19,9 +25,16 @@ const EcosystemGrowthMetrics = () => {
 
   const fetchEcosystemMetricsData = async () => {
     try {
-      const response = await axios.get(`${env.CLIENT_RESTFUL_API_END_POINT}/api/ecosystem-growth`);
-      const metrics: FormattedEcosystemMetricsInterface[] = response.data.data;
-      setEcosystemMetrics(metrics);
+      if (!ecosystemMetrics || ecosystemMetrics.length === 0) {
+        const response = await axios.get(
+          `${env.CLIENT_RESTFUL_API_END_POINT}/api/ecosystem-growth?keyword=${searchKeyword}`
+        );
+        const metrics: FormattedEcosystemMetricsInterface[] = response.data.data;
+        setEcosystemMetrics(metrics);
+        setData(metrics);
+      } else {
+        setData(ecosystemMetrics);
+      }
       setLoading(false);
     } catch (error) {
       console.error("Error while fetching Ecosystem Metrics data: ", error);
@@ -37,18 +50,21 @@ const EcosystemGrowthMetrics = () => {
         <LoadingSpinner />
       ) : (
         <div className={styles.contentWrapper}>
-          {ecosystemMetrics!?.length &&
-            ecosystemMetrics?.map((metrics, index) => (
+          {data && data?.length ? (
+            data?.map((metrics: FormattedEcosystemMetricsInterface, index: number) => (
               <div
                 key={index}
                 className={styles.growthMetricContainer}
               >
-                <CircularProgressBar percentage={metrics.percentage} />
+                <CircularProgressBar percentage={metrics?.percentage || 0} />
                 <h2 className={styles.metricsCount}>
-                  +{metrics.totalCount} <span className={styles.metricsTitle}>{metrics.title}</span>
+                  +{metrics?.totalCount} <span className={styles.metricsTitle}>{metrics?.title}</span>
                 </h2>
               </div>
-            ))}
+            ))
+          ) : (
+            <h1 className={styles.noDataFound}>No Data Found</h1>
+          )}
         </div>
       )}
     </section>

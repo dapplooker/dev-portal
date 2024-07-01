@@ -1,27 +1,20 @@
-import axios from "axios";
-import styles from "./layout.module.scss";
 import GeneralStats from "@/app/_components/dev-portal/container/GeneralStats";
-import { FormattedGeneralStatsResponse } from "@/app/interface";
-import env from "@/app/constants/common/labels";
-import MonthlyCharts from "@/app/_components/dev-portal/components/MonthlyCharts";
+import MonthlyCharts from "@/app/_components/dev-portal/container/MonthlyCharts";
 import EcosystemGrowthMetrics from "@/app/_components/dev-portal/container/EcosystemGrowthMetrics";
-import TableContainer from "@/app/_components/dev-portal/container/TableContainer";
-
-const getGeneralStatsData = async () => {
-  const res: any = await axios.get(`${env.NEXT_SERVER_RESTFUL_API_END_POINT}/api/search-stats`);
-  const generalStatsData: FormattedGeneralStatsResponse[] = res.data?.data;
-  return generalStatsData;
-};
+import TopDevelopers from "@/app/_components/dev-portal/container/TopDevelopers";
+import TopDapps from "@/app/_components/dev-portal/container/TopDapps";
+import styles from "./layout.module.scss";
 
 export default async function TheGraphDevPortalPage() {
-  // const generalStatsData = await getGeneralStatsData();
-
   return (
     <main className={`${styles.layoutContent} bitool-container`}>
-      {/* <GeneralStats data={generalStatsData} /> */}
-      {/* <MonthlyCharts /> */}
-      {/* <EcosystemGrowthMetrics /> */}
-      <TableContainer />
+      <GeneralStats searchKeyword="thegraph" />
+      <MonthlyCharts searchKeyword="thegraph" />
+      <div className={styles.contentWrapper}>
+        <EcosystemGrowthMetrics searchKeyword="thegraph" />
+        <TopDevelopers searchKeyword="thegraph" />
+      </div>
+      <TopDapps searchKeyword="thegraph" />
     </main>
   );
 }

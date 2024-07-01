@@ -12,6 +12,7 @@ interface ActiveProjectsMonlthy {
 }
 
 async function getResponse(req: any): Promise<any> {
+  const KEYWORD = req.nextUrl.searchParams.get("keyword")
   try {
     let allProjectsList: any[] = [];
     const monthlyProjectCountMap = new Map();
@@ -19,7 +20,7 @@ async function getResponse(req: any): Promise<any> {
     let page = 1;
 
     do {
-      let response: ActiveProjectsMonlthy = await monthlyChartsApi.getMonthlyProjects('thegraph', page);
+      let response: ActiveProjectsMonlthy = await monthlyChartsApi.getMonthlyProjects(KEYWORD, page);
       allProjectsList = [...allProjectsList, ...response?.items || []];
       page += 1;
       responseLen = response.items.length;

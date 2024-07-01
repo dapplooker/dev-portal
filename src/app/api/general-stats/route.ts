@@ -1,17 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import statsApi from '../../services/stats/index';
-import { FormattedGeneralStatsResponse } from '@/app/_components/dev-portal/interface';
+import { FormattedGeneralStatsResponse } from '@/app/interface';
 
 async function getResponse(req: any): Promise<any> {
+  const KEYWORD = req.nextUrl.searchParams.get("keyword")
   try {
-    const totalDevelopersWithinAMonth: number = (await statsApi.getTotalDevelopers('thegraph', { withinLast30Days: true })).total_count;
-    const totalDevelopers: number = (await statsApi.getTotalDevelopers('thegraph')).total_count;
-    const totalProjects: number = (await statsApi.getTotalProjects('thegraph')).total_count;
-    const totalProjectsWithinAMonth: number = (await statsApi.getTotalProjects('thegraph', { withinLast30Days: true })).total_count;
-    const totalCommits: number = (await statsApi.getTotalCommits('thegraph')).total_count;
-    const totalCommitsWithinAMonth: number = (await statsApi.getTotalCommits('thegraph', { withinLast30Days: true })).total_count;
-    const totalPrs: number = (await statsApi.getTotalPrs('thegraph')).total_count;
-    const totalPrsWithinAMonth: number = (await statsApi.getTotalPrs('thegraph', true)).total_count;
+    const totalDevelopersWithinAMonth: number = (await statsApi.getTotalDevelopers(KEYWORD, { withinLast30Days: true })).total_count;
+    const totalDevelopers: number = (await statsApi.getTotalDevelopers(KEYWORD)).total_count;
+    const totalProjects: number = (await statsApi.getTotalProjects(KEYWORD)).total_count;
+    const totalProjectsWithinAMonth: number = (await statsApi.getTotalProjects(KEYWORD, { withinLast30Days: true })).total_count;
+    const totalCommits: number = (await statsApi.getTotalCommits(KEYWORD)).total_count;
+    const totalCommitsWithinAMonth: number = (await statsApi.getTotalCommits(KEYWORD, { withinLast30Days: true })).total_count;
+    const totalPrs: number = (await statsApi.getTotalPrs(KEYWORD)).total_count;
+    const totalPrsWithinAMonth: number = (await statsApi.getTotalPrs(KEYWORD, true)).total_count;
 
     const responseData: FormattedGeneralStatsResponse[] = [
       {

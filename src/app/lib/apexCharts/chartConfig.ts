@@ -1,3 +1,4 @@
+import devPortalConstant from "@/app/_components/dev-portal/constants";
 import { ChartConfigInterface, RadialBarChartsConfigInterface } from "@/app/interface";
 
 class ChartConfig {
@@ -26,7 +27,7 @@ class ChartConfig {
         stroke: {
           curve: "smooth",
           width: 2.5, // Reduced width of the line stroke
-          colors: ["#4DD0E1"], // Line color
+          colors: [chartTitle === devPortalConstant.activeContributionsMonthly ? '#ffa726' : '#4DD0E1'], // Line color
         },
         title: {
           text: chartTitle,

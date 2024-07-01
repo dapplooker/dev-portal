@@ -1,5 +1,5 @@
 .ecosystemGrowthMetricsSection {
-  width: 420px;
+  width: 600px;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -59,4 +59,12 @@
       }
     }
   }
+}
+
+.noDataFound {
+  color: white;
+  font-size: 18px;
+  line-height: normal;
+  font-weight: 400;
+  padding: 15px;
 }

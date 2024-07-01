@@ -18,26 +18,28 @@ interface RepositoriesInterface {
 }
 
 async function getResponse(req: any): Promise<any> {
+  const KEYWORD = req.nextUrl.searchParams.get("keyword")
   try {
-    const response: ActiveProjectsMonlthy = await tableApi.getTopProjects('thegraph');
+    const response: ActiveProjectsMonlthy = await tableApi.getTopProjects(KEYWORD);
     const topProjects = response.items;
-    console.log("topProjects", topProjects);
 
     const formattedTopProjects: any[] = [];
-    topProjects.forEach(async (project) => {
+    topProjects.forEach(async (project, index) => {
       formattedTopProjects.push({
-        projectName: project?.full_name,
-        avatarUrl: project?.owner?.avatar_url,
-        language: project?.language,
-        forksCount: project?.forks_count,
-        starsCount: project?.stargazers_count
+        "sr no": index + 1,
+        "project name": {
+          title: project?.full_name,
+          avatarUrl: project?.owner?.avatar_url,
+        },
+        "language": project?.language || "Common",
+        "forks": project?.forks_count,
+        "stars": project?.stargazers_count
       })
     })
 
-    console.log("formattted Projects", formattedTopProjects)
     return NextResponse.json({ data: formattedTopProjects }, { status: 201 });
   } catch (error) {
-    console.error("Error", error);
+    console.error("Error while fetching top prjects: ", error);
     return NextResponse.json({ error: error }, { status: 500 });
   }
 }
@@ -53,8 +55,6 @@ const getProjectDevelopers = async (fullName: string) => {
       if (contributors.length < 100) break;
       page++;
     }
-
-    console.log("totalContributors", totalContributors)
     return totalContributors;
   } catch (error) {
     console.error("Error", error);
@@ -72,8 +72,6 @@ const getTotalContributions = async (fullName: string) => {
       if (commits.length < 100) break;
       page++;
     }
-
-    console.log("totalContributions", totalContributions)
     return totalContributions;
   } catch (error) {
     console.error("Error", error);

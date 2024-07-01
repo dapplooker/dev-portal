@@ -26,6 +26,13 @@ export interface FormattedEcosystemMetricsInterface {
 }
 
 export interface FormattedTopDevsInterface {
-  name: string;
-  commits: number;
+  [key: string]: string | number | {};
+}
+
+export interface FormattedTopDappsInterface {
+  [key: string]: string | number;
+  // // avatarUrl: string;
+  // language: string;
+  // forksCount: number;
+  // starsCount: number;
 }

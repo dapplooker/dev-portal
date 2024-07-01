@@ -16,8 +16,8 @@ const CircularProgressBar = ({ percentage }: CircularProgressBarProps) => {
       options={radialBarConfig?.options as any}
       series={radialBarConfig?.series}
       type="radialBar"
-      width="140px"
-      height="140px"
+      width="178px"
+      height="178px"
     />
   );
 };
