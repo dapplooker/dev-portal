@@ -10,6 +10,14 @@
   border-radius: 8px;
   padding: 24px;
 
+  @media screen and (max-width: 768px) {
+    padding: 12px;
+  }
+
+  @media screen and (max-width: 550px) {
+    width: 100%;
+  }
+
   .cardHeader {
     width: 100%;
     display: flex;

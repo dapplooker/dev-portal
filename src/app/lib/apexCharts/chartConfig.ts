@@ -1,5 +1,5 @@
 import devPortalConstant from "@/app/_components/dev-portal/constants";
-import { ChartConfigInterface, RadialBarChartsConfigInterface } from "@/app/interface";
+import { ChartConfigInterface } from "@/app/interface";
 
 class ChartConfig {
 

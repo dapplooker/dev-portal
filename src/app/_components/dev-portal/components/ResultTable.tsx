@@ -1,11 +1,11 @@
 "use client";
-import { commonLabels } from "@/app/constants";
+import { commonLabels, routes } from "@/app/constants";
 import { ColumnDef, useReactTable, getCoreRowModel, getPaginationRowModel, flexRender } from "@tanstack/react-table";
 import React from "react";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "../../shadecn/ui/table";
-import styles from "./ResultTable.module.scss";
 import Image from "next/image";
 import Link from "next/link";
+import styles from "./ResultTable.module.scss";
 
 interface ResultTableProps {
   columnsData: any[];
@@ -37,7 +37,7 @@ const ResultTable = ({ columnsData, rowsData }: ResultTableProps) => {
                   height={20}
                 />
                 <Link
-                  href={`https://github.com/${projectInfo?.title}`}
+                  href={`${routes.github}${projectInfo?.title}`}
                   target="_blank"
                   className={styles.projectName}
                 >

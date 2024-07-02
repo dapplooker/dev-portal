@@ -9,6 +9,11 @@
   border-radius: 8px;
   padding: 24px;
 
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    padding: 12px;
+  }
+
   .sectionTitle {
     color: white;
     font-size: 18px;
@@ -55,6 +60,13 @@
           font-style: normal;
           font-weight: 500;
           line-height: normal;
+        }
+
+        @media screen and (max-width: 960px) {
+          font-size: 24px;
+          .metricsTitle {
+            font-size: 18px;
+          }
         }
       }
     }

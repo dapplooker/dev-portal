@@ -31,8 +31,4 @@ export interface FormattedTopDevsInterface {
 
 export interface FormattedTopDappsInterface {
   [key: string]: string | number;
-  // // avatarUrl: string;
-  // language: string;
-  // forksCount: number;
-  // starsCount: number;
 }

@@ -1,12 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import ReactApexChart from "react-apexcharts";
-import styles from "./MonthlyCharts.module.scss";
 import axios from "axios";
 import ChartData from "@/app/lib/apexCharts/chartConfig";
 import env, { commonLabels } from "@/app/constants/common/labels";
 import useSessionStorage from "@/app/hooks/useSessionStorage/useSessionStorage";
 import { Skeleton } from "../../shadecn/ui/skeleton";
+import dynamic from "next/dynamic";
+import styles from "./MonthlyCharts.module.scss";
+const ReactApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 interface MonthlyChartsProps {
   searchKeyword: string;
@@ -59,13 +60,15 @@ const MonthlyCharts = ({ searchKeyword }: MonthlyChartsProps) => {
         <Skeleton className="h-[350px] w-[600px] rounded-xl" />
       ) : (
         <div className={styles.activeProjectChartWrapper}>
-          <ReactApexChart
-            options={data?.activeProjects?.options as any}
-            series={data?.activeProjects?.series}
-            type="line"
-            width="100%"
-            height="100%"
-          />
+          {typeof window !== "undefined" && (
+            <ReactApexChart
+              options={data?.activeProjects?.options as any}
+              series={data?.activeProjects?.series}
+              type="line"
+              width="100%"
+              height="100%"
+            />
+          )}
         </div>
       )}
 
@@ -73,13 +76,15 @@ const MonthlyCharts = ({ searchKeyword }: MonthlyChartsProps) => {
         <Skeleton className="h-[350px] w-[600px] rounded-xl" />
       ) : (
         <div className={styles.activeProjectChartWrapper}>
-          <ReactApexChart
-            options={data?.activeContributions?.options as any}
-            series={data?.activeContributions?.series}
-            type="line"
-            width="100%"
-            height="100%"
-          />
+          {typeof window !== "undefined" && (
+            <ReactApexChart
+              options={data?.activeContributions?.options as any}
+              series={data?.activeContributions?.series}
+              type="line"
+              width="100%"
+              height="100%"
+            />
+          )}
         </div>
       )}
     </section>

@@ -110,6 +110,7 @@ export const errorLabels = {
 // Object for routes
 export const routes = {
   home: `${env.BASE_URL}/`,
+  github: `https://github.com/`
   // Add more route properties as needed
 };
 
