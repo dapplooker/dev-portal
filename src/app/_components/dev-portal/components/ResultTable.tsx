@@ -5,16 +5,13 @@ import React from "react";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "../../shadecn/ui/table";
 import Image from "next/image";
 import Link from "next/link";
+import millify from "millify";
+import { ProjectInfo } from "@/app/interface";
 import styles from "./ResultTable.module.scss";
 
 interface ResultTableProps {
   columnsData: any[];
   rowsData: any[];
-}
-
-interface ProjectInfo {
-  title: string;
-  avatarUrl: string;
 }
 
 const ResultTable = ({ columnsData, rowsData }: ResultTableProps) => {
@@ -48,12 +45,14 @@ const ResultTable = ({ columnsData, rowsData }: ResultTableProps) => {
           },
         };
       }
-      if (column === "stars") {
+      if (column === "stars" || column === "forks" || column === "commits") {
         return {
           accessorKey: column,
           header: () => <div>{column}</div>,
           cell: ({ row }: { row: any }) => {
-            return <span className={styles.customColor}>{row.getValue(column)}</span>;
+            return (
+              <span className={`${column === "stars" && styles.customColor}`}>{millify(row.getValue(column))}</span>
+            );
           },
         };
       }

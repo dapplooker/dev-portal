@@ -40,6 +40,14 @@ class DevPortalConstants {
     return "Top Developers";
   }
 
+  get theGraphDeveloperEcosystem(): string {
+    return "The Graph Developer Ecosystem";
+  }
+
+  get SEARCH_KEYWORD(): string {
+    return "subgraph";
+  }
+
 }
 
 const devPortalConstant = new DevPortalConstants();

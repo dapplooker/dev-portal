@@ -4,14 +4,9 @@ import moment from "moment";
 
 class StatsApi extends ApiServiceWrapper {
   private baseUrl: string;
-  private headers: any;
   constructor() {
     super();
     this.baseUrl = ServiceConstants.githubBaseUrl;
-    this.headers = {
-      "Authorization": `Bearer ${process.env.GITHUB_BEARER_TOKEN}`,
-      "Accept": "application/vnd.github+json"
-    }
   }
 
   public async getTotalDevelopers(keyword: string, dateParams: { withinLast30Days?: boolean, withinLastSixMonths?: boolean, withinLast12Months?: boolean } = { withinLast30Days: false, withinLastSixMonths: false, withinLast12Months: false }): Promise<any | any> {
@@ -38,7 +33,12 @@ class StatsApi extends ApiServiceWrapper {
     };
 
     try {
-      const res = await this.GET(endpoint, { params, headers: this.headers });
+      const res = await this.GET(endpoint, {
+        params, headers: {
+          "Authorization": `Bearer ${ServiceConstants.gitHubToken3}`,
+          "Accept": "application/vnd.github+json"
+        }
+      });
       return await this.resolvePromise(res);
     } catch (error) {
       return await this.rejectPromise(error);
@@ -69,7 +69,12 @@ class StatsApi extends ApiServiceWrapper {
     };
 
     try {
-      const res = await this.GET(endpoint, { params, headers: this.headers });
+      const res = await this.GET(endpoint, {
+        params, headers: {
+          "Authorization": `Bearer ${ServiceConstants.gitHubToken4}`,
+          "Accept": "application/vnd.github+json"
+        }
+      });
       return await this.resolvePromise(res);
     } catch (error) {
       return await this.rejectPromise(error);
@@ -98,7 +103,12 @@ class StatsApi extends ApiServiceWrapper {
     const params = { q: query };
 
     try {
-      const res = await this.GET(endpoint, { params, headers: this.headers });
+      const res = await this.GET(endpoint, {
+        params, headers: {
+          "Authorization": `Bearer ${ServiceConstants.gitHubToken5}`,
+          "Accept": "application/vnd.github+json"
+        }
+      });
       return await this.resolvePromise(res);
     } catch (error) {
       console.error('Error:', error);
@@ -116,7 +126,12 @@ class StatsApi extends ApiServiceWrapper {
     }
 
     try {
-      const res = await this.GET(endpoint, { headers: this.headers });
+      const res = await this.GET(endpoint, {
+        headers: {
+          "Authorization": `Bearer ${ServiceConstants.gitHubToken6}`,
+          "Accept": "application/vnd.github+json"
+        }
+      });
       return await this.resolvePromise(res);
     } catch (error) {
       return await this.rejectPromise(error);

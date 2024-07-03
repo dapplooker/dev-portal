@@ -23,6 +23,9 @@ class ChartConfig {
         },
         dataLabels: {
           enabled: false,
+          style: {
+            colors: [chartTitle === devPortalConstant.activeContributionsMonthly ? '#ffa726' : '#4DD0E1'], // Data labels color
+          },
         },
         stroke: {
           curve: "smooth",

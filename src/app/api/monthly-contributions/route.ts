@@ -1,7 +1,7 @@
 import devPortalConstant from '@/app/_components/dev-portal/constants';
 import { monthsMap } from '@/app/constants';
 import { ChartConfigInterface } from '@/app/interface';
-import { sortContributionsMap } from '@/app/lib/sortMap/sortMonths';
+import SortApiData from '@/app/lib/sortData/sortData';
 import monthlyChartsApi from '@/app/services/monthly-charts';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -26,7 +26,7 @@ async function getResponse(req: any): Promise<any> {
       responseLen = response?.items?.length || 0;
     } while (responseLen >= 100);
 
-    if (totalContributions.length > 0) {
+    if (totalContributions?.length > 0) {
       totalContributions.map((projects: any) => {
         const month = new Date(projects?.commit?.committer?.date).getMonth() + 1;
         const projectMonth = (monthsMap as any)[month];
@@ -40,7 +40,7 @@ async function getResponse(req: any): Promise<any> {
     }
 
     const currentMonth = (monthsMap as any)[new Date().getMonth() + 1];
-    const sortedMonthsMap = sortContributionsMap(monthlyProjectCountMap, currentMonth)
+    const sortedMonthsMap = SortApiData.sortContributionsMap(monthlyProjectCountMap, currentMonth)
 
     const contributionsChartDetails: ChartConfigInterface = {
       chartType: "line",

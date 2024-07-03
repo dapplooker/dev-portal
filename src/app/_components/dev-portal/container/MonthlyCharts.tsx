@@ -31,16 +31,20 @@ const MonthlyCharts = ({ searchKeyword }: MonthlyChartsProps) => {
           `${env.CLIENT_RESTFUL_API_END_POINT}/api/monthly-projects?keyword=${searchKeyword}`
         );
         const activeProjectConfig = ChartData.getChartConfig(response.data.data);
+        console.log("response pro", response.data);
 
         const contributionRes = await axios.get(
           `${env.CLIENT_RESTFUL_API_END_POINT}/api/monthly-contributions?keyword=${searchKeyword}`
         );
         const activeContributionsConfig = ChartData.getChartConfig(contributionRes.data.data);
+        console.log("response cri", contributionRes.data);
 
         const config = {
           activeProjects: activeProjectConfig,
           activeContributions: activeContributionsConfig,
         };
+
+        console.log("config", config);
 
         setActiveChartData(config);
         setData(config);

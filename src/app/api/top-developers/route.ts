@@ -1,5 +1,5 @@
 import { FormattedTopDevsInterface } from '@/app/interface';
-import { sortAndTakeTopEntries } from '@/app/lib/sortMap/sortDevelopers';
+import SortApiData from '@/app/lib/sortData/sortData';
 import tableApi from '@/app/services/table';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -43,7 +43,7 @@ async function getResponse(req: any): Promise<any> {
       })
     }
 
-    const top10Developers = sortAndTakeTopEntries(topDevelopersMap, 10);
+    const top10Developers = SortApiData.sortAndTakeTopEntries(topDevelopersMap, 10);
 
     const formattedDetails: FormattedTopDevsInterface[] = [];
     for (let [key, value] of top10Developers.entries() as any) {

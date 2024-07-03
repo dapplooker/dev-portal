@@ -5,17 +5,18 @@ import EcosystemGrowthMetrics from "@/app/_components/dev-portal/container/Ecosy
 import TopDevelopers from "@/app/_components/dev-portal/container/TopDevelopers";
 import TopDapps from "@/app/_components/dev-portal/container/TopDapps";
 import styles from "./layout.module.scss";
+import devPortalConstant from "@/app/_components/dev-portal/constants";
 
 export default function TheGraphDevPortalPage() {
   return (
     <main className={`${styles.layoutContent} bitool-container`}>
-      <GeneralStats searchKeyword="thegraph" />
-      <MonthlyCharts searchKeyword="thegraph" />
+      <GeneralStats searchKeyword={devPortalConstant.SEARCH_KEYWORD} />
+      <MonthlyCharts searchKeyword={devPortalConstant.SEARCH_KEYWORD} />
       <div className={styles.contentWrapper}>
-        <EcosystemGrowthMetrics searchKeyword="thegraph" />
-        <TopDevelopers searchKeyword="thegraph" />
+        <EcosystemGrowthMetrics searchKeyword={devPortalConstant.SEARCH_KEYWORD} />
+        <TopDevelopers searchKeyword={devPortalConstant.SEARCH_KEYWORD} />
       </div>
-      <TopDapps searchKeyword="thegraph" />
+      <TopDapps searchKeyword={devPortalConstant.SEARCH_KEYWORD} />
     </main>
   );
 }

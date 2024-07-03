@@ -16,7 +16,6 @@ const useSessionStorage = (key: string, defaultValue: string) => {
 
   useEffect(() => {
     sessionStorage.setItem(key, JSON.stringify(value));
-    console.log("setting itme", key)
   }, [key, value])
 
   return [value, setValue];

@@ -4,14 +4,9 @@ import moment from "moment";
 
 class TableApi extends ApiServiceWrapper {
   private baseUrl: string;
-  private headers: any;
   constructor() {
     super();
     this.baseUrl = ServiceConstants.githubBaseUrl;
-    this.headers = {
-      "Authorization": `Bearer ${process.env.GITHUB_BEARER_TOKEN}`,
-      "Accept": "application/vnd.github+json"
-    }
   }
 
   //Top Developers
@@ -19,7 +14,12 @@ class TableApi extends ApiServiceWrapper {
     const oneMonthAgoDate = moment().subtract(1, 'months').format('YYYY-MM-DD');
     const endpoint = `${this.baseUrl}/search/commits?q=${keyword}+committer-date:>=${oneMonthAgoDate}&page=${page}&per_page=100`;
     try {
-      const res = await this.GET(endpoint, { headers: this.headers })
+      const res = await this.GET(endpoint, {
+        headers: {
+          "Authorization": `Bearer ${ServiceConstants.gitHubToken3}`,
+          "Accept": "application/vnd.github+json"
+        }
+      })
       return await this.resolvePromise(res);
     } catch (error) {
       return await this.rejectPromise(error)
@@ -30,7 +30,12 @@ class TableApi extends ApiServiceWrapper {
     const oneMonthAgoDate = moment().subtract(1, 'months').format('YYYY-MM-DD');
     const endpoint = `${this.baseUrl}/search/commits?q=author:${authorName}+committer-date:>=${oneMonthAgoDate}&page=${page}&per_page=100`;
     try {
-      const res = await this.GET(endpoint, { headers: this.headers })
+      const res = await this.GET(endpoint, {
+        headers: {
+          "Authorization": `Bearer ${ServiceConstants.gitHubToken5}`,
+          "Accept": "application/vnd.github+json"
+        }
+      })
       return await this.resolvePromise(res);
     } catch (error) {
       return await this.rejectPromise(error)
@@ -39,34 +44,40 @@ class TableApi extends ApiServiceWrapper {
 
   //Top Projects
   public async getTopProjects(keyword: string): Promise<any | any> {
-    const endpoint = `${this.baseUrl}/search/repositories?q=${keyword}&sort=forks&page=1&per_page=10`;
+    const oneMonthAgoDate = moment().subtract(1, 'months').format('YYYY-MM-DD');
+    const endpoint = `${this.baseUrl}/search/repositories?q=${keyword}+pushed:>=${oneMonthAgoDate}+language:Typescript&sort=stars&per_page=20`;
     try {
-      const res = await this.GET(endpoint)
+      const res = await this.GET(endpoint, {
+        headers: {
+          "Authorization": `Bearer ${ServiceConstants.gitHubToken6}`,
+          "Accept": "application/vnd.github+json"
+        }
+      })
       return await this.resolvePromise(res);
     } catch (error) {
       return await this.rejectPromise(error)
     }
   }
 
-  public async getTotalProjectDevelopers(fullName: string, page: number): Promise<any | any> {
-    const endpoint = `${this.baseUrl}/repos/${fullName}/contributors?page=${page}&per_page=100`;
-    try {
-      const res = await this.GET(endpoint, { headers: this.headers })
-      return await this.resolvePromise(res);
-    } catch (error) {
-      return await this.rejectPromise(error)
-    }
-  }
+  // public async getTotalProjectDevelopers(fullName: string, page: number): Promise<any | any> {
+  // const endpoint = `${this.baseUrl}/repos/${fullName}/contributors?page=${page}&per_page=100`;
+  // try {
+  //   const res = await this.GET(endpoint, { headers: this.headers })
+  //   return await this.resolvePromise(res);
+  // } catch (error) {
+  //   return await this.rejectPromise(error)
+  // }
+  // }
 
-  public async getTotalProjectContributions(fullName: string, page: number): Promise<any | any> {
-    const endpoint = `${this.baseUrl}/repos/${fullName}/commits?page=${page}&per_page=100`;
-    try {
-      const res = await this.GET(endpoint, { headers: this.headers })
-      return await this.resolvePromise(res);
-    } catch (error) {
-      return await this.rejectPromise(error)
-    }
-  }
+  // public async getTotalProjectContributions(fullName: string, page: number): Promise<any | any> {
+  // const endpoint = `${this.baseUrl}/repos/${fullName}/commits?page=${page}&per_page=100`;
+  // try {
+  //   const res = await this.GET(endpoint, { headers: this.headers })
+  //   return await this.resolvePromise(res);
+  // } catch (error) {
+  //   return await this.rejectPromise(error)
+  // }
+  // }
 }
 
 const tableApi = new TableApi();

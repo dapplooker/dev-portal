@@ -1,3 +1,5 @@
+import { RepositoriesInterface } from '@/app/interface';
+import SortApiData from '@/app/lib/sortData/sortData';
 import tableApi from '@/app/services/table';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -7,24 +9,16 @@ interface ActiveProjectsMonlthy {
   items: RepositoriesInterface[];
 }
 
-interface RepositoriesInterface {
-  full_name: string;
-  language: string;
-  forks_count: number;
-  stargazers_count: number;
-  owner: {
-    avatar_url: string;
-  }
-}
-
 async function getResponse(req: any): Promise<any> {
   const KEYWORD = req.nextUrl.searchParams.get("keyword")
   try {
     const response: ActiveProjectsMonlthy = await tableApi.getTopProjects(KEYWORD);
     const topProjects = response.items;
 
+    const sortedTop10Projects = SortApiData.sortTopProjects(topProjects);
+
     const formattedTopProjects: any[] = [];
-    topProjects.forEach(async (project, index) => {
+    sortedTop10Projects.forEach(async (project, index) => {
       formattedTopProjects.push({
         "sr no": index + 1,
         "project name": {
@@ -44,39 +38,39 @@ async function getResponse(req: any): Promise<any> {
   }
 }
 
-const getProjectDevelopers = async (fullName: string) => {
-  try {
-    let page = 1;
-    let totalContributors = 0;
-    while (true) {
-      const contributors = await tableApi.getTotalProjectDevelopers(fullName, page);
-      totalContributors += contributors.length;
+// const getProjectDevelopers = async (fullName: string) => {
+//   try {
+//     let page = 1;
+//     let totalContributors = 0;
+//     while (true) {
+//       const contributors = await tableApi.getTotalProjectDevelopers(fullName, page);
+//       totalContributors += contributors.length;
 
-      if (contributors.length < 100) break;
-      page++;
-    }
-    return totalContributors;
-  } catch (error) {
-    console.error("Error", error);
-  }
-}
+//       if (contributors.length < 100) break;
+//       page++;
+//     }
+//     return totalContributors;
+//   } catch (error) {
+//     console.error("Error", error);
+//   }
+// }
 
-const getTotalContributions = async (fullName: string) => {
-  try {
-    let page = 1;
-    let totalContributions = 0;
-    while (true) {
-      const commits = await tableApi.getTotalProjectContributions(fullName, page);
-      totalContributions += commits.length;
+// const getTotalContributions = async (fullName: string) => {
+//   try {
+//     let page = 1;
+//     let totalContributions = 0;
+//     while (true) {
+//       const commits = await tableApi.getTotalProjectContributions(fullName, page);
+//       totalContributions += commits.length;
 
-      if (commits.length < 100) break;
-      page++;
-    }
-    return totalContributions;
-  } catch (error) {
-    console.error("Error", error);
-  }
-}
+//       if (commits.length < 100) break;
+//       page++;
+//     }
+//     return totalContributions;
+//   } catch (error) {
+//     console.error("Error", error);
+//   }
+// }
 
 export async function GET(req: NextRequest): Promise<any> {
   return getResponse(req);

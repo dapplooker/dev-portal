@@ -1,7 +1,7 @@
 import devPortalConstant from '@/app/_components/dev-portal/constants';
 import { monthsMap } from '@/app/constants';
 import { ChartConfigInterface } from '@/app/interface';
-import { sortContributionsMap } from '@/app/lib/sortMap/sortMonths';
+import SortApiData from '@/app/lib/sortData/sortData';
 import monthlyChartsApi from '@/app/services/monthly-charts';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -23,14 +23,16 @@ async function getResponse(req: any): Promise<any> {
       let response: ActiveProjectsMonlthy = await monthlyChartsApi.getMonthlyProjects(KEYWORD, page);
       allProjectsList = [...allProjectsList, ...response?.items || []];
       page += 1;
-      responseLen = response.items.length;
+      responseLen = response?.items?.length;
     } while (responseLen >= 100);
 
-    if (allProjectsList.length > 0) {
+    console.log("lenght AAKKK", allProjectsList.length)
+
+
+    if (allProjectsList?.length > 0) {
       allProjectsList.map((projects: any) => {
         const month = new Date(projects?.created_at).getMonth() + 1;
         const projectMonth = (monthsMap as any)[month];
-
         if (monthlyProjectCountMap.has(projectMonth)) {
           monthlyProjectCountMap.set(projectMonth, monthlyProjectCountMap.get(projectMonth) + 1)
         } else {
@@ -39,8 +41,12 @@ async function getResponse(req: any): Promise<any> {
       })
     }
 
+    console.log("monthlyProjectCountMap", monthlyProjectCountMap)
+
     const currentMonth = (monthsMap as any)[new Date().getMonth() + 1];
-    const sortedMonthsMap = sortContributionsMap(monthlyProjectCountMap, currentMonth)
+    const sortedMonthsMap = SortApiData.sortContributionsMap(monthlyProjectCountMap, currentMonth)
+
+    console.log("sortedMonth", sortedMonthsMap)
 
     const projectsChartDetails: ChartConfigInterface = {
       chartType: "line",

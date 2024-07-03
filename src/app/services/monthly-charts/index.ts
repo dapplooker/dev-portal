@@ -4,21 +4,21 @@ import moment from "moment";
 
 class MonthlyChartsApi extends ApiServiceWrapper {
   private baseUrl: string;
-  private headers: any;
   constructor() {
     super();
     this.baseUrl = ServiceConstants.githubBaseUrl;
-    this.headers = {
-      "Authorization": `Bearer ${process.env.GITHUB_BEARER_TOKEN}`,
-      "Accept": "application/vnd.github+json"
-    }
   }
 
   public async getMonthlyProjects(keyword: string, page: number): Promise<any | any> {
     const oneYearAgoDate = moment().subtract(11, 'month').format('YYYY-MM-DD');
     const endpoint = `${this.baseUrl}/search/repositories?q=${keyword}+created:>=${oneYearAgoDate}&page=${page}&per_page=100`;
     try {
-      const res = await this.GET(endpoint, { headers: this.headers })
+      const res = await this.GET(endpoint, {
+        headers: {
+          "Authorization": `Bearer ${ServiceConstants.gitHubToken1}`,
+          "Accept": "application/vnd.github+json"
+        }
+      })
       return await this.resolvePromise(res);
     } catch (error) {
       return await this.rejectPromise(error)
@@ -29,7 +29,12 @@ class MonthlyChartsApi extends ApiServiceWrapper {
     const oneYearAgoDate = moment().subtract(11, 'month').format('YYYY-MM-DD');
     const endpoint = `${this.baseUrl}/search/commits?q=${keyword}+committer-date:>=${oneYearAgoDate}&page=${page}&per_page=100`;
     try {
-      const res = await this.GET(endpoint, { headers: this.headers })
+      const res = await this.GET(endpoint, {
+        headers: {
+          "Authorization": `Bearer ${ServiceConstants.gitHubToken2}`,
+          "Accept": "application/vnd.github+json"
+        }
+      })
       return await this.resolvePromise(res);
     } catch (error) {
       return await this.rejectPromise(error)

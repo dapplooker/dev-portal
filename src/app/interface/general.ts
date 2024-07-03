@@ -32,3 +32,18 @@ export interface FormattedTopDevsInterface {
 export interface FormattedTopDappsInterface {
   [key: string]: string | number;
 }
+
+export interface RepositoriesInterface {
+  full_name: string;
+  language: string;
+  forks_count: number;
+  stargazers_count: number;
+  owner: {
+    avatar_url: string;
+  }
+}
+
+export interface ProjectInfo {
+  title: string;
+  avatarUrl: string;
+}
