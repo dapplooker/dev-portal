@@ -116,3 +116,9 @@ a {
   padding: 0;
   margin: 0;
 }
+
+.skeletonWrapper {
+  @media screen and (max-width: 550px) {
+    width: 100% !important;
+  }
+}

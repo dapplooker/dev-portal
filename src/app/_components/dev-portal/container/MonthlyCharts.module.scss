@@ -6,20 +6,7 @@
   align-items: center;
   gap: 30px;
 
-  .activeProjectChartWrapper {
-    width: 600px;
-    height: 350px;
-    padding: 24px;
-    background-color: #16110f;
-    border-radius: 8px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-  }
-
   @media screen and (max-width: 768px) {
     flex-direction: column;
-    .activeProjectChartWrapper {
-      width: 100%;
-      padding: 12px;
-    }
   }
 }

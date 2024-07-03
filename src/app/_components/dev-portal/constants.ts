@@ -48,6 +48,40 @@ class DevPortalConstants {
     return "subgraph";
   }
 
+  get tableColNames() {
+    return {
+      STARS: "stars",
+      FORKS: "forks",
+      COMMITS: "commits",
+      PROJECT_NAME: "project name",
+      NAME: "name",
+    }
+  }
+
+  get GENERAL_STATS(): string {
+    return "general-stats"
+  }
+
+  get ECOSYSTEM_GROWTH(): string {
+    return "ecosystem-growth"
+  }
+
+  get MONTHLY_PROJECT(): string {
+    return "monthly-projects"
+  }
+
+  get MONTHLY_CONTRIBUTIONS(): string {
+    return "monthly-contributions"
+  }
+
+  get TOP_PROJECTS(): string {
+    return "top-projects";
+  }
+
+  get TOP_DEVELOPERS(): string {
+    return "top-developers"
+  }
+
 }
 
 const devPortalConstant = new DevPortalConstants();

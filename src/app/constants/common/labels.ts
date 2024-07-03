@@ -93,17 +93,7 @@ export const commonLabels = {
 export const errorLabels = {
   insufficientData: "Insufficient data! There's not enough information here to display the page you requested.",
   noDataFound: "No data found",
-  page404: "404 | Page Not Found",
-  pagenotFound: "Page not found",
-
-  technicalIssue:
-    " Sorry, we are having some technical issues (as you can see). Try to refresh the page. Maybe it will work.",
-  invalidEmail: "Please enter a valid email address.",
-  noPassword: "Password length must be minimum 8 characters.",
-  noTermsAndConditionAccepted: "Please accept the terms and conditions.",
-  noName: "Please enter your name.",
-  unauthorized: "Unauthorized",
-  cantAccess: "You can't access this dashboard!",
+  oopsNoDataFound: "Oops, No data found!",
   // Add more route properties as needed
 };
 

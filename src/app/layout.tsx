@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Instrument_Sans } from "next/font/google";
 import "./globals.scss";
 
@@ -8,11 +8,6 @@ const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
   display: "swap",
 });
-
-export const metadata: Metadata = {
-  title: "Dev Portal",
-  description: "Dev Portal",
-};
 
 export default function RootLayout({
   children,
@@ -24,7 +19,15 @@ export default function RootLayout({
       lang="en"
       style={{ colorScheme: "dark" }}
     >
-      <body className={instrumentSans.className}>{children}</body>
+      <head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0"
+        />
+      </head>
+      <body className={instrumentSans.className}>
+        <Suspense>{children}</Suspense>
+      </body>
     </html>
   );
 }

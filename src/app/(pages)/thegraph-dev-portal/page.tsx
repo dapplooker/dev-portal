@@ -4,8 +4,8 @@ import MonthlyCharts from "@/app/_components/dev-portal/container/MonthlyCharts"
 import EcosystemGrowthMetrics from "@/app/_components/dev-portal/container/EcosystemGrowthMetrics";
 import TopDevelopers from "@/app/_components/dev-portal/container/TopDevelopers";
 import TopDapps from "@/app/_components/dev-portal/container/TopDapps";
-import styles from "./layout.module.scss";
 import devPortalConstant from "@/app/_components/dev-portal/constants";
+import styles from "./layout.module.scss";
 
 export default function TheGraphDevPortalPage() {
   return (

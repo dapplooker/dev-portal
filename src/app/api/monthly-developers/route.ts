@@ -8,20 +8,20 @@ import { monthsMap } from '@/app/constants';
 async function getResponse(req: any): Promise<any> {
   const KEYWORD = req.nextUrl.searchParams.get("keyword")
   try {
-    let totalContributions: any[] = [];
+    let totalDevelopers: any[] = [];
     const monthlyProjectCountMap = new Map();
     let responseLen = 0;
     let page = 1;
 
     do {
       let response: ActiveMonthlyInterface = await monthlyChartsApi.getMonthlyContributions(KEYWORD, page);
-      totalContributions = [...totalContributions, ...response?.items || []];
+      totalDevelopers = [...totalDevelopers, ...response?.items || []];
       page += 1;
       responseLen = response?.items?.length || 0;
     } while (responseLen >= 100);
 
-    if (totalContributions?.length > 0) {
-      totalContributions.map((projects: any) => {
+    if (totalDevelopers?.length > 0) {
+      totalDevelopers.map((projects: any) => {
         const month = new Date(projects?.commit?.committer?.date).getMonth() + 1;
         const projectMonth = (monthsMap as any)[month];
 

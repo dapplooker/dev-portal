@@ -1,7 +1,8 @@
-import { ArchiveIcon, CodeIcon, CommitIcon, DashboardIcon } from "@radix-ui/react-icons";
 import React from "react";
+import { ArchiveIcon, CodeIcon, CommitIcon, DashboardIcon } from "@radix-ui/react-icons";
 import { FormattedGeneralStatsResponse } from "@/app/interface";
 import devPortalConstant from "../constants";
+import { errorLabels } from "@/app/constants";
 import styles from "./StatsCard.module.scss";
 
 const menuIconMap: { [key: string]: React.ElementType } = {
@@ -20,14 +21,20 @@ const StatsCard = ({ statsData }: StatsCardProps) => {
 
   return (
     <div className={styles.statsCard}>
-      <div className={styles.cardHeader}>
-        <h3 className={styles.cardTitle}>{statsData.title}</h3>
-        <MenuIconComponent className={styles.icon} />
-      </div>
-      <h2 className={styles.totalCount}>{statsData.totalCount}</h2>
-      <h4 className={styles.subCount}>
-        +{statsData.last30DaysCount} {devPortalConstant.inlast30Days}
-      </h4>
+      {!statsData?.totalCount ? (
+        <span className={styles.errorText}>{errorLabels.oopsNoDataFound}</span>
+      ) : (
+        <>
+          <div className={styles.cardHeader}>
+            <h3 className={styles.cardTitle}>{statsData.title}</h3>
+            <MenuIconComponent className={styles.icon} />
+          </div>
+          <h2 className={styles.totalCount}>{statsData.totalCount}</h2>
+          <h4 className={styles.subCount}>
+            +{statsData.last30DaysCount} {devPortalConstant.inlast30Days}
+          </h4>
+        </>
+      )}
     </div>
   );
 };

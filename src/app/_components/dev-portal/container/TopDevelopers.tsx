@@ -1,13 +1,13 @@
 "use client";
-import env, { commonLabels } from "@/app/constants/common/labels";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import styles from "./TopDapps.module.scss";
+import axios from "axios";
 import { FormattedTopDevsInterface } from "@/app/interface";
-import ResultTable from "../components/ResultTable";
 import useSessionStorage from "@/app/hooks/useSessionStorage/useSessionStorage";
-import devPortalConstant from "../constants";
+import ResultTable from "../components/ResultTable";
 import { Skeleton } from "../../shadecn/ui/skeleton";
+import labels from "../constants";
+import env, { commonLabels, errorLabels } from "@/app/constants/common/labels";
+import styles from "./TopDapps.module.scss";
 
 interface TopDevelopersProps {
   searchKeyword: string;
@@ -15,8 +15,9 @@ interface TopDevelopersProps {
 
 const TopDevelopers = ({ searchKeyword }: TopDevelopersProps) => {
   const [data, setData] = useState<FormattedTopDevsInterface[] | null>(null);
-  const [topDevelopers, setTopDevelopers] = useSessionStorage("top-developers", commonLabels.emptyString);
+  const [topDevelopers, setTopDevelopers] = useSessionStorage(labels.TOP_DEVELOPERS, commonLabels.emptyString);
   const [loading, setLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -36,35 +37,32 @@ const TopDevelopers = ({ searchKeyword }: TopDevelopersProps) => {
       } else {
         setData(topDevelopers);
       }
-      setLoading(false);
     } catch (error) {
+      setIsError(true);
       console.error("Error while fetching Ecosystem Metrics data: ", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return loading ? (
-    <div className="flex flex-col w-[585px] h-[540px] space-y-3 justify-evenly">
+    <div className="flex flex-col w-[585px] h-[540px] space-y-3 justify-evenly skeletonWrapper">
       <Skeleton className="h-[30px] w-[200px]" />
-      {Array.from(Array(6).keys()).map((_, index) => (
-        <Skeleton
-          key={index}
-          className="h-[35px] w-full"
-        />
-      ))}
+      <Skeleton className="h-full w-full rounded-xl" />
     </div>
   ) : (
     <div className={styles.topDeveloperSection}>
       <h2 className={styles.tableTitle}>
-        {devPortalConstant.topDevelopers} <span className={styles.subHeading}>({devPortalConstant.last30days})</span>
+        {labels.topDevelopers} <span className={styles.subHeading}>({labels.last30days})</span>
       </h2>
       <section className={styles.topDapps}>
-        {data && data?.length > 0 ? (
+        {!data || data?.length === 0 || isError ? (
+          <h1 className={styles.noDataFound}>{errorLabels.oopsNoDataFound}</h1>
+        ) : (
           <ResultTable
             columnsData={Object.keys(data[0])}
             rowsData={data}
           />
-        ) : (
-          <h1 className={styles.noDataFound}>{commonLabels.noDataFound}</h1>
         )}
       </section>
     </div>

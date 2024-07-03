@@ -47,3 +47,20 @@ export interface ProjectInfo {
   title: string;
   avatarUrl: string;
 }
+
+export interface ActiveMonthlyInterface {
+  total_count: number;
+  incomplete_results: boolean;
+  items: Array<Object>;
+}
+
+export interface MonthlyChartConfig {
+  activeProjects: {
+    options?: any;
+    series?: any;
+  },
+  activeContributions: {
+    options?: any;
+    series?: any;
+  }
+}

@@ -30,6 +30,7 @@
 .topDapps {
   width: 100%;
   height: auto;
+  min-height: 400px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -39,7 +40,7 @@
 }
 
 .noDataFound {
-  color: white;
+  color: gray;
   font-size: 18px;
   line-height: normal;
   font-weight: 400;

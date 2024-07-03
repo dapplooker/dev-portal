@@ -1,22 +1,23 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import styles from "./EcosystemGrowthMetrics.module.scss";
-import CircularProgressBar from "../components/CircularProgressBar";
 import axios from "axios";
 import { FormattedEcosystemMetricsInterface } from "@/app/interface";
-import env, { commonLabels } from "@/app/constants/common/labels";
 import useSessionStorage from "@/app/hooks/useSessionStorage/useSessionStorage";
-import devPortalConstant from "../constants";
 import { Skeleton } from "../../shadecn/ui/skeleton";
+import CircularProgressBar from "../components/CircularProgressBar";
+import env, { commonLabels, errorLabels } from "@/app/constants/common/labels";
+import labels from "../constants";
+import styles from "./EcosystemGrowthMetrics.module.scss";
 
 interface EcosystemGrowthMetricsProps {
   searchKeyword: string;
 }
 
 const EcosystemGrowthMetrics = ({ searchKeyword }: EcosystemGrowthMetricsProps) => {
-  const [ecosystemMetrics, setEcosystemMetrics] = useSessionStorage("ecosystem-growth", commonLabels.emptyString);
+  const [ecosystemMetrics, setEcosystemMetrics] = useSessionStorage(labels.ECOSYSTEM_GROWTH, commonLabels.emptyString);
   const [data, setData] = useState<FormattedEcosystemMetricsInterface[] | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -36,14 +37,16 @@ const EcosystemGrowthMetrics = ({ searchKeyword }: EcosystemGrowthMetricsProps) 
       } else {
         setData(ecosystemMetrics);
       }
-      setLoading(false);
     } catch (error) {
+      setIsError(true);
       console.error("Error while fetching Ecosystem Metrics data: ", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return loading ? (
-    <div className="flex flex-col w-[585px] h-[540px] space-y-3 justify-evenly">
+    <div className="flex flex-col w-[585px] h-[540px] space-y-3 justify-evenly skeletonWrapper">
       <Skeleton className="h-[30px] w-[200px]" />
       {Array.from(Array(3).keys()).map((_, index) => (
         <div
@@ -61,11 +64,16 @@ const EcosystemGrowthMetrics = ({ searchKeyword }: EcosystemGrowthMetricsProps) 
   ) : (
     <>
       <section className={styles.ecosystemGrowthMetricsSection}>
-        <h3 className={styles.sectionTitle}>{devPortalConstant.ecosystemGrowth}</h3>
-        <h3 className={styles.sectionSubTitle}></h3>
+        <h3 className={styles.sectionTitle}>
+          {labels.ecosystemGrowth} <span className={styles.subHeading}>({labels.last30days})</span>
+        </h3>
 
         <div className={styles.contentWrapper}>
-          {data && data?.length ? (
+          {!data || data?.length === 0 || isError ? (
+            <div className={styles.showErrorMsg}>
+              <span className={styles.errorText}>{errorLabels.oopsNoDataFound}</span>
+            </div>
+          ) : (
             data?.map((metrics: FormattedEcosystemMetricsInterface, index: number) => (
               <div
                 key={index}
@@ -77,8 +85,6 @@ const EcosystemGrowthMetrics = ({ searchKeyword }: EcosystemGrowthMetricsProps) 
                 </h2>
               </div>
             ))
-          ) : (
-            <h1 className={styles.noDataFound}>{commonLabels.noDataFound}</h1>
           )}
         </div>
       </section>

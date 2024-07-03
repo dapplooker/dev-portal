@@ -1,12 +1,13 @@
 "use client";
-import { commonLabels, routes } from "@/app/constants";
-import { ColumnDef, useReactTable, getCoreRowModel, getPaginationRowModel, flexRender } from "@tanstack/react-table";
 import React from "react";
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "../../shadecn/ui/table";
 import Image from "next/image";
 import Link from "next/link";
 import millify from "millify";
+import { ColumnDef, useReactTable, getCoreRowModel, getPaginationRowModel, flexRender } from "@tanstack/react-table";
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "../../shadecn/ui/table";
 import { ProjectInfo } from "@/app/interface";
+import { commonLabels, routes } from "@/app/constants";
+import devPortalConstant from "../constants";
 import styles from "./ResultTable.module.scss";
 
 interface ResultTableProps {
@@ -15,9 +16,11 @@ interface ResultTableProps {
 }
 
 const ResultTable = ({ columnsData, rowsData }: ResultTableProps) => {
+  const { STARS, FORKS, COMMITS, NAME, PROJECT_NAME } = devPortalConstant.tableColNames;
+
   const columns: ColumnDef<unknown, any>[] = [
     ...columnsData.map((column) => {
-      if (column === "project name" || column === "name") {
+      if (column === PROJECT_NAME || column === NAME) {
         return {
           accessorKey: column,
           header: () => <div>{column}</div>,
@@ -45,14 +48,12 @@ const ResultTable = ({ columnsData, rowsData }: ResultTableProps) => {
           },
         };
       }
-      if (column === "stars" || column === "forks" || column === "commits") {
+      if (column === STARS || column === FORKS || column === COMMITS) {
         return {
           accessorKey: column,
           header: () => <div>{column}</div>,
           cell: ({ row }: { row: any }) => {
-            return (
-              <span className={`${column === "stars" && styles.customColor}`}>{millify(row.getValue(column))}</span>
-            );
+            return <span className={`${column === STARS && styles.customColor}`}>{millify(row.getValue(column))}</span>;
           },
         };
       }
