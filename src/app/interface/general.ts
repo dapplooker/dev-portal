@@ -1,10 +1,11 @@
 export interface ChartConfigInterface {
-  chartType: string,
+  chartType?: string,
   xAxisValues: any[],
   yAxisValues: any[];
   chartTitle: string;
   xTitle: string;
   yTitle: string;
+  strokeColor?: string;
 }
 
 export interface RadialBarChartsConfigInterface {
@@ -68,4 +69,10 @@ export interface MonthlyChartConfig {
 export interface MonthRange {
   month: string;
   range: string;
+};
+
+export interface StackedBarChartData {
+  yAxisTitle: string;
+  yAxisValues: any[];
+  color: string;
 };

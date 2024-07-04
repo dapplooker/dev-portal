@@ -25,7 +25,7 @@ class DevPortalConstants {
   }
 
   get activeDevelopersMonthly(): string {
-    return "Active Developers Monthly";
+    return "Active Developers and Projects Monthly";
   }
 
   get inlast30Days(): string {
@@ -92,6 +92,14 @@ class DevPortalConstants {
 
   get TOP_DEVELOPERS(): string {
     return "top-developers"
+  }
+
+  get COLOR_PROJECTS(): string {
+    return "#4DD0E1"
+  }
+
+  get COLOR_CONTRIBUTIONS(): string {
+    return "#ffa726"
   }
 
 }

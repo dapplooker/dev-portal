@@ -1,123 +1,209 @@
-import devPortalConstant from "@/app/_components/dev-portal/constants";
 import { ChartConfigInterface } from "@/app/interface";
+import millify from "millify";
 
 class ChartConfig {
 
   public getChartConfig(configs: ChartConfigInterface) {
 
-    const { chartType, xAxisValues, yAxisValues, xTitle, yTitle, chartTitle } = configs;
+    const { chartType, xAxisValues, yAxisValues, xTitle, yTitle, chartTitle, strokeColor } = configs;
 
-    const finalConfig = {
-      options: {
-        chart: {
-          id: chartTitle,
-          type: chartType,
-          zoom: {
-            enabled: false,
-          },
-          toolbar: {
-            show: false,
-          },
-          foreColor: "#fff",
-          background: "#16110f",
-        },
-        dataLabels: {
-          enabled: false,
-          style: {
-            colors: [chartTitle === devPortalConstant.activeContributionsMonthly ? '#ffa726' : '#4DD0E1'], // Data labels color
-          },
-        },
-        stroke: {
-          curve: "smooth",
-          width: 2.5, // Reduced width of the line stroke
-          colors: [chartTitle === devPortalConstant.activeContributionsMonthly ? '#ffa726' : '#4DD0E1'], // Line color
-        },
-        title: {
-          text: chartTitle,
-          align: "left",
-          style: {
-            fontSize: "18px", // Font size for title
-          },
-        },
-        grid: {
-          borderColor: "#333", // Dark grid lines
-          strokeDashArray: 5,
-        },
-        tooltip: {
-          theme: "dark", // Dark tooltip
-        },
-        theme: {
-          mode: "dark", // Set the theme mode to dark
-        },
-        xaxis: {
-          categories: [...xAxisValues],
-          title: {
-            text: xTitle,
-            style: {
-              fontSize: "14px", // Font size for y-axis title
-            },
-          },
-        },
-        yaxis: {
-          title: {
-            text: yTitle,
-            style: {
-              fontSize: "14px", // Font size for y-axis title
-            },
-          },
-        },
-        // legend: {
-        // position: "top",
-        // horizontalAlign: "right",
-        // floating: true,
-        // offsetY: -15,
-        // },
-      },
-      series: [
+    const chartData = {
+      labels: [...xAxisValues],
+      datasets: [
         {
-          name: yTitle,
-          data: [...yAxisValues],
+          label: yTitle,
+          data: [...yAxisValues], // Y-axis data points
+          borderColor: strokeColor, // Line color
+          backgroundColor: "transparent", // Background color for line area
+          pointBackgroundColor: strokeColor, // Data points color
+          pointBorderColor: strokeColor, // Data points border color
+          borderWidth: 2.5, // Line stroke width
+          tension: 0.4, // Smooth the curve of the line
         },
       ],
-    }
+    };
 
-    return finalConfig
-  }
-
-  public getRadialBarChart(percentage: number) {
-
-    const finalConfig = {
-      series: [percentage],
-      options: {
-        chart: {
-          width: 112,
-          height: 110,
-          type: 'radialBar',
-        },
-        plotOptions: {
-          radialBar: {
-            hollow: {
-              size: '60%'
-            },
-            dataLabels: {
-              name: {
-                show: false,
-              },
-              value: {
-                show: true, // Hide the numeric value
-                fontSize: '16px',
-                fontWeight: 'bold',
-                color: '#fff',
-                offsetY: 6,
-              },
+    // Chart options
+    const options = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: true,
+          position: "top", // Position the legend at the top
+          align: "end", // Align legend to the right (end of the top)
+          labels: {
+            color: "#fff", // Legend text color
+            font: {
+              weight: "bold", // Legend font weight
             },
           },
         },
-        labels: [`Percent`], // To Show Lable Enable show: true for name in dataLabels 
+        title: {
+          display: true,
+          text: chartTitle,
+          align: "start", // Align title to the left
+          color: "#fff", // Title color
+          font: {
+            size: 18, // Title font size
+            weight: "bold", // Title font weight
+          },
+          padding: {
+            left: 20, // Padding from the left side
+            top: 10, // Padding from the top
+          },
+        },
       },
-    }
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: xTitle,
+            color: "#fff", // X-axis title color
+            font: {
+              size: 14, // X-axis title font size
+              weight: "bold", // X-axis title font weight
+            },
+          },
+          grid: {
+            display: false, // Disable vertical grid lines
+          },
+          ticks: {
+            color: "#fff", // X-axis labels color
+            padding: 10, // Gap between x-axis values and grid lines
+          },
+        },
+        y: {
+          title: {
+            display: true,
+            text: yTitle,
+            color: "#fff", // Y-axis title color
+            font: {
+              size: 14, // Y-axis title font size
+              weight: "bold", // Y-axis title font weight
+            },
+          },
+          grid: {
+            color: "#333", // Horizontal grid lines color
+            borderDash: [5], // Dashed horizontal grid lines
+          },
+          ticks: {
+            color: "#fff", // Y-axis labels color
+            padding: 10, // Gap between y-axis values and grid lines
+            callback: (value: any) => millify(value), // Format Y-axis values using millify
+          },
+        },
+      },
+    };
 
-    return finalConfig;
+    return { chartData, options }
+  }
+
+  public getStackedBarChartData(responseDataSet: ChartConfigInterface, dataSet2: ChartConfigInterface) {
+
+    const { chartTitle, xAxisValues, yAxisValues, xTitle, yTitle }: ChartConfigInterface = responseDataSet;
+
+    const barColor = "#4DD0E1";
+    const stackedBarColor = "#ffa726";
+
+    const chartData = {
+      labels: [...xAxisValues],
+      datasets: [
+        {
+          label: yTitle,
+          data: [...yAxisValues], // Y-axis data points
+          backgroundColor: barColor, // Fill color for the bars
+          borderColor: barColor,
+          borderWidth: 0,
+          stack: "Stack 0",
+        },
+        {
+          label: dataSet2?.yTitle,
+          data: [...dataSet2?.yAxisValues], // Y-axis data points
+          backgroundColor: stackedBarColor, // Fill color for the bars
+          borderColor: stackedBarColor,
+          borderWidth: 0,
+          stack: "Stack 0",
+        },
+      ],
+    };
+
+    // Chart options
+    const options = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: true,
+          position: "top", // Position the legend at the top
+          align: "end", // Align legend to the right (end of the top)
+          labels: {
+            color: "#fff", // Legend text color
+            font: {
+              weight: "bold", // Legend font weight
+            },
+          },
+        },
+        title: {
+          display: true,
+          text: chartTitle,
+          align: "start", // Align title to the left
+          color: "#fff", // Title color
+          font: {
+            size: 18, // Title font size
+            weight: "bold", // Title font weight
+          },
+          padding: {
+            left: 20, // Padding from the left side
+            top: 10, // Padding from the top
+          },
+        },
+      },
+      scales: {
+        x: {
+          stacked: true,
+          title: {
+            display: true,
+            text: xTitle,
+            color: "#fff", // X-axis title color
+            font: {
+              size: 14, // X-axis title font size
+              weight: "bold", // X-axis title font weight
+            },
+          },
+          grid: {
+            display: false, // Disable vertical grid lines
+          },
+          ticks: {
+            color: "#fff", // X-axis labels color
+            padding: 10, // Gap between x-axis values and grid lines
+          },
+        },
+        y: {
+          stacked: true,
+          title: {
+            display: true,
+            text: yTitle,
+            color: "#fff", // Y-axis title color
+            font: {
+              size: 14, // Y-axis title font size
+              weight: "bold", // Y-axis title font weight
+            },
+          },
+          grid: {
+            color: "#333", // Horizontal grid lines color
+            borderDash: [5], // Dashed horizontal grid lines
+          },
+          ticks: {
+            color: "#fff", // Y-axis labels color
+            padding: 10, // Gap between y-axis values and grid lines
+            callback: (value: any) => millify(value), // Format Y-axis values using millify
+          },
+        },
+      },
+    };
+
+    return { chartData, options };
   }
 
 }
