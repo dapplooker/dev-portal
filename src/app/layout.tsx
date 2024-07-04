@@ -1,6 +1,8 @@
 import { Suspense } from "react";
 import { Instrument_Sans } from "next/font/google";
 import "./globals.scss";
+import styles from "./layout.module.scss";
+import devPortalConstant from "./_components/dev-portal/constants";
 
 const instrumentSans = Instrument_Sans({
   weight: ["400", "500", "600", "700"],
@@ -26,7 +28,16 @@ export default function RootLayout({
         />
       </head>
       <body className={instrumentSans.className}>
-        <Suspense>{children}</Suspense>
+        <Suspense>
+          <section>
+            <main className={styles.main}>
+              <div className={styles.titleWrapper}>
+                <h1 className={`${styles.pageTitle}`}>{devPortalConstant.theGraphDeveloperEcosystem}</h1>
+              </div>
+              {children}
+            </main>
+          </section>
+        </Suspense>
       </body>
     </html>
   );

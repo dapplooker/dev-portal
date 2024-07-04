@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "export MODE=development && next dev -p 3300",
+    "build": "rm -rf .next && export MODE=development && next build",
+    "build:production": "rm -rf .next && export MODE=production && next build",
+    "start": "next start -p 3300",
     "lint": "next lint"
   },
   "dependencies": {
