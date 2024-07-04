@@ -8,6 +8,10 @@ class DevPortalConstants {
     return "Projects";
   }
 
+  get developers(): string {
+    return "Developers";
+  }
+
   get months(): string {
     return "Months";
   }
@@ -18,6 +22,10 @@ class DevPortalConstants {
 
   get activeContributionsMonthly(): string {
     return "Active Contributions Monthly";
+  }
+
+  get activeDevelopersMonthly(): string {
+    return "Active Developers Monthly";
   }
 
   get inlast30Days(): string {
@@ -72,6 +80,10 @@ class DevPortalConstants {
 
   get MONTHLY_CONTRIBUTIONS(): string {
     return "monthly-contributions"
+  }
+
+  get MONTHLY_DEVELOPERS(): string {
+    return "monthly-developers"
   }
 
   get TOP_PROJECTS(): string {

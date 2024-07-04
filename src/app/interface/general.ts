@@ -64,3 +64,8 @@ export interface MonthlyChartConfig {
     series?: any;
   }
 }
+
+export interface MonthRange {
+  month: string;
+  range: string;
+};

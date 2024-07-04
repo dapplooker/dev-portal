@@ -11,6 +11,11 @@
     width: 100%;
     padding: 12px;
   }
+
+  &.barChartWrapper {
+    width: 100%;
+    max-width: 100%;
+  }
 }
 .noDataFound {
   color: gray;

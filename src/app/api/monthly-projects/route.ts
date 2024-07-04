@@ -1,45 +1,37 @@
 import { NextRequest, NextResponse } from 'next/server';
+import moment from 'moment';
 import { ActiveMonthlyInterface, ChartConfigInterface } from '@/app/interface';
 import SortApiData from '@/app/lib/sortData/sortData';
 import monthlyChartsApi from '@/app/services/monthly-charts';
+import staticData from '@/app/lib/staticData/staticData';
 import devPortalConstant from '@/app/_components/dev-portal/constants';
-import { monthsMap } from '@/app/constants';
 
 async function getResponse(req: any): Promise<any> {
   const KEYWORD = req.nextUrl.searchParams.get("keyword")
   try {
-    let allProjectsList: any[] = [];
-    const monthlyProjectCountMap = new Map();
-    let responseLen = 0;
-    let page = 1;
 
-    do {
-      let response: ActiveMonthlyInterface = await monthlyChartsApi.getMonthlyProjects(KEYWORD, page);
-      allProjectsList = [...allProjectsList, ...response?.items || []];
-      page += 1;
-      responseLen = response?.items?.length;
-    } while (responseLen >= 100);
+    const projectsMap = staticData.totalProjectsLastSixMonths;
+    const startDate = staticData.fetchDataStartDate;
+    const currentDate = moment().format('YYYY-MM-DD');
+    const dateRange = SortApiData.getMonthRanges(startDate, currentDate);
 
-    if (allProjectsList?.length > 0) {
-      allProjectsList.map((projects: any) => {
-        const month = new Date(projects?.created_at).getMonth() + 1;
-        const projectMonth = (monthsMap as any)[month];
-        if (monthlyProjectCountMap.has(projectMonth)) {
-          monthlyProjectCountMap.set(projectMonth, monthlyProjectCountMap.get(projectMonth) + 1)
-        } else {
-          monthlyProjectCountMap.set(projectMonth, 1)
-        }
-      })
+    for (let dateItem in dateRange) {
+      const dateObj = dateRange[dateItem]
+      let response: ActiveMonthlyInterface = await monthlyChartsApi.getMonthlyProjects(KEYWORD, dateObj.range);
+      const contributionCount = response?.total_count;
+
+      if (projectsMap.has(dateObj.month)) {
+        projectsMap.set(dateObj.month, projectsMap.get(dateObj.month)! + contributionCount)
+      } else {
+        projectsMap.set(dateObj.month, contributionCount)
+      }
     }
-
-    const currentMonth = (monthsMap as any)[new Date().getMonth() + 1];
-    const sortedMonthsMap = SortApiData.sortContributionsMap(monthlyProjectCountMap, currentMonth)
 
     const projectsChartDetails: ChartConfigInterface = {
       chartType: "line",
       chartTitle: devPortalConstant.activeProjectsMonthly,
-      xAxisValues: Array.from(sortedMonthsMap.keys()),
-      yAxisValues: Array.from(sortedMonthsMap.values()),
+      xAxisValues: Array.from(projectsMap.keys()),
+      yAxisValues: Array.from(projectsMap.values()),
       xTitle: devPortalConstant.months,
       yTitle: devPortalConstant.projects,
     }

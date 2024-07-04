@@ -1,35 +1,25 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Line } from "react-chartjs-2";
 import millify from "millify";
+import { Bar } from "react-chartjs-2";
+import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend } from "chart.js";
 import utils from "@/app/utils/utils";
 import useSessionStorage from "@/app/hooks/useSessionStorage/useSessionStorage";
 import { Skeleton } from "../../shadecn/ui/skeleton";
-import {
-  Chart as ChartJS,
-  LineElement,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
 import { ChartConfigInterface } from "@/app/interface";
-import devPortalConstant from "../constants";
 import { commonLabels, errorLabels } from "@/app/constants";
 import env from "@/app/constants/common/labels";
 import styles from "./LineChart.module.scss";
 
-ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Title, Tooltip, Legend);
+ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
-interface LineChartProps {
+interface BarChartProps {
   searchKeyword: string;
   endpointKeyName: string;
 }
 
-const LineChart = ({ searchKeyword, endpointKeyName }: LineChartProps) => {
+const BarChart = ({ searchKeyword, endpointKeyName }: BarChartProps) => {
   const [activeChartData, setActiveChartData] = useSessionStorage(endpointKeyName, commonLabels.emptyString);
 
   const [data, setData] = useState<any | {}>({});
@@ -52,7 +42,7 @@ const LineChart = ({ searchKeyword, endpointKeyName }: LineChartProps) => {
 
         const { chartTitle, xAxisValues, yAxisValues, xTitle, yTitle }: ChartConfigInterface = response.data.data;
 
-        const strokeColor = chartTitle === devPortalConstant.activeContributionsMonthly ? "#ffa726" : "#4DD0E1";
+        const barColor = "#4DD0E1";
 
         const chartData = {
           labels: [...xAxisValues],
@@ -60,12 +50,9 @@ const LineChart = ({ searchKeyword, endpointKeyName }: LineChartProps) => {
             {
               label: yTitle,
               data: [...yAxisValues], // Y-axis data points
-              borderColor: strokeColor, // Line color
-              backgroundColor: "transparent", // Background color for line area
-              pointBackgroundColor: strokeColor, // Data points color
-              pointBorderColor: strokeColor, // Data points border color
-              borderWidth: 2.5, // Line stroke width
-              tension: 0.4, // Smooth the curve of the line
+              backgroundColor: barColor, // Fill color for the bars
+              borderColor: barColor,
+              borderWidth: 0,
             },
           ],
         };
@@ -157,13 +144,13 @@ const LineChart = ({ searchKeyword, endpointKeyName }: LineChartProps) => {
   };
 
   return loading ? (
-    <Skeleton className="h-[350px] w-[600px] rounded-xl skeletonWrapper" />
+    <Skeleton className="h-[350px] w-full rounded-xl skeletonWrapper" />
   ) : (
-    <div className={styles.activeProjectChartWrapper}>
+    <div className={`${styles.activeProjectChartWrapper} ${styles.barChartWrapper}`}>
       {!utils.validateNonEmptyObject(data) || isError ? (
         <h1 className={styles.noDataFound}>{errorLabels.oopsNoDataFound}</h1>
       ) : (
-        <Line
+        <Bar
           data={data?.chartData}
           options={data?.options as any}
         />
@@ -172,4 +159,4 @@ const LineChart = ({ searchKeyword, endpointKeyName }: LineChartProps) => {
   );
 };
 
-export default LineChart;
+export default BarChart;
