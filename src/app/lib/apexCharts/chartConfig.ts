@@ -182,7 +182,7 @@ class ChartConfig {
         y: {
           stacked: true,
           title: {
-            display: true,
+            display: false,
             text: yTitle,
             color: "#fff", // Y-axis title color
             font: {

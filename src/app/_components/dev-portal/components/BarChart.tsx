@@ -54,6 +54,10 @@ const BarChart = ({ searchKeyword, endpointKeyName, secondDataSet }: BarChartPro
   };
 
   useEffect(() => {
+    if (utils.validateNonEmptyObject(activeChartData)) {
+      return;
+    }
+
     if (
       utils.validateNonEmptyObject(secondDataSet!) &&
       (utils.validateNonEmptyObject(captureRes) || utils.validateNonEmptyObject(activeChartData))

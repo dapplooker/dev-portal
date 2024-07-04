@@ -67,11 +67,11 @@ const LineChart = ({ searchKeyword, endpointKeyName, onHandleCommonData }: LineC
         setActiveChartData({ chartData, options });
       } else {
         setData(activeChartData);
-      }
 
-      const datasets: any[] = activeChartData?.datasets;
-      if (datasets) {
-        handleProjectData(datasets[0]?.label, datasets[0]?.data, devPortalConstant.COLOR_PROJECTS);
+        const datasets: any[] = activeChartData?.chartData?.datasets;
+        if (datasets) {
+          handleProjectData(datasets[0]?.label, datasets[0]?.data, devPortalConstant.COLOR_PROJECTS);
+        }
       }
     } catch (error) {
       setIsError(true);
