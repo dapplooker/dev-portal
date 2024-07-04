@@ -1,15 +1,15 @@
 const development = {
-  BASE_URL: "http://localhost:3000",
-  CLIENT_RESTFUL_API_END_POINT: "http://localhost:3000",
-  NEXT_SERVER_RESTFUL_API_END_POINT: "http://localhost:3000",
+  BASE_URL: "http://localhost:3300",
+  CLIENT_RESTFUL_API_END_POINT: "http://localhost:3300",
+  NEXT_SERVER_RESTFUL_API_END_POINT: "http://localhost:3300",
   LOG_LEVEL: "debug",
   MODE: "development",
 };
 
 const production = {
-  BASE_URL: "http://localhost:3000",
-  CLIENT_RESTFUL_API_END_POINT: "http://localhost:3000",
-  NEXT_SERVER_RESTFUL_API_END_POINT: "http://localhost:3000",
+  BASE_URL: "http://localhost:3300",
+  CLIENT_RESTFUL_API_END_POINT: "http://localhost:3300",
+  NEXT_SERVER_RESTFUL_API_END_POINT: "http://localhost:3300",
   LOG_LEVEL: "info",
   MODE: "production",
 };
