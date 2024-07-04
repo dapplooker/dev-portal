@@ -1,0 +1,91 @@
+.ecosystemGrowthMetricsSection {
+  width: 600px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+
+  .sectionTitle {
+    color: white;
+    font-size: 24px;
+    line-height: normal;
+    font-weight: 700;
+    margin-bottom: 28px;
+
+    .subHeading {
+      color: #6abaff;
+      font-size: 16px;
+      line-height: normal;
+      font-weight: 500;
+    }
+  }
+
+  .contentWrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+
+    .growthMetricContainer {
+      width: 100%;
+      height: auto;
+      background-color: #16110f;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 24px;
+      padding-left: 32px;
+
+      .metricsCount {
+        display: flex;
+        flex-direction: column;
+        color: white;
+        font-size: 26px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+
+        .metricsTitle {
+          color: #aa9388;
+          font-size: 20px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: normal;
+        }
+
+        @media screen and (max-width: 960px) {
+          font-size: 24px;
+          .metricsTitle {
+            font-size: 18px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.showErrorMsg {
+  width: 100%;
+  height: 480px;
+  background-color: #16110f;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .errorText {
+    color: gray;
+    font-size: 14px;
+    line-height: normal;
+    font-weight: 500;
+  }
+}

@@ -1,0 +1,62 @@
+.statsCard {
+  width: 290px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: #16110f;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 24px;
+
+  @media screen and (max-width: 768px) {
+    padding: 12px;
+  }
+
+  @media screen and (max-width: 550px) {
+    width: 100%;
+  }
+
+  .cardHeader {
+    width: 100%;
+    display: flex;
+    margin-bottom: 8px;
+
+    .cardTitle {
+      color: white;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+    }
+    .icon {
+      margin-left: auto;
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .totalCount {
+    color: white;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-bottom: 6px;
+  }
+  .subCount {
+    color: #aa9388;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+}
+
+.errorText {
+  color: gray;
+  font-size: 14px;
+  line-height: normal;
+  font-weight: 500;
+}

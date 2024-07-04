@@ -1,0 +1,48 @@
+.topDeveloperSection {
+  width: 600px;
+  height: auto;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+}
+.sectionWrapper {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.tableTitle {
+  color: white;
+  font-size: 24px;
+  line-height: normal;
+  font-weight: 700;
+  margin-bottom: 28px;
+
+  .subHeading {
+    color: #6abaff;
+    font-size: 16px;
+    line-height: normal;
+    font-weight: 500;
+  }
+}
+.topDapps {
+  width: 100%;
+  height: auto;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: #16110f;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+}
+
+.noDataFound {
+  color: gray;
+  font-size: 18px;
+  line-height: normal;
+  font-weight: 400;
+  padding: 15px;
+}

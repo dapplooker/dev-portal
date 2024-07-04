@@ -1,0 +1,104 @@
+.resultTable {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  overflow: auto;
+
+  .table {
+    height: auto;
+    width: 100%;
+  }
+
+  .tableHeader {
+    font-size: 18px;
+    line-height: normal;
+    text-transform: uppercase;
+
+    .tableColumn {
+      height: 50px !important;
+      text-align: left;
+      padding-left: 8px;
+      font-weight: 700 !important;
+      color: #aa9388 !important;
+      white-space: nowrap;
+
+      &:first-child {
+        padding-left: 32px;
+      }
+
+      @media screen and (max-width: 768px) {
+        &:first-child {
+          padding-left: 20px;
+        }
+      }
+    }
+  }
+  .tableRow {
+    &:hover {
+      background-color: transparent;
+    }
+
+    .tableCell {
+      border: 1px solid rgba($color: #fff, $alpha: 0.3);
+      border-right: none;
+      border-left: none;
+      border-bottom: none;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: normal;
+      position: relative;
+      color: white;
+      white-space: nowrap;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      padding-left: 8px;
+
+      &:first-child {
+        padding-left: 32px;
+      }
+      &:last-child {
+        padding-right: 32px;
+      }
+
+      @media screen and (max-width: 768px) {
+        &:first-child {
+          padding-left: 20px;
+        }
+        &:last-child {
+          padding-right: 20px;
+        }
+      }
+    }
+  }
+}
+
+.projectInfoWrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 6px;
+  text-align: left;
+
+  .avatar {
+    border-radius: 50%;
+  }
+
+  .projectName {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 80%;
+    text-decoration: underline;
+
+    @media screen and (max-width: 960px) {
+      width: 200px;
+    }
+  }
+}
+
+.customColor {
+  color: #ffa726;
+}
