@@ -24,7 +24,7 @@ const Footer = () => {
     faYoutube,
     faLinkedin,
   };
-  
+
   return (
     <footer className={styles.footerContainer}>
       <div className={`${styles.footerSubContainer} bitool-container`}>
@@ -32,13 +32,18 @@ const Footer = () => {
           <div className={styles.left}>
             <div className={styles.poweredBy}>
               <h2 className={styles.heading}>{footerLabels.poweredBy}</h2>
-              <Image
-                width={194}
-                height={44}
-                className={styles.dapplookerIcon}
-                alt="Dapplooker Icon"
-                src={`${commonLabels.CLOUDFRONT_BASE_URL}/assets/svg/updated-dapplooker-logo-with-text.svg`}
-              ></Image>
+              <Link
+                target="_blank"
+                href={footerLabels.dapplookerRoute}
+              >
+                <Image
+                  width={194}
+                  height={44}
+                  className={styles.dapplookerIcon}
+                  alt="Dapplooker Icon"
+                  src={`${commonLabels.CLOUDFRONT_BASE_URL}/assets/svg/updated-dapplooker-logo-with-text.svg`}
+                ></Image>
+              </Link>
             </div>
           </div>
           <div className={styles.right}>
@@ -49,9 +54,13 @@ const Footer = () => {
                   <li key={tab.tabName}>
                     <Link
                       href={tab.tabLink}
+                      target="_blank"
                       className={styles.socialLink}
                     >
-                      <FontAwesomeIcon icon={iconMapping[tab.tabName]} />
+                      <FontAwesomeIcon
+                        className={styles.icon}
+                        icon={iconMapping[tab.tabName]}
+                      />
                     </Link>
                   </li>
                 ))}

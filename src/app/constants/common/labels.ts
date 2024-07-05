@@ -123,6 +123,7 @@ export const monthsMap = {
 export const footerLabels = {
   poweredBy: "Powered By", 
   joinUs: "Join Us",
+  dapplookerRoute:'https://dapplooker.com/', 
   socialLinks: [
     {
       tabName: "faTwitter",
