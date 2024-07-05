@@ -7,9 +7,9 @@ const development = {
 };
 
 const production = {
-  BASE_URL: "http://localhost:3300",
-  CLIENT_RESTFUL_API_END_POINT: "http://localhost:3300",
-  NEXT_SERVER_RESTFUL_API_END_POINT: "http://localhost:3300",
+  BASE_URL: "https://dev.dapplooker.com",
+  CLIENT_RESTFUL_API_END_POINT: "https://dev.dapplooker.com",
+  NEXT_SERVER_RESTFUL_API_END_POINT: "https://dev.dapplooker.com",
   LOG_LEVEL: "info",
   MODE: "production",
 };
