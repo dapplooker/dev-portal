@@ -15,7 +15,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { ChartConfigInterface } from "@/app/interface";
+import ChartData from "@/app/lib/apexCharts/chartConfig";
+import { ChartConfigInterface, StackedBarChartData } from "@/app/interface";
 import devPortalConstant from "../constants";
 import { commonLabels, errorLabels } from "@/app/constants";
 import env from "@/app/constants/common/labels";
@@ -26,9 +27,10 @@ ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Title, T
 interface LineChartProps {
   searchKeyword: string;
   endpointKeyName: string;
+  onHandleCommonData?: (data: StackedBarChartData) => void;
 }
 
-const LineChart = ({ searchKeyword, endpointKeyName }: LineChartProps) => {
+const LineChart = ({ searchKeyword, endpointKeyName, onHandleCommonData }: LineChartProps) => {
   const [activeChartData, setActiveChartData] = useSessionStorage(endpointKeyName, commonLabels.emptyString);
 
   const [data, setData] = useState<any | {}>({});
@@ -49,108 +51,43 @@ const LineChart = ({ searchKeyword, endpointKeyName }: LineChartProps) => {
           `${env.CLIENT_RESTFUL_API_END_POINT}/api/${endpointKeyName}?keyword=${searchKeyword}`
         );
 
-        const { chartTitle, xAxisValues, yAxisValues, xTitle, yTitle }: ChartConfigInterface = response.data.data;
+        const { yAxisValues, yTitle }: ChartConfigInterface = response.data.data;
 
-        const strokeColor = chartTitle === devPortalConstant.activeContributionsMonthly ? "#ffa726" : "#4DD0E1";
+        const isMonthlyProjectsChart = endpointKeyName === devPortalConstant.MONTHLY_PROJECT;
 
-        const chartData = {
-          labels: [...xAxisValues],
-          datasets: [
-            {
-              label: yTitle,
-              data: [...yAxisValues], // Y-axis data points
-              borderColor: strokeColor, // Line color
-              backgroundColor: "transparent", // Background color for line area
-              pointBackgroundColor: strokeColor, // Data points color
-              pointBorderColor: strokeColor, // Data points border color
-              borderWidth: 2.5, // Line stroke width
-              tension: 0.4, // Smooth the curve of the line
-            },
-          ],
-        };
+        const strokeColor = isMonthlyProjectsChart
+          ? devPortalConstant.COLOR_PROJECTS
+          : devPortalConstant.COLOR_CONTRIBUTIONS;
 
-        // Chart options
-        const options = {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: true,
-              position: "top", // Position the legend at the top
-              align: "end", // Align legend to the right (end of the top)
-              labels: {
-                color: "#fff", // Legend text color
-                font: {
-                  weight: "bold", // Legend font weight
-                },
-              },
-            },
-            title: {
-              display: true,
-              text: chartTitle,
-              align: "start", // Align title to the left
-              color: "#fff", // Title color
-              font: {
-                size: 18, // Title font size
-                weight: "bold", // Title font weight
-              },
-              padding: {
-                left: 20, // Padding from the left side
-                top: 10, // Padding from the top
-              },
-            },
-          },
-          scales: {
-            x: {
-              title: {
-                display: true,
-                text: xTitle,
-                color: "#fff", // X-axis title color
-                font: {
-                  size: 14, // X-axis title font size
-                  weight: "bold", // X-axis title font weight
-                },
-              },
-              grid: {
-                display: false, // Disable vertical grid lines
-              },
-              ticks: {
-                color: "#fff", // X-axis labels color
-                padding: 10, // Gap between x-axis values and grid lines
-              },
-            },
-            y: {
-              title: {
-                display: true,
-                text: yTitle,
-                color: "#fff", // Y-axis title color
-                font: {
-                  size: 14, // Y-axis title font size
-                  weight: "bold", // Y-axis title font weight
-                },
-              },
-              grid: {
-                color: "#333", // Horizontal grid lines color
-                borderDash: [5], // Dashed horizontal grid lines
-              },
-              ticks: {
-                color: "#fff", // Y-axis labels color
-                padding: 10, // Gap between y-axis values and grid lines
-              },
-            },
-          },
-        };
+        handleProjectData(yTitle, yAxisValues, strokeColor);
+
+        const { chartData, options } = ChartData.getChartConfig({ ...response.data.data, strokeColor: strokeColor });
 
         setData({ chartData, options });
         setActiveChartData({ chartData, options });
       } else {
         setData(activeChartData);
+
+        const datasets: any[] = activeChartData?.chartData?.datasets;
+        if (datasets) {
+          handleProjectData(datasets[0]?.label, datasets[0]?.data, devPortalConstant.COLOR_PROJECTS);
+        }
       }
     } catch (error) {
       setIsError(true);
       console.error("Error while fetching monthly projects data: ", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleProjectData = (yTitle: string, yValues: any[], color: string) => {
+    if (endpointKeyName === devPortalConstant.MONTHLY_PROJECT && onHandleCommonData) {
+      onHandleCommonData({
+        yAxisTitle: yTitle || "Title",
+        yAxisValues: yValues || [],
+        color: color,
+      });
     }
   };
 

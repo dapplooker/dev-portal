@@ -1,6 +1,5 @@
 import ApiServiceWrapper from "../ApiServiceWrapper";
 import ServiceConstants from "../ServiceConstants";
-import moment from "moment";
 
 class MonthlyChartsApi extends ApiServiceWrapper {
   private baseUrl: string;
@@ -9,9 +8,8 @@ class MonthlyChartsApi extends ApiServiceWrapper {
     this.baseUrl = ServiceConstants.githubBaseUrl;
   }
 
-  public async getMonthlyProjects(keyword: string, page: number): Promise<any | any> {
-    const oneYearAgoDate = moment().subtract(11, 'month').format('YYYY-MM-DD');
-    const endpoint = `${this.baseUrl}/search/repositories?q=${keyword}+created:>=${oneYearAgoDate}&page=${page}&per_page=100`;
+  public async getMonthlyProjects(keyword: string, dateRange: string): Promise<any | any> {
+    const endpoint = `${this.baseUrl}/search/repositories?q=${keyword}+created:${dateRange}`;
     try {
       const res = await this.GET(endpoint, {
         headers: {
@@ -25,9 +23,8 @@ class MonthlyChartsApi extends ApiServiceWrapper {
     }
   }
 
-  public async getMonthlyContributions(keyword: string, page: number): Promise<any | any> {
-    const oneYearAgoDate = moment().subtract(11, 'month').format('YYYY-MM-DD');
-    const endpoint = `${this.baseUrl}/search/commits?q=${keyword}+committer-date:>=${oneYearAgoDate}&page=${page}&per_page=100`;
+  public async getMonthlyContributions(keyword: string, dateRange: string): Promise<any | any> {
+    const endpoint = `${this.baseUrl}/search/commits?q=${keyword}+committer-date:${dateRange}`;
     try {
       const res = await this.GET(endpoint, {
         headers: {
@@ -41,9 +38,8 @@ class MonthlyChartsApi extends ApiServiceWrapper {
     }
   }
 
-  public async getMonthlyDevelopers(keyword: string, page: number): Promise<any | any> {
-    const oneYearAgoDate = moment().subtract(11, 'month').format('YYYY-MM-DD');
-    const endpoint = `${this.baseUrl}/search/commits?q=${keyword}+committer-date:>=${oneYearAgoDate}&page=${page}&per_page=100`;
+  public async getMonthlyDevelopers(keyword: string, dateRange: string, page: number): Promise<any | any> {
+    const endpoint = `${this.baseUrl}/search/commits?q=${keyword}+committer-date:${dateRange}&page=${page}&per_page=100`;
     try {
       const res = await this.GET(endpoint, {
         headers: {

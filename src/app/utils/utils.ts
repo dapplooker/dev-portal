@@ -7,7 +7,7 @@ class Utils {
    *
    * @returns {boolean}
    */
-  isVarNullOrUndefined(variable: any): boolean {
+  private isVarNullOrUndefined(variable: any): boolean {
     return typeof variable === 'undefined' || variable == null;
   }
 

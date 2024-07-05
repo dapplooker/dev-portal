@@ -8,6 +8,10 @@ class DevPortalConstants {
     return "Projects";
   }
 
+  get developers(): string {
+    return "Developers";
+  }
+
   get months(): string {
     return "Months";
   }
@@ -18,6 +22,10 @@ class DevPortalConstants {
 
   get activeContributionsMonthly(): string {
     return "Active Contributions Monthly";
+  }
+
+  get activeDevelopersMonthly(): string {
+    return "Active Developers and Projects Monthly";
   }
 
   get inlast30Days(): string {
@@ -74,12 +82,24 @@ class DevPortalConstants {
     return "monthly-contributions"
   }
 
+  get MONTHLY_DEVELOPERS(): string {
+    return "monthly-developers"
+  }
+
   get TOP_PROJECTS(): string {
     return "top-projects";
   }
 
   get TOP_DEVELOPERS(): string {
     return "top-developers"
+  }
+
+  get COLOR_PROJECTS(): string {
+    return "#4DD0E1"
+  }
+
+  get COLOR_CONTRIBUTIONS(): string {
+    return "#ffa726"
   }
 
 }
