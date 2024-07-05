@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { metaData } from "@/app/constants/common/metaData";
 import styles from "./layout.module.scss";
 import devPortalConstant from "@/app/_components/dev-portal/constants";
+import Footer from "@/app/_components/ui/components/Footer/Footer";
 
 export const metadata: Metadata = {
   title: metaData.title,
@@ -27,11 +28,9 @@ export default async function DevPortalLayout({ children }: { children: React.Re
   return (
     <section>
       <main className={styles.main}>
-        <div className={styles.titleWrapper}>
-          <h1 className={`${styles.pageTitle}`}>{devPortalConstant.theGraphDeveloperEcosystem}</h1>
-        </div>
         {children}
       </main>
+      <Footer/>
     </section>
   );
 }
