@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Line } from "react-chartjs-2";
 import utils from "@/app/utils/utils";
 import useSessionStorage from "@/app/hooks/useSessionStorage/useSessionStorage";
@@ -19,7 +18,6 @@ import ChartData from "@/app/lib/apexCharts/chartConfig";
 import { ChartConfigInterface, StackedBarChartData } from "@/app/interface";
 import devPortalConstant from "../constants";
 import { commonLabels, errorLabels } from "@/app/constants";
-import env from "@/app/constants/common/labels";
 import styles from "./LineChart.module.scss";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Title, Tooltip, Legend);
@@ -28,9 +26,10 @@ interface LineChartProps {
   searchKeyword: string;
   endpointKeyName: string;
   onHandleCommonData?: (data: StackedBarChartData) => void;
+  apiData: ChartConfigInterface;
 }
 
-const LineChart = ({ searchKeyword, endpointKeyName, onHandleCommonData }: LineChartProps) => {
+const LineChart = ({ searchKeyword, endpointKeyName, onHandleCommonData, apiData }: LineChartProps) => {
   const [activeChartData, setActiveChartData] = useSessionStorage(endpointKeyName, commonLabels.emptyString);
 
   const [data, setData] = useState<any | {}>({});
@@ -47,11 +46,19 @@ const LineChart = ({ searchKeyword, endpointKeyName, onHandleCommonData }: LineC
     try {
       //Fetch Projects
       if (!utils.validateNonEmptyObject(activeChartData)) {
-        const response = await axios.get(
-          `${env.CLIENT_RESTFUL_API_END_POINT}/api/${endpointKeyName}?keyword=${searchKeyword}`
-        );
+        // const response = await axios.get(
+        //   `${env.CLIENT_RESTFUL_API_END_POINT}/api/${endpointKeyName}?keyword=${searchKeyword}`
+        // );
+        // const response = await getMyData();
 
-        const { yAxisValues, yTitle }: ChartConfigInterface = response.data.data;
+        // const { yAxisValues, yTitle }: ChartConfigInterface = response.data.data;
+
+        if (!utils.validateNonEmptyObject(apiData)) {
+          setData({});
+          return;
+        }
+
+        const { yAxisValues, yTitle }: ChartConfigInterface = apiData;
 
         const isMonthlyProjectsChart = endpointKeyName === devPortalConstant.MONTHLY_PROJECT;
 
@@ -61,7 +68,8 @@ const LineChart = ({ searchKeyword, endpointKeyName, onHandleCommonData }: LineC
 
         handleProjectData(yTitle, yAxisValues, strokeColor);
 
-        const { chartData, options } = ChartData.getChartConfig({ ...response.data.data, strokeColor: strokeColor });
+        // const { chartData, options } = ChartData.getChartConfig({ ...response.data.data, strokeColor: strokeColor });
+        const { chartData, options } = ChartData.getChartConfig({ ...apiData, strokeColor: strokeColor });
 
         setData({ chartData, options });
         setActiveChartData({ chartData, options });
@@ -82,6 +90,7 @@ const LineChart = ({ searchKeyword, endpointKeyName, onHandleCommonData }: LineC
   };
 
   const handleProjectData = (yTitle: string, yValues: any[], color: string) => {
+    //This will not working util onHandleCommonData is true
     if (endpointKeyName === devPortalConstant.MONTHLY_PROJECT && onHandleCommonData) {
       onHandleCommonData({
         yAxisTitle: yTitle || "Title",
