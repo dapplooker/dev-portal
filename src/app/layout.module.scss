@@ -8,7 +8,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  margin-bottom: 200px;
+  margin-bottom: 0px;
 
   .titleWrapper {
     position: relative;
@@ -42,6 +42,7 @@
     display: flex;
     flex-direction: column;
     gap: 40px;
+    margin-bottom: 200px;
 
     .contentWrapper {
       width: 100%;

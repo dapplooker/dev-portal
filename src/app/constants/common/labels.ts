@@ -118,3 +118,47 @@ export const monthsMap = {
   11: "Nov",
   12: "Dec",
 }
+
+
+export const footerLabels = {
+  poweredBy: "Powered By", 
+  joinUs: "Join Us",
+  dapplookerRoute:'https://dapplooker.com/', 
+  socialLinks: [
+    {
+      tabName: "faTwitter",
+      tabLink: "https://twitter.com/dapplooker",
+      svgName: "fa-brands fa-medium",
+    },
+    {
+      tabName: "faGithub",
+      tabLink: "https://github.com/dapplooker",
+      svgName: "fa-brands fa-medium",
+    },
+    {
+      tabName: "faDiscord",
+      tabLink: "https://discord.com/invite/s2BYwUMTQ4",
+      svgName: "fa-brands fa-medium",
+    },
+    {
+      tabName: "faMedium",
+      tabLink: "https://blog.dapplooker.com/",
+      svgName: "fa-brands fa-medium",
+    },
+    {
+      tabName: "faTelegram",
+      tabLink: "https://t.me/dapplooker",
+      svgName: "fa-brands fa-medium",
+    },
+    {
+      tabName: "faYoutube",
+      tabLink: "https://www.youtube.com/channel/UC1KJmtb3UhnWSN_sDv71_fg",
+      svgName: "fa-brands fa-medium",
+    },
+    {
+      tabName: "faLinkedin",
+      tabLink: "https://www.linkedin.com/company/dapplooker?originalSubdomain=in",
+      svgName: "fa-brands fa-medium",
+    },
+  ],
+}
