@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend } from "chart.js";
 import utils from "@/app/utils/utils";
@@ -9,7 +8,6 @@ import ChartData from "@/app/lib/apexCharts/chartConfig";
 import { Skeleton } from "../../shadecn/ui/skeleton";
 import { ChartConfigInterface, StackedBarChartData } from "@/app/interface";
 import { commonLabels, errorLabels } from "@/app/constants";
-import env from "@/app/constants/common/labels";
 import styles from "./LineChart.module.scss";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
@@ -18,9 +16,10 @@ interface BarChartProps {
   searchKeyword: string;
   endpointKeyName: string;
   secondDataSet?: StackedBarChartData;
+  apiData: ChartConfigInterface;
 }
 
-const BarChart = ({ searchKeyword, endpointKeyName, secondDataSet }: BarChartProps) => {
+const BarChart = ({ searchKeyword, endpointKeyName, secondDataSet, apiData }: BarChartProps) => {
   const [activeChartData, setActiveChartData] = useSessionStorage(endpointKeyName, commonLabels.emptyString);
 
   const [data, setData] = useState<any | {}>({});
@@ -38,10 +37,14 @@ const BarChart = ({ searchKeyword, endpointKeyName, secondDataSet }: BarChartPro
     try {
       //Fetch Projects
       if (!utils.validateNonEmptyObject(activeChartData)) {
-        const response = await axios.get(
-          `${env.CLIENT_RESTFUL_API_END_POINT}/api/${endpointKeyName}?keyword=${searchKeyword}`
-        );
-        setCaptureRes(response.data.data);
+        // const response = await axios.get(
+        //   `${env.CLIENT_RESTFUL_API_END_POINT}/api/${endpointKeyName}?keyword=${searchKeyword}`
+        // );
+        if (!utils.validateNonEmptyObject(apiData)) {
+          setData({});
+          return;
+        }
+        setCaptureRes(apiData);
       } else {
         setData(activeChartData);
       }
