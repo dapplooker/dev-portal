@@ -14,7 +14,7 @@ class ServiceConstant {
   }
 
   public get gitHubToken3() { //Hitesh
-    return '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';
+    return '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';
   }
 
   public get gitHubToken4() { //Harsh
