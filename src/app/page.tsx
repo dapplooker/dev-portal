@@ -17,7 +17,7 @@ export default async function Home() {
       <GeneralStats searchKeyword={devPortalConstant.SEARCH_KEYWORD} />
       <MonthlyCharts
         searchKeyword={devPortalConstant.SEARCH_KEYWORD}
-        topProjects={projects.data}
+        topProjects={projects?.data}
         topContributions={contributions!?.data}
         topDevelopers={developers!?.data}
       />

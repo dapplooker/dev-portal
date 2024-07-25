@@ -5,12 +5,12 @@ class ServiceConstant {
     return "https://api.github.com";
   }
 
-  public get gitHubToken1() { //Abhinav
-    return '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';
+  public get gitHubToken1() { //Choubey
+    return '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';
   }
 
   public get gitHubToken2() { //Aditya
-    return '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';
+    return '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';
   }
 
   public get gitHubToken3() { //Hitesh
