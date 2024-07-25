@@ -72,6 +72,7 @@ class ChartConfig {
             color: "#fff", // X-axis labels color
             padding: 10, // Gap between x-axis values and grid lines
           },
+          beginAtZero: true
         },
         y: {
           title: {
@@ -92,6 +93,7 @@ class ChartConfig {
             padding: 10, // Gap between y-axis values and grid lines
             callback: (value: any) => millify(value), // Format Y-axis values using millify
           },
+          beginAtZero: true
         },
       },
     };
