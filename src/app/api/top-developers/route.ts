@@ -57,7 +57,9 @@ async function getResponse(req: any): Promise<any> {
       })
     }
 
-    return NextResponse.json({ data: formattedDetails }, { status: 201 });
+    const sortByCommits = formattedDetails.sort((a: any, b: any) => b?.commits - a?.commits);
+
+    return NextResponse.json({ data: sortByCommits }, { status: 201 });
   } catch (error) {
     console.error("Error", error);
     return NextResponse.json({ error: error }, { status: 500 });
