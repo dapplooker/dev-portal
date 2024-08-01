@@ -40,6 +40,10 @@ class DevPortalConstants {
     return "last 30 days";
   }
 
+  get last6months(): string {
+    return "last 6 months";
+  }
+
   get topProjects(): string {
     return "Top Projects";
   }

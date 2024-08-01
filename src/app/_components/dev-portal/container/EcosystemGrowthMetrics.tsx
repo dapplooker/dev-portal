@@ -65,7 +65,7 @@ const EcosystemGrowthMetrics = ({ searchKeyword }: EcosystemGrowthMetricsProps) 
     <>
       <section className={styles.ecosystemGrowthMetricsSection}>
         <h3 className={styles.sectionTitle}>
-          {labels.ecosystemGrowth} <span className={styles.subHeading}>({labels.last30days})</span>
+          {labels.ecosystemGrowth} <span className={styles.subHeading}>({labels.last6months})</span>
         </h3>
 
         <div className={styles.contentWrapper}>
