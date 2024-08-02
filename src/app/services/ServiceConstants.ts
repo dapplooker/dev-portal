@@ -10,7 +10,7 @@ class ServiceConstant {
   }
 
   public get gitHubToken2() { //Aditya
-    return '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';
+    return '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';
   }
 
   public get gitHubToken3() { //Hitesh
@@ -18,7 +18,7 @@ class ServiceConstant {
   }
 
   public get gitHubToken4() { //Harsh
-    return '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';
+    return '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';
   }
 
   public get gitHubToken5() { //Mannan
@@ -26,7 +26,7 @@ class ServiceConstant {
   }
 
   public get gitHubToken6() { //Keshav
-    return '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';
+    return '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';
   }
 }
 
