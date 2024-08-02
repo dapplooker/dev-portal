@@ -12,14 +12,11 @@ export const getProjectData = async (searchKeyword: string) => {
     const currentDate = moment().format("YYYY-MM-DD");
     const dateRange = SortApiData.getMonthRanges(startDate, currentDate);
 
-    for (let dateItem in dateRange) {
-      const dateObj = dateRange[dateItem];
+    for (let dateObj of dateRange) {
       let response: ActiveMonthlyInterface = await monthlyChartsApi.getMonthlyProjects(searchKeyword, dateObj.range);
       const contributionCount = response?.total_count;
 
-      if (projectsMap.has(dateObj.month)) {
-        projectsMap.set(dateObj.month, projectsMap.get(dateObj.month)! + contributionCount);
-      } else {
+      if (!projectsMap.has(dateObj.month)) {
         projectsMap.set(dateObj.month, contributionCount);
       }
     }
@@ -49,14 +46,11 @@ export const getContributionsData = async (KEYWORD: string) => {
     const currentDate = moment().format('YYYY-MM-DD');
     const dateRange = SortApiData.getMonthRanges(startDate, currentDate);
 
-    for (let dateItem in dateRange) {
-      const dateObj = dateRange[dateItem]
+    for (let dateObj of dateRange) {
       let response: ActiveMonthlyInterface = await monthlyChartsApi.getMonthlyContributions(KEYWORD, dateObj.range);
       const contributionCount = response?.total_count;
 
-      if (contributionsMap.has(dateObj.month)) {
-        contributionsMap.set(dateObj.month, contributionsMap.get(dateObj.month)! + contributionCount)
-      } else {
+      if (!contributionsMap.has(dateObj.month)) {
         contributionsMap.set(dateObj.month, contributionCount)
       }
     }
@@ -106,9 +100,7 @@ export const getDevelopersData = async (KEYWORD: string) => {
         uniqueDevelopers.add(`${author.name} <${author.email}>`);
       });
 
-      if (developersMap.has(dateObj.month)) {
-        developersMap.set(dateObj.month, developersMap.get(dateObj.month)! + uniqueDevelopers.size)
-      } else {
+      if (!developersMap.has(dateObj.month)) {
         developersMap.set(dateObj.month, uniqueDevelopers.size)
       }
     }
