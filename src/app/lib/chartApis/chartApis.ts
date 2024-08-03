@@ -5,6 +5,15 @@ import SortApiData from "../sortData/sortData";
 import staticData from "../staticData/staticData";
 import moment from "moment";
 
+const shouldSkipMonth = (range: string): boolean => {
+  const rangeStartDate = range.split('..')[0];
+  const month = moment(rangeStartDate).format('YYYY-MM');
+  const today = moment();
+
+  return month === today.format('YYYY-MM') && today.date() < 21;
+};
+
+
 export const getProjectData = async (searchKeyword: string) => {
   try {
     const projectsMap = staticData.totalProjectsLastSixMonths;
@@ -13,7 +22,14 @@ export const getProjectData = async (searchKeyword: string) => {
     const dateRange = SortApiData.getMonthRanges(startDate, currentDate);
 
     for (let dateObj of dateRange) {
+
+      // Extract start date from range string
+      if (shouldSkipMonth(dateObj.range)) {
+        continue;  // Skip if current month and before 20th
+      }
+
       let response: ActiveMonthlyInterface = await monthlyChartsApi.getMonthlyProjects(searchKeyword, dateObj.range);
+
       const contributionCount = response?.total_count;
 
       if (!projectsMap.has(dateObj.month)) {
@@ -40,14 +56,20 @@ export const getProjectData = async (searchKeyword: string) => {
 
 export const getContributionsData = async (KEYWORD: string) => {
   try {
-
     const contributionsMap = staticData.totalContributionLastSixMonths;
     const startDate = staticData.fetchDataStartDate;
     const currentDate = moment().format('YYYY-MM-DD');
     const dateRange = SortApiData.getMonthRanges(startDate, currentDate);
 
     for (let dateObj of dateRange) {
+
+      // Extract start date from range string
+      if (shouldSkipMonth(dateObj.range)) {
+        continue;  // Skip if current month and before 20th
+      }
+
       let response: ActiveMonthlyInterface = await monthlyChartsApi.getMonthlyContributions(KEYWORD, dateObj.range);
+
       const contributionCount = response?.total_count;
 
       if (!contributionsMap.has(dateObj.month)) {
@@ -73,14 +95,17 @@ export const getContributionsData = async (KEYWORD: string) => {
 
 export const getDevelopersData = async (KEYWORD: string) => {
   try {
-
     const developersMap = staticData.totalDevelopersLastSixMonths;
     const startDate = staticData.fetchDataStartDate;
     const currentDate = moment().format('YYYY-MM-DD');
     const dateRange = SortApiData.getMonthRanges(startDate, currentDate);
 
-    for (let dateItem in dateRange) {
-      const dateObj = dateRange[dateItem]
+    for (let dateObj of dateRange) {
+      
+      // Extract start date from range string
+      if (shouldSkipMonth(dateObj.range)) {
+        continue;  // Skip if current month and before 20th
+      }
 
       let totalCommits: any[] = [];
       let responseLen = 0;
