@@ -10,7 +10,7 @@ const shouldSkipMonth = (range: string): boolean => {
   const month = moment(rangeStartDate).format('YYYY-MM');
   const today = moment();
 
-  return month === today.format('YYYY-MM') && today.date() < 20;
+  return month === today.format('YYYY-MM') && today.date() < 21;
 };
 
 
