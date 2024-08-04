@@ -32,7 +32,7 @@ class TableApi extends ApiServiceWrapper {
     try {
       const res = await this.GET(endpoint, {
         headers: {
-          "Authorization": `Bearer ${ServiceConstants.gitHubToken5}`,
+          "Authorization": `Bearer ${ServiceConstants.gitHubToken1}`,
           "Accept": "application/vnd.github+json"
         }
       })

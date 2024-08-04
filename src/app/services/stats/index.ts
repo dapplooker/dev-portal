@@ -105,7 +105,7 @@ class StatsApi extends ApiServiceWrapper {
     try {
       const res = await this.GET(endpoint, {
         params, headers: {
-          "Authorization": `Bearer ${ServiceConstants.gitHubToken5}`,
+          "Authorization": `Bearer ${ServiceConstants.gitHubToken1}`,
           "Accept": "application/vnd.github+json"
         }
       });
