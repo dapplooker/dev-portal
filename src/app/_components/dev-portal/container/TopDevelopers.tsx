@@ -1,21 +1,16 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { errorLabels } from "@/app/constants/common/labels";
 import { FormattedTopDevsInterface } from "@/app/interface";
-import useSessionStorage from "@/app/hooks/useSessionStorage/useSessionStorage";
-import ResultTable from "../components/ResultTable";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Skeleton } from "../../shadecn/ui/skeleton";
+import ResultTable from "../components/ResultTable";
 import labels from "../constants";
-import env, { commonLabels, errorLabels } from "@/app/constants/common/labels";
 import styles from "./TopDapps.module.scss";
 
-interface TopDevelopersProps {
-  searchKeyword: string;
-}
 
-const TopDevelopers = ({ searchKeyword }: TopDevelopersProps) => {
+const TopDevelopers = () => {
   const [data, setData] = useState<FormattedTopDevsInterface[] | null>(null);
-  const [topDevelopers, setTopDevelopers] = useSessionStorage(labels.TOP_DEVELOPERS, commonLabels.emptyString);
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
@@ -27,16 +22,14 @@ const TopDevelopers = ({ searchKeyword }: TopDevelopersProps) => {
 
   const fetchTopDevlopersData = async () => {
     try {
-      if (!topDevelopers || topDevelopers.length === 0) {
+      
         const response = await axios.get(
-          `${env.CLIENT_RESTFUL_API_END_POINT}/api/top-developers?keyword=${searchKeyword}`
+          `http://dev.bi-tool.com:8081/web/stats/top-developers?frequency=MONTHLY&protocolId=1`
         );
-        const responseData: FormattedTopDevsInterface[] = response.data.data;
-        setTopDevelopers(responseData);
+        const responseData: FormattedTopDevsInterface[] = response.data.data.topDevelopers;
+        
         setData(responseData);
-      } else {
-        setData(topDevelopers);
-      }
+     
     } catch (error) {
       setIsError(true);
       console.error("Error while fetching Ecosystem Metrics data: ", error);

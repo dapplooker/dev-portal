@@ -16,32 +16,32 @@ interface ResultTableProps {
 }
 
 const ResultTable = ({ columnsData, rowsData }: ResultTableProps) => {
+  const filteredColumnsData = columnsData.filter(column => column !== "GITHUB_URL" && column !== "AVATAR_URL");
   const { STARS, FORKS, COMMITS, NAME, PROJECT_NAME } = devPortalConstant.tableColNames;
 
   const columns: ColumnDef<unknown, any>[] = [
-    ...columnsData.map((column) => {
-      if (column === PROJECT_NAME || column === NAME) {
+    ...filteredColumnsData.map((column) => {
+      if (column === "NAME") {
         return {
           accessorKey: column,
           header: () => <div>{column}</div>,
           cell: ({ row }: { row: any }) => {
-            const projectInfo: ProjectInfo = row.getValue(column);
-            const avatarUrl = projectInfo?.avatarUrl;
+            const name = row.original?.NAME;
+            const githubUrl = row.original?.GITHUB_URL;
+            const avatarUrl = row.original?.AVATAR_URL;
             return (
               <div className={styles.projectInfoWrapper}>
-                <Image
+                <img
                   src={avatarUrl}
                   alt="project name"
                   className={styles.avatar}
-                  width={20}
-                  height={20}
-                />
+                ></img>
                 <Link
-                  href={`${routes.github}${projectInfo?.title}`}
+                  href={`${githubUrl}`}
                   target="_blank"
                   className={styles.projectName}
                 >
-                  {projectInfo.title}
+                  {name}
                 </Link>
               </div>
             );

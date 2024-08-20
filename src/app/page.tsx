@@ -14,7 +14,7 @@ export default async function Home() {
 
   return (
     <main className={`${styles.layoutContent} bitool-container`}>
-      <GeneralStats searchKeyword={devPortalConstant.SEARCH_KEYWORD} />
+      <GeneralStats />
       <MonthlyCharts
         searchKeyword={devPortalConstant.SEARCH_KEYWORD}
         topProjects={projects?.data}
@@ -23,9 +23,9 @@ export default async function Home() {
       />
       <div className={styles.contentWrapper}>
         <EcosystemGrowthMetrics searchKeyword={devPortalConstant.SEARCH_KEYWORD} />
-        <TopDevelopers searchKeyword={devPortalConstant.SEARCH_KEYWORD} />
+        <TopDevelopers />
       </div>
-      <TopDapps searchKeyword={devPortalConstant.SEARCH_KEYWORD} />
+      <TopDapps />
     </main>
   );
 }

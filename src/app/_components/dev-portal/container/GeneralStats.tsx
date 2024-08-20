@@ -1,22 +1,15 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { errorLabels } from "@/app/constants/common/labels";
 import { FormattedGeneralStatsResponse } from "@/app/interface";
-import useSessionStorage from "@/app/hooks/useSessionStorage/useSessionStorage";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Skeleton } from "../../shadecn/ui/skeleton";
 import StatsCard from "../components/StatsCard";
-import env, { errorLabels } from "@/app/constants/common/labels";
-import { commonLabels } from "@/app/constants";
-import labels from "../constants";
+import DevPortalConstants from "@/app/_components/dev-portal/constants"
 import styles from "./GeneralStats.module.scss";
 
-interface GeneralStatsProps {
-  searchKeyword: string;
-}
-
-const GeneralStats = ({ searchKeyword }: GeneralStatsProps) => {
-  const [generalStats, setGeneralStats] = useSessionStorage(labels.GENERAL_STATS, commonLabels.emptyString);
-  const [data, setData] = useState<FormattedGeneralStatsResponse[] | null>(null);
+const GeneralStats = () => {
+  const [data, setData] = useState<FormattedGeneralStatsResponse[] | null>([]);
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
@@ -28,16 +21,23 @@ const GeneralStats = ({ searchKeyword }: GeneralStatsProps) => {
 
   const generalStatsData = async () => {
     try {
-      if (!generalStats || generalStats.length === 0) {
-        const response = await axios.get(
-          `${env.CLIENT_RESTFUL_API_END_POINT}/api/general-stats?keyword=${searchKeyword}`
-        );
-        const stats: FormattedGeneralStatsResponse[] = response.data.data;
-        setGeneralStats(stats);
-        setData(stats);
-      } else {
-        setData(generalStats);
-      }
+      const weeklyDataResponse = await axios.get(
+        `http://dev.bi-tool.com:8081/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeMonthly}&protocolId=${DevPortalConstants.graphProtocolId}`
+      );
+      const data = weeklyDataResponse.data.data.genralStats;
+      const MonthlyDataResponse = await axios.get(
+        `http://dev.bi-tool.com:8081/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeTotal}&protocolId=${DevPortalConstants.graphProtocolId}`
+      );
+      const weeklyData = weeklyDataResponse.data.data.genralStats;
+      const monthlyData = MonthlyDataResponse.data.data.genralStats;
+      const newData = [
+        { title: "Developers", totalCount: monthlyData.totalDevelopers || 0, last30DaysCount: weeklyData.totalDevelopers || 0, icon: "code" },
+        { title: "Projects", totalCount: monthlyData.totalProjects || 0, last30DaysCount: weeklyData.totalProjects || 0, icon: "dashboard" },
+        { title: "Commits", totalCount: monthlyData.totalCommits || 0, last30DaysCount: weeklyData.totalCommits, icon: "commit" },
+        { title: "PR Raised", totalCount: monthlyData.totalPr || 0, last30DaysCount: weeklyData.totalPr || 0, icon: "archive" },
+      ];
+      setData(newData);
+      console.log(data);
     } catch (error) {
       setIsError(true);
       console.error("Error while fetching General Stats data: ", error);

@@ -30,6 +30,17 @@ class Utils {
     return false;
   }
 
+  public invert(obj: any) {
+    const ret: any = {}
+
+    for (const key in obj) {
+        ret[obj[key]] = key
+    }
+
+    return ret
+}
+
+
 }
 
 const utils = new Utils()

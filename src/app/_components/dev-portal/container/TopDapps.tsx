@@ -1,21 +1,15 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { errorLabels } from "@/app/constants/common/labels";
 import axios from "axios";
-import { FormattedTopDappsInterface } from "@/app/interface";
-import useSessionStorage from "@/app/hooks/useSessionStorage/useSessionStorage";
-import ResultTable from "../components/ResultTable";
+import { useEffect, useState } from "react";
 import { Skeleton } from "../../shadecn/ui/skeleton";
+import ResultTable from "../components/ResultTable";
 import labels from "../constants";
-import env, { commonLabels, errorLabels } from "@/app/constants/common/labels";
 import styles from "./TopDapps.module.scss";
 
-interface TopDappsProps {
-  searchKeyword: string;
-}
 
-const TopDapps = ({ searchKeyword }: TopDappsProps) => {
-  const [topDapps, setTopDapps] = useSessionStorage(labels.TOP_PROJECTS, commonLabels.emptyString);
-  const [data, setData] = useState<FormattedTopDappsInterface[] | null>(null);
+const TopDapps = () => {
+  const [data, setData] = useState<any[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
@@ -27,16 +21,14 @@ const TopDapps = ({ searchKeyword }: TopDappsProps) => {
 
   const fetchTopDappsData = async () => {
     try {
-      if (!topDapps || topDapps.length === 0) {
-        const response = await axios.get(
-          `${env.CLIENT_RESTFUL_API_END_POINT}/api/top-projects?keyword=${searchKeyword}`
-        );
-        const responseData: FormattedTopDappsInterface[] = response.data.data;
-        setTopDapps(responseData);
-        setData(responseData);
-      } else {
-        setData(topDapps);
-      }
+      const response = await axios.get(
+        `http://dev.bi-tool.com:8081/web/stats/top-projects?frequency=MONTHLY&protocolId=1`
+      );
+      const responseData = response.data.data.topProjects;
+      console.log(responseData);
+      setData(responseData);
+
+      // setData(topDapps);
     } catch (error) {
       setIsError(true);
       console.error("Error while fetching Ecosystem Metrics data: ", error);
