@@ -5,37 +5,27 @@ import { useEffect, useState } from "react";
 import { Skeleton } from "../../shadecn/ui/skeleton";
 import ResultTable from "../components/ResultTable";
 import labels from "../constants";
+import DevPortalConstants from "@/app/_components/dev-portal/constants";
 import styles from "./TopDapps.module.scss";
 
+interface TopDappsProps {
+  topDapps: any
+}
 
-const TopDapps = () => {
-  const [data, setData] = useState<any[] | null>(null);
+const TopDapps = ({topDapps}: TopDappsProps) => {
+  const [data, setData] = useState(topDapps);
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      await fetchTopDappsData();
-    })();
-  }, []);
-
-  const fetchTopDappsData = async () => {
-    try {
-      const response = await axios.get(
-        `http://dev.bi-tool.com:8081/web/stats/top-projects?frequency=MONTHLY&protocolId=1`
-      );
-      const responseData = response.data.data.topProjects;
-      console.log(responseData);
-      setData(responseData);
-
-      // setData(topDapps);
-    } catch (error) {
+    if (topDapps && topDapps.length > 0) {
+      setData(topDapps);
+      setLoading(false);
+    } else if (!topDapps || topDapps.length === 0) {
       setIsError(true);
-      console.error("Error while fetching Ecosystem Metrics data: ", error);
-    } finally {
       setLoading(false);
     }
-  };
+  }, [topDapps]);
 
   return loading ? (
     <div className="flex flex-col w-full h-auto space-y-3 justify-evenly skeletonWrapper">

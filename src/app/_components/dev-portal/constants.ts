@@ -130,7 +130,7 @@ public get frequencyTypeYearly(): string {
 }
 
 public get frequencyTypeTotal(): string {
-    return 'YEARLY'
+    return 'TOTAL'
 }
 
 get frequencies(): Record<number, string> {

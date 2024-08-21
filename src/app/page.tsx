@@ -1,16 +1,56 @@
-import { getContributionsData, getDevelopersData, getProjectData } from "./lib/chartApis/chartApis";
+import { default as devPortalConstant, default as DevPortalConstants } from "@/app/_components/dev-portal/constants";
+import EcosystemGrowthMetrics from "@/app/_components/dev-portal/container/EcosystemGrowthMetrics";
 import GeneralStats from "@/app/_components/dev-portal/container/GeneralStats";
 import MonthlyCharts from "@/app/_components/dev-portal/container/MonthlyCharts";
-import EcosystemGrowthMetrics from "@/app/_components/dev-portal/container/EcosystemGrowthMetrics";
-import TopDevelopers from "@/app/_components/dev-portal/container/TopDevelopers";
 import TopDapps from "@/app/_components/dev-portal/container/TopDapps";
-import devPortalConstant from "@/app/_components/dev-portal/constants";
+import TopDevelopers from "@/app/_components/dev-portal/container/TopDevelopers";
+import axios from "axios";
 import styles from "./layout.module.scss";
+import { getContributionsData, getDevelopersData, getProjectData } from "./lib/chartApis/chartApis";
+import Logger from "./utils/Logger";
+
+const fetchTopDevelopersData = async () => {
+  try {
+    const url = `http://dev.bi-tool.com:8081/web/stats/top-developers?frequency=${DevPortalConstants.frequencyTypeMonthly}&protocolId=${DevPortalConstants.graphProtocolId}`;
+    Logger.info("Fetching Top Developers data from:", url);
+    const response = await axios.get(url);
+    const responseData = response.data.data.topDevelopers;
+    if (!responseData) {
+      Logger.warn("Warning: No top developers data found in the response.");
+      return [];
+    }
+    Logger.info("Top Developers data fetched successfully.");
+    return responseData;
+  } catch (error) {
+    Logger.error("Error while fetching Top Developers data:", JSON.stringify(error));
+    return [];
+  }
+};
+
+const fetchTopDappsData = async () => {
+  try {
+    const url = `http://dev.bi-tool.com:8081/web/stats/top-projects?frequency=${DevPortalConstants.frequencyTypeMonthly}&protocolId=${DevPortalConstants.graphProtocolId}`;
+    Logger.info("Fetching Top Dapps data from:", url);
+    const response = await axios.get(url);
+    const responseData = response.data.data.topProjects;
+    if (!responseData) {
+      Logger.warn("Warning: No top Dapps data found in the response.");
+      return [];
+    }
+    Logger.info("Top Dapps data fetched successfully.");
+    return responseData;
+  } catch (error) {
+    Logger.error("Error while fetching Top Dapps data:", JSON.stringify(error));
+    return [];
+  }
+};
 
 export default async function Home() {
   const projects = await getProjectData(devPortalConstant.SEARCH_KEYWORD);
   const contributions = await getContributionsData(devPortalConstant.SEARCH_KEYWORD);
   const developers = await getDevelopersData(devPortalConstant.SEARCH_KEYWORD);
+  const topDevelopers = await fetchTopDevelopersData();
+  const topDapps = await fetchTopDappsData();
 
   return (
     <main className={`${styles.layoutContent} bitool-container`}>
@@ -23,9 +63,9 @@ export default async function Home() {
       />
       <div className={styles.contentWrapper}>
         <EcosystemGrowthMetrics searchKeyword={devPortalConstant.SEARCH_KEYWORD} />
-        <TopDevelopers />
+        <TopDevelopers topDevelopers={topDevelopers} />
       </div>
-      <TopDapps />
+      <TopDapps topDapps={topDapps} />
     </main>
   );
 }

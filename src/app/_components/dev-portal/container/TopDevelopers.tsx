@@ -5,38 +5,28 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Skeleton } from "../../shadecn/ui/skeleton";
 import ResultTable from "../components/ResultTable";
+import DevPortalConstants from "@/app/_components/dev-portal/constants"
 import labels from "../constants";
 import styles from "./TopDapps.module.scss";
 
+interface TopDevelopersProps {
+  topDevelopers: any[]
+}
 
-const TopDevelopers = () => {
-  const [data, setData] = useState<FormattedTopDevsInterface[] | null>(null);
+const TopDevelopers = ({topDevelopers}: TopDevelopersProps) => {
+  const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      await fetchTopDevlopersData();
-    })();
-  }, []);
-
-  const fetchTopDevlopersData = async () => {
-    try {
-      
-        const response = await axios.get(
-          `http://dev.bi-tool.com:8081/web/stats/top-developers?frequency=MONTHLY&protocolId=1`
-        );
-        const responseData: FormattedTopDevsInterface[] = response.data.data.topDevelopers;
-        
-        setData(responseData);
-     
-    } catch (error) {
+    if (topDevelopers && topDevelopers.length > 0) {
+      setData(topDevelopers);
+      setLoading(false);
+    } else if (!topDevelopers || topDevelopers.length === 0) {
       setIsError(true);
-      console.error("Error while fetching Ecosystem Metrics data: ", error);
-    } finally {
       setLoading(false);
     }
-  };
+  }, [topDevelopers]);
 
   return loading ? (
     <div className="flex flex-col w-[585px] h-[540px] space-y-3 justify-evenly skeletonWrapper">
