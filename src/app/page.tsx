@@ -45,10 +45,45 @@ const fetchTopDappsData = async () => {
   }
 };
 
+const fetchProjectsCommitsDevelopersCount = async () => {
+  try {
+    const url = `http://dev.bi-tool.com:8081/web/stats/projects-commits-developers-count?protocolId=${DevPortalConstants.graphProtocolId}`;
+    Logger.info("Fetching data from::fetchProjectsCommitsDevelopersCount:", url);
+    const response = await axios.get(url);
+    const responseData = response.data.data;
+    if (!responseData) {
+      Logger.warn("Warning: No data found in the response.");
+      return [];
+    }
+    Logger.info("data fetched successfully.");
+    return responseData;
+  } catch (error) {
+    Logger.error("Error while fetching data:", JSON.stringify(error));
+    return [];
+  }
+};
+
 export default async function Home() {
-  const projects = await getProjectData(devPortalConstant.SEARCH_KEYWORD);
-  const contributions = await getContributionsData(devPortalConstant.SEARCH_KEYWORD);
-  const developers = await getDevelopersData(devPortalConstant.SEARCH_KEYWORD);
+  const projectsCommitsDevelopersCount = await fetchProjectsCommitsDevelopersCount();
+  console.log("projectsCommitsDevelopersCount", projectsCommitsDevelopersCount);
+
+  // const projects = projectsCommitsDevelopersCount.projects;
+  // const contributions = projectsCommitsDevelopersCount.commits;
+  // const developers = projectsCommitsDevelopersCount.developers;
+
+  const projects = await getProjectData(devPortalConstant.SEARCH_KEYWORD, projectsCommitsDevelopersCount.projects);
+
+  console.log("projects", projects);
+  const contributions = await getContributionsData(
+    devPortalConstant.SEARCH_KEYWORD,
+    projectsCommitsDevelopersCount.commits,
+  );
+  console.log("contributions", contributions);
+  const developers = await getDevelopersData(
+    devPortalConstant.SEARCH_KEYWORD,
+    projectsCommitsDevelopersCount.developers,
+  );
+  console.log("developers", developers);
   const topDevelopers = await fetchTopDevelopersData();
   const topDapps = await fetchTopDappsData();
 
