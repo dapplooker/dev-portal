@@ -45,6 +45,7 @@ const TopDevelopers = ({topDevelopers}: TopDevelopersProps) => {
           <ResultTable
             columnsData={Object.keys(data[0])}
             rowsData={data}
+            type="TopDevelopers"
           />
         )}
       </section>

@@ -44,6 +44,7 @@ const TopDapps = ({topDapps}: TopDappsProps) => {
           <ResultTable
             columnsData={Object.keys(data[0])}
             rowsData={data}
+            type="TopDapps"
           />
         )}
       </section>

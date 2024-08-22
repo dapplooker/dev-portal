@@ -1,5 +1,6 @@
-class Utils {
+import axios from "axios";
 
+class Utils {
   /**
    * Is var null or undefined?
    *
@@ -8,12 +9,12 @@ class Utils {
    * @returns {boolean}
    */
   private isVarNullOrUndefined(variable: any): boolean {
-    return typeof variable === 'undefined' || variable == null;
+    return typeof variable === "undefined" || variable == null;
   }
 
   validateNonEmptyObject(variable: object): boolean {
     const oThis = this;
-    if (oThis.isVarNullOrUndefined(variable) || typeof variable !== 'object') {
+    if (oThis.isVarNullOrUndefined(variable) || typeof variable !== "object") {
       return false;
     }
 
@@ -31,17 +32,30 @@ class Utils {
   }
 
   public invert(obj: any) {
-    const ret: any = {}
+    const ret: any = {};
 
     for (const key in obj) {
-        ret[obj[key]] = key
+      ret[obj[key]] = key;
     }
 
-    return ret
+    return ret;
+  }
+
+  public getUserById = async (userId: number) => {
+    try {
+      const response = await axios.get(`https://api.github.com/search/users?q=id:${userId}`, {
+        headers: {
+          Accept: "application/vnd.github.v3+json",
+        },
+      });
+      const user = response.data.items[0]; 
+      return user.login;
+    } catch (error) {
+      console.error("Error fetching user by ID:", error);
+      return null;
+    }
+  };
 }
 
-
-}
-
-const utils = new Utils()
+const utils = new Utils();
 export default utils;

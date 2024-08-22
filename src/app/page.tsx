@@ -11,7 +11,17 @@ import Logger from "./utils/Logger";
 
 const fetchTopDevelopersData = async () => {
   try {
-    const url = `http://dev.bi-tool.com:8081/web/stats/top-developers?frequency=${DevPortalConstants.frequencyTypeMonthly}&protocolId=${DevPortalConstants.graphProtocolId}`;
+    // Get the current date
+    const endDate = new Date();
+    
+    // Calculate the start date as one month before the end date
+    const startDate = new Date();
+    startDate.setMonth(startDate.getMonth() - 1);
+    
+    // Format dates as YYYY-MM-DD strings
+    const startDateString = startDate.toISOString().split('T')[0];
+    const endDateString = endDate.toISOString().split('T')[0];
+    const url = `http://dev.bi-tool.com:8081/web/stats/top-developers?protocolId=${DevPortalConstants.graphProtocolId}&startDate=${startDateString}&endDate=${endDateString}`;
     Logger.info("Fetching Top Developers data from:", url);
     const response = await axios.get(url);
     const responseData = response.data.data.topDevelopers;
@@ -29,7 +39,7 @@ const fetchTopDevelopersData = async () => {
 
 const fetchTopDappsData = async () => {
   try {
-    const url = `http://dev.bi-tool.com:8081/web/stats/top-projects?frequency=${DevPortalConstants.frequencyTypeMonthly}&protocolId=${DevPortalConstants.graphProtocolId}`;
+    const url = `http://dev.bi-tool.com:8081/web/stats/top-projects?protocolId=${DevPortalConstants.graphProtocolId}`;
     Logger.info("Fetching Top Dapps data from:", url);
     const response = await axios.get(url);
     const responseData = response.data.data.topProjects;
