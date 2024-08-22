@@ -6,142 +6,166 @@ import staticData from "../staticData/staticData";
 import moment from "moment";
 
 const shouldSkipMonth = (range: string): boolean => {
-  const rangeStartDate = range.split('..')[0];
-  const month = moment(rangeStartDate).format('YYYY-MM');
+  const rangeStartDate = range.split("..")[0];
+  const month = moment(rangeStartDate).format("YYYY-MM");
   const today = moment();
 
-  return month === today.format('YYYY-MM') && today.date() < 21;
+  return month === today.format("YYYY-MM") && today.date() < 21;
 };
 
-
-export const getProjectData = async (searchKeyword: string) => {
+export const getProjectData = async (searchKeyword: string, projects: any[]) => {
   try {
-    const projectsMap = staticData.totalProjectsLastSixMonths;
-    const startDate = staticData.fetchDataStartDate;
-    const currentDate = moment().format("YYYY-MM-DD");
-    const dateRange = SortApiData.getMonthRanges(startDate, currentDate);
+    // const projectsMap = staticData.totalProjectsLastSixMonths;
+    // const startDate = staticData.fetchDataStartDate;
+    // const currentDate = moment().format("YYYY-MM-DD");
+    // const dateRange = SortApiData.getMonthRanges(startDate, currentDate);
 
-    for (let dateObj of dateRange) {
+    // for (let dateObj of dateRange) {
 
-      // Extract start date from range string
-      if (shouldSkipMonth(dateObj.range)) {
-        continue;  // Skip if current month and before 20th
-      }
+    //   // Extract start date from range string
+    //   if (shouldSkipMonth(dateObj.range)) {
+    //     continue;  // Skip if current month and before 20th
+    //   }
 
-      let response: ActiveMonthlyInterface = await monthlyChartsApi.getMonthlyProjects(searchKeyword, dateObj.range);
+    //   let response: ActiveMonthlyInterface = await monthlyChartsApi.getMonthlyProjects(searchKeyword, dateObj.range);
 
-      const contributionCount = response?.total_count;
+    //   const contributionCount = response?.total_count;
 
-      if (!projectsMap.has(dateObj.month)) {
-        projectsMap.set(dateObj.month, contributionCount);
-      }
-    }
+    //   if (!projectsMap.has(dateObj.month)) {
+    //     projectsMap.set(dateObj.month, contributionCount);
+    //   }
+    // }
+
+    const keys: any[] = [];
+    const values: any[] = [];
+    projects.forEach((obj) => {
+      const key = Object.keys(obj)[0];
+      const value = Object.values(obj)[0];
+      keys.push(key);
+      values.push(value);
+    });
 
     const projectsChartDetails: ChartConfigInterface = {
       chartType: "line",
       chartTitle: devPortalConstant.activeProjectsMonthly,
-      xAxisValues: Array.from(projectsMap.keys()),
-      yAxisValues: Array.from(projectsMap.values()),
+      xAxisValues: keys,
+      yAxisValues: values,
       xTitle: devPortalConstant.months,
       yTitle: devPortalConstant.projects,
     };
 
     return { data: projectsChartDetails };
-
   } catch (error) {
     console.error("Error", error);
-    return { data: {} }
+    return { data: {} };
   }
 };
 
-export const getContributionsData = async (KEYWORD: string) => {
+export const getContributionsData = async (KEYWORD: string, commits: any[]) => {
   try {
-    const contributionsMap = staticData.totalContributionLastSixMonths;
-    const startDate = staticData.fetchDataStartDate;
-    const currentDate = moment().format('YYYY-MM-DD');
-    const dateRange = SortApiData.getMonthRanges(startDate, currentDate);
+    // const contributionsMap = staticData.totalContributionLastSixMonths;
+    // const startDate = staticData.fetchDataStartDate;
+    // const currentDate = moment().format('YYYY-MM-DD');
+    // const dateRange = SortApiData.getMonthRanges(startDate, currentDate);
 
-    for (let dateObj of dateRange) {
+    // for (let dateObj of dateRange) {
 
-      // Extract start date from range string
-      if (shouldSkipMonth(dateObj.range)) {
-        continue;  // Skip if current month and before 20th
-      }
+    //   // Extract start date from range string
+    //   if (shouldSkipMonth(dateObj.range)) {
+    //     continue;  // Skip if current month and before 20th
+    //   }
 
-      let response: ActiveMonthlyInterface = await monthlyChartsApi.getMonthlyContributions(KEYWORD, dateObj.range);
+    //   let response: ActiveMonthlyInterface = await monthlyChartsApi.getMonthlyContributions(KEYWORD, dateObj.range);
 
-      const contributionCount = response?.total_count;
+    //   const contributionCount = response?.total_count;
 
-      if (!contributionsMap.has(dateObj.month)) {
-        contributionsMap.set(dateObj.month, contributionCount)
-      }
-    }
+    //   if (!contributionsMap.has(dateObj.month)) {
+    //     contributionsMap.set(dateObj.month, contributionCount)
+    //   }
+    // }
+
+    const keys: any[] = [];
+    const values: any[] = [];
+    commits.forEach((obj) => {
+      const key = Object.keys(obj)[0];
+      const value = Object.values(obj)[0];
+      keys.push(key);
+      values.push(value);
+    });
 
     const contributionsChartDetails: ChartConfigInterface = {
       chartType: "line",
       chartTitle: devPortalConstant.activeContributionsMonthly,
-      xAxisValues: Array.from(contributionsMap.keys()),
-      yAxisValues: Array.from(contributionsMap.values()),
+      xAxisValues: keys,
+      yAxisValues: values,
       xTitle: devPortalConstant.months,
       yTitle: devPortalConstant.contributions,
-    }
+    };
 
     return { data: contributionsChartDetails };
   } catch (error) {
     console.error("Error", error);
-    return { data: {} }
+    return { data: {} };
   }
 };
 
-export const getDevelopersData = async (KEYWORD: string) => {
+export const getDevelopersData = async (KEYWORD: string, developers: any[]) => {
   try {
-    const developersMap = staticData.totalDevelopersLastSixMonths;
-    const startDate = staticData.fetchDataStartDate;
-    const currentDate = moment().format('YYYY-MM-DD');
-    const dateRange = SortApiData.getMonthRanges(startDate, currentDate);
+    // const developersMap = staticData.totalDevelopersLastSixMonths;
+    // const startDate = staticData.fetchDataStartDate;
+    // const currentDate = moment().format('YYYY-MM-DD');
+    // const dateRange = SortApiData.getMonthRanges(startDate, currentDate);
 
-    for (let dateObj of dateRange) {
-      
-      // Extract start date from range string
-      if (shouldSkipMonth(dateObj.range)) {
-        continue;  // Skip if current month and before 20th
-      }
+    // for (let dateObj of dateRange) {
 
-      let totalCommits: any[] = [];
-      let responseLen = 0;
-      let page = 1;
+    //   // Extract start date from range string
+    //   if (shouldSkipMonth(dateObj.range)) {
+    //     continue;  // Skip if current month and before 20th
+    //   }
 
-      do {
-        let response: ActiveMonthlyInterface = await monthlyChartsApi.getMonthlyDevelopers(KEYWORD, dateObj.range, page);
-        totalCommits = [...totalCommits, ...response?.items || []];
-        page += 1;
-        responseLen = response?.items?.length || 0;
-      } while (responseLen >= 100);
+    //   let totalCommits: any[] = [];
+    //   let responseLen = 0;
+    //   let page = 1;
 
+    //   do {
+    //     let response: ActiveMonthlyInterface = await monthlyChartsApi.getMonthlyDevelopers(KEYWORD, dateObj.range, page);
+    //     totalCommits = [...totalCommits, ...response?.items || []];
+    //     page += 1;
+    //     responseLen = response?.items?.length || 0;
+    //   } while (responseLen >= 100);
 
-      let uniqueDevelopers = new Set<string>();
-      totalCommits.forEach((item: any) => {
-        const author = item?.commit?.author;
-        uniqueDevelopers.add(`${author.name} <${author.email}>`);
-      });
+    //   let uniqueDevelopers = new Set<string>();
+    //   totalCommits.forEach((item: any) => {
+    //     const author = item?.commit?.author;
+    //     uniqueDevelopers.add(`${author.name} <${author.email}>`);
+    //   });
 
-      if (!developersMap.has(dateObj.month)) {
-        developersMap.set(dateObj.month, uniqueDevelopers.size)
-      }
-    }
+    //   if (!developersMap.has(dateObj.month)) {
+    //     developersMap.set(dateObj.month, uniqueDevelopers.size)
+    //   }
+    // }
+
+    const keys: any[] = [];
+    const values: any[] = [];
+    developers.forEach((obj) => {
+      const key = Object.keys(obj)[0];
+      const value = Object.values(obj)[0];
+      keys.push(key);
+      values.push(value);
+    });
 
     const contributionsChartDetails: ChartConfigInterface = {
       chartType: "bar",
       chartTitle: devPortalConstant.activeDevelopersMonthly,
-      xAxisValues: Array.from(developersMap.keys()),
-      yAxisValues: Array.from(developersMap.values()),
+      xAxisValues: keys,
+      yAxisValues: values,
       xTitle: devPortalConstant.months,
       yTitle: devPortalConstant.developers,
-    }
+    };
 
     return { data: contributionsChartDetails };
   } catch (error) {
     console.error("Error", error);
-    return { data: {} }
+    return { data: {} };
   }
 };
