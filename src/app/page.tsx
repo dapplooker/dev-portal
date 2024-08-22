@@ -11,14 +11,10 @@ import Logger from "./utils/Logger";
 
 const fetchTopDevelopersData = async () => {
   try {
-    // Get the current date
     const endDate = new Date();
-    
-    // Calculate the start date as one month before the end date
     const startDate = new Date();
     startDate.setMonth(startDate.getMonth() - 1);
     
-    // Format dates as YYYY-MM-DD strings
     const startDateString = startDate.toISOString().split('T')[0];
     const endDateString = endDate.toISOString().split('T')[0];
     const url = `http://dev.bi-tool.com:8081/web/stats/top-developers?protocolId=${DevPortalConstants.graphProtocolId}&startDate=${startDateString}&endDate=${endDateString}`;
@@ -75,25 +71,15 @@ const fetchProjectsCommitsDevelopersCount = async () => {
 
 export default async function Home() {
   const projectsCommitsDevelopersCount = await fetchProjectsCommitsDevelopersCount();
-  console.log("projectsCommitsDevelopersCount", projectsCommitsDevelopersCount);
-
-  // const projects = projectsCommitsDevelopersCount.projects;
-  // const contributions = projectsCommitsDevelopersCount.commits;
-  // const developers = projectsCommitsDevelopersCount.developers;
-
   const projects = await getProjectData(devPortalConstant.SEARCH_KEYWORD, projectsCommitsDevelopersCount.projects);
-
-  console.log("projects", projects);
   const contributions = await getContributionsData(
     devPortalConstant.SEARCH_KEYWORD,
     projectsCommitsDevelopersCount.commits,
   );
-  console.log("contributions", contributions);
   const developers = await getDevelopersData(
     devPortalConstant.SEARCH_KEYWORD,
     projectsCommitsDevelopersCount.developers,
   );
-  console.log("developers", developers);
   const topDevelopers = await fetchTopDevelopersData();
   const topDapps = await fetchTopDappsData();
 
