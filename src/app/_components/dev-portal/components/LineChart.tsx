@@ -45,14 +45,7 @@ const LineChart = ({ searchKeyword, endpointKeyName, onHandleCommonData, apiData
   const getProjectsData = async () => {
     try {
       //Fetch Projects
-      if (!utils.validateNonEmptyObject(activeChartData)) {
-        // const response = await axios.get(
-        //   `${env.CLIENT_RESTFUL_API_END_POINT}/api/${endpointKeyName}?keyword=${searchKeyword}`
-        // );
-        // const response = await getMyData();
-
-        // const { yAxisValues, yTitle }: ChartConfigInterface = response.data.data;
-
+      // if (!utils.validateNonEmptyObject(activeChartData)) {
         if (!utils.validateNonEmptyObject(apiData)) {
           setData({});
           return;
@@ -73,14 +66,14 @@ const LineChart = ({ searchKeyword, endpointKeyName, onHandleCommonData, apiData
 
         setData({ chartData, options });
         setActiveChartData({ chartData, options });
-      } else {
-        setData(activeChartData);
+      // } else {
+      //   setData(activeChartData);
 
-        const datasets: any[] = activeChartData?.chartData?.datasets;
-        if (datasets) {
-          handleProjectData(datasets[0]?.label, datasets[0]?.data, devPortalConstant.COLOR_PROJECTS);
-        }
-      }
+      //   const datasets: any[] = activeChartData?.chartData?.datasets;
+      //   if (datasets) {
+      //     handleProjectData(datasets[0]?.label, datasets[0]?.data, devPortalConstant.COLOR_PROJECTS);
+      //   }
+      // }
     } catch (error) {
       setIsError(true);
       console.error("Error while fetching monthly projects data: ", error);
