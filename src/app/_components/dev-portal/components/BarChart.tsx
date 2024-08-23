@@ -1,13 +1,12 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { Bar } from "react-chartjs-2";
-import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend } from "chart.js";
-import utils from "@/app/utils/utils";
-import useSessionStorage from "@/app/hooks/useSessionStorage/useSessionStorage";
-import ChartData from "@/app/lib/apexCharts/chartConfig";
-import { Skeleton } from "../../shadecn/ui/skeleton";
+import { errorLabels } from "@/app/constants";
 import { ChartConfigInterface, StackedBarChartData } from "@/app/interface";
-import { commonLabels, errorLabels } from "@/app/constants";
+import ChartData from "@/app/lib/apexCharts/chartConfig";
+import utils from "@/app/utils/utils";
+import { BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, Title, Tooltip } from "chart.js";
+import { useEffect, useState } from "react";
+import { Bar } from "react-chartjs-2";
+import { Skeleton } from "../../shadecn/ui/skeleton";
 import styles from "./LineChart.module.scss";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
@@ -20,8 +19,6 @@ interface BarChartProps {
 }
 
 const BarChart = ({ searchKeyword, endpointKeyName, secondDataSet, apiData }: BarChartProps) => {
-  const [activeChartData, setActiveChartData] = useSessionStorage(endpointKeyName, commonLabels.emptyString);
-
   const [data, setData] = useState<any | {}>({});
   const [captureRes, setCaptureRes] = useState<any | {}>({});
   const [loading, setLoading] = useState(true);
@@ -35,19 +32,12 @@ const BarChart = ({ searchKeyword, endpointKeyName, secondDataSet, apiData }: Ba
 
   const getProjectsData = async () => {
     try {
-      //Fetch Projects
-      if (!utils.validateNonEmptyObject(activeChartData)) {
-        // const response = await axios.get(
-        //   `${env.CLIENT_RESTFUL_API_END_POINT}/api/${endpointKeyName}?keyword=${searchKeyword}`
-        // );
-        if (!utils.validateNonEmptyObject(apiData)) {
-          setData({});
-          return;
-        }
-        setCaptureRes(apiData);
-      } else {
-        setData(activeChartData);
+      if (!utils.validateNonEmptyObject(apiData)) {
+        setData({});
+        return;
       }
+      setCaptureRes(apiData);
+
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -57,14 +47,7 @@ const BarChart = ({ searchKeyword, endpointKeyName, secondDataSet, apiData }: Ba
   };
 
   useEffect(() => {
-    if (utils.validateNonEmptyObject(activeChartData)) {
-      return;
-    }
-
-    if (
-      utils.validateNonEmptyObject(secondDataSet!) &&
-      (utils.validateNonEmptyObject(captureRes) || utils.validateNonEmptyObject(activeChartData))
-    ) {
+    if (utils.validateNonEmptyObject(secondDataSet!) && utils.validateNonEmptyObject(captureRes)) {
       let dataSet2Config: ChartConfigInterface = {
         chartTitle: secondDataSet?.yAxisTitle!,
         yTitle: secondDataSet?.yAxisTitle!,
@@ -76,7 +59,7 @@ const BarChart = ({ searchKeyword, endpointKeyName, secondDataSet, apiData }: Ba
       const { chartData, options } = ChartData.getStackedBarChartData(captureRes, dataSet2Config);
 
       setData({ chartData, options });
-      setActiveChartData({ chartData, options });
+
       setLoading(false);
     }
   }, [captureRes, secondDataSet]);
