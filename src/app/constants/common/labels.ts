@@ -8,7 +8,7 @@ const development = {
 };
 
 const production = {
-  apiEndpoint: "http://dev.bi-tool.com:8081",
+  apiEndpoint: "https://api-dev.dapplooker.com",
   BASE_URL: "https://dev.dapplooker.com",
   CLIENT_RESTFUL_API_END_POINT: "https://dev.dapplooker.com",
   NEXT_SERVER_RESTFUL_API_END_POINT: "https://dev.dapplooker.com",
