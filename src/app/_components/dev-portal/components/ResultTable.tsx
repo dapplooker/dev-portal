@@ -1,17 +1,12 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
+import { commonLabels } from "@/app/constants";
+import { ColumnDef, flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table";
 import millify from "millify";
-import { ColumnDef, useReactTable, getCoreRowModel, getPaginationRowModel, flexRender } from "@tanstack/react-table";
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "../../shadecn/ui/table";
-import { ProjectInfo } from "@/app/interface";
-import { commonLabels, routes } from "@/app/constants";
+import Link from "next/link";
+import { useState } from "react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../shadecn/ui/table";
 import devPortalConstant from "../constants";
 import styles from "./ResultTable.module.scss";
-import axios from "axios";
-import utils from "@/app/utils/utils";
-import ServiceConstants from "@/app/services/ServiceConstants";
 
 interface ResultTableProps {
   columnsData: any[];

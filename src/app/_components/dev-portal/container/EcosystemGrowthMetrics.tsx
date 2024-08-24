@@ -1,83 +1,30 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { errorLabels } from "@/app/constants/common/labels";
 import { FormattedEcosystemMetricsInterface } from "@/app/interface";
-import useSessionStorage from "@/app/hooks/useSessionStorage/useSessionStorage";
+import { useEffect, useState } from "react";
 import { Skeleton } from "../../shadecn/ui/skeleton";
 import CircularProgressBar from "../components/CircularProgressBar";
-import env, { commonLabels, errorLabels } from "@/app/constants/common/labels";
 import labels from "../constants";
-import DevPortalConstants from "@/app/_components/dev-portal/constants"
 import styles from "./EcosystemGrowthMetrics.module.scss";
 
 interface EcosystemGrowthMetricsProps {
-  searchKeyword: string;
+  ecosystemGrowthMetrics: any[];
 }
 
-const EcosystemGrowthMetrics = ({ searchKeyword }: EcosystemGrowthMetricsProps) => {
-  const [ecosystemMetrics, setEcosystemMetrics] = useSessionStorage(labels.ECOSYSTEM_GROWTH, commonLabels.emptyString);
-  const [data, setData] = useState<FormattedEcosystemMetricsInterface[] | null>(null);
+const EcosystemGrowthMetrics = ({ ecosystemGrowthMetrics }: EcosystemGrowthMetricsProps) => {
+  const [data, setData] = useState<FormattedEcosystemMetricsInterface[] | null>(ecosystemGrowthMetrics);
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      await fetchEcosystemMetricsData();
-    })();
-  }, []);
-
-  const fetchEcosystemMetricsData = async () => {
-    try {
-      const halfYearlyDataResponse = await axios.get(
-        `http://dev.bi-tool.com:8081/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeHalfYearly}&protocolId=${DevPortalConstants.graphProtocolId}`
-      );
-      const yearlyDataResponse = await axios.get(
-        `http://dev.bi-tool.com:8081/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeYearly}&protocolId=${DevPortalConstants.graphProtocolId}`
-      );
-      const halfYearlyData = halfYearlyDataResponse.data.data.genralStats;
-      const yearlyData = yearlyDataResponse.data.data.genralStats;
-
-      const totalDevelopersWithIn12Months: number = yearlyData.totalDevelopers;
-      const totalDevelopersWithinSixMonths: number = halfYearlyData.totalDevelopers;
-
-      const totalProjectsWithIn12Months: number = yearlyData.totalProjects;
-      const totalProjectsWithinSixMonths: number = halfYearlyData.totalProjects;
-
-      const totalContributionsWithIn12Months: number = yearlyData.totalCommits;
-      const totalContributionsWithinSixMonths: number = halfYearlyData.totalCommits;
-
-      const developersGrowth: number =
-        Math.round((totalDevelopersWithinSixMonths / totalDevelopersWithIn12Months) * 100) || 0;
-      const projectsGrowth: number =
-        Math.round((totalProjectsWithinSixMonths / totalProjectsWithIn12Months) * 100) || 0;
-      const contributionsGrowth: number =
-        Math.round((totalContributionsWithinSixMonths / totalContributionsWithIn12Months) * 100) || 0;
-      const newData = [
-        {
-          title: "New Developer",
-          totalCount: totalDevelopersWithinSixMonths,
-          percentage: developersGrowth,
-        },
-        {
-          title: "New Repositories",
-          totalCount: totalProjectsWithinSixMonths,
-          percentage: projectsGrowth,
-        },
-        {
-          title: "Contributions",
-          totalCount: totalContributionsWithinSixMonths,
-          percentage: contributionsGrowth,
-        },
-      ];
-      setData(newData);
-      console.log(newData);
-    } catch (error) {
+    if (ecosystemGrowthMetrics && ecosystemGrowthMetrics.length > 0) {
+      setData(ecosystemGrowthMetrics);
+      setLoading(false);
+    } else if (!ecosystemGrowthMetrics || ecosystemGrowthMetrics.length === 0) {
       setIsError(true);
-      console.error("Error while fetching General Stats data: ", error);
-    } finally {
       setLoading(false);
     }
-  };
+  }, [ecosystemGrowthMetrics]);
 
   return loading ? (
     <div className="flex flex-col w-[585px] h-[540px] space-y-3 justify-evenly skeletonWrapper">
