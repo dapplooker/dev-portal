@@ -15,7 +15,7 @@ const fetchTopDevelopersData = async () => {
   try {
     const endDate = new Date();
     const startDate = new Date();
-    startDate.setMonth(startDate.getMonth() - 1);
+    startDate.setMonth(startDate.getMonth() - 6);
 
     const startDateString = startDate.toISOString().split("T")[0];
     const endDateString = endDate.toISOString().split("T")[0];
