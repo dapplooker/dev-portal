@@ -126,8 +126,12 @@ const fetchEcosystemGrowthMetrics = async () => {
 
     Logger.info("Yearly general stats data fetched successfully.");
 
-    const halfYearlyData = (await halfYearlyDataResponse.json()).data.genralStats;
-    const yearlyData = (await yearlyDataResponse.json()).data.genralStats;
+    const finalHalfYearlyData = await halfYearlyDataResponse.json();
+    const halfYearlyData = finalHalfYearlyData.data.generalStats;
+    const finalYearlyData = await yearlyDataResponse.json();
+    const yearlyData = finalYearlyData.data.generalStats;
+
+    
 
     Logger.info("Calculating growth metrics.");
 
@@ -143,7 +147,7 @@ const fetchEcosystemGrowthMetrics = async () => {
     const developersGrowth = Math.round((totalDevelopersWithinSixMonths / totalDevelopersWithIn12Months) * 100) || 0;
     const projectsGrowth = Math.round((totalProjectsWithinSixMonths / totalProjectsWithIn12Months) * 100) || 0;
     const contributionsGrowth =
-      Math.round((totalContributionsWithinSixMonths / totalContributionsWithIn12Months) * 100) || 0;
+    Math.round((totalContributionsWithinSixMonths / totalContributionsWithIn12Months) * 100) || 0;
 
     const newData = [
       {
@@ -179,12 +183,16 @@ const fetchGeneralStatsData = async () => {
       `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeMonthly}&protocolId=${DevPortalConstants.graphProtocolId}`,
       { next: { revalidate: 10 } }
     );
+    Logger.info(
+      `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeMonthly}&protocolId=${DevPortalConstants.graphProtocolId}`
+    );
 
     if (!weeklyDataResponse.ok) {
       Logger.error(`Failed to fetch weekly general stats data: ${weeklyDataResponse.statusText}`);
     }
 
-    const weeklyData = (await weeklyDataResponse.json()).data.genralStats;
+    const finalWeeklyData = await weeklyDataResponse.json();
+    const weeklyData = finalWeeklyData.data.genralStats;
     Logger.info("Weekly general stats data fetched successfully.");
 
     Logger.info("Fetching monthly general stats data.");
@@ -198,37 +206,40 @@ const fetchGeneralStatsData = async () => {
       Logger.error(`Failed to fetch monthly general stats data: ${monthlyDataResponse.statusText}`);
     }
 
-    const monthlyData = (await monthlyDataResponse.json()).data.genralStats;
+    const finalMonthlyData = await monthlyDataResponse.json();
+    const monthlyData = finalMonthlyData?.data?.generalStats;
+
     Logger.info("Monthly general stats data fetched successfully.");
 
     const newData = [
       {
         title: "Developers",
-        totalCount: monthlyData.totalDevelopers || 0,
-        last30DaysCount: weeklyData.totalDevelopers || 0,
+        totalCount: monthlyData?.totalDevelopers || 0,
+        last30DaysCount: weeklyData?.totalDevelopers || 0,
         icon: "code",
       },
       {
         title: "Projects",
-        totalCount: monthlyData.totalProjects || 0,
-        last30DaysCount: weeklyData.totalProjects || 0,
+        totalCount: monthlyData?.totalProjects || 0,
+        last30DaysCount: weeklyData?.totalProjects || 0,
         icon: "dashboard",
       },
       {
         title: "Commits",
-        totalCount: monthlyData.totalCommits || 0,
-        last30DaysCount: weeklyData.totalCommits || 0,
+        totalCount: monthlyData?.totalCommits || 0,
+        last30DaysCount: weeklyData?.totalCommits || 0,
         icon: "commit",
       },
       {
         title: "PR Raised",
-        totalCount: monthlyData.totalPr || 0,
-        last30DaysCount: weeklyData.totalPr || 0,
+        totalCount: monthlyData?.totalPr || 0,
+        last30DaysCount: weeklyData?.totalPr || 0,
         icon: "archive",
       },
     ];
 
     Logger.info("General stats data processed successfully.");
+
     return newData;
   } catch (error: any) {
     Logger.error("Error while fetching General Stats data:", error.message);
