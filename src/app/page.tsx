@@ -15,7 +15,7 @@ const fetchTopDevelopersData = async () => {
   try {
     const endDate = new Date();
     const startDate = new Date();
-    startDate.setMonth(startDate.getMonth() - 6);
+    startDate.setMonth(startDate.getMonth() - 1);
 
     const startDateString = startDate.toISOString().split("T")[0];
     const endDateString = endDate.toISOString().split("T")[0];
@@ -175,8 +175,8 @@ const fetchEcosystemGrowthMetrics = async () => {
 
 const fetchGeneralStatsData = async () => {
   try {
-    //Fetching Monthly general stats
-    Logger.info("Fetching Monthly general stats data.");
+    Logger.info("Fetching monthly general stats data.");
+
     const monthlyDataResponse = await fetch(
       `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeMonthly}&protocolId=${DevPortalConstants.graphProtocolId}`,
       { next: { revalidate: 10 } },
@@ -186,7 +186,7 @@ const fetchGeneralStatsData = async () => {
     );
 
     if (!monthlyDataResponse.ok) {
-      Logger.error(`Failed to fetch monthly general stats data: ${monthlyDataResponse.statusText}`);
+      Logger.error(`Failed to fetch Total general stats data: ${monthlyDataResponse.statusText}`);
     }
     const finalMonthlyData = await monthlyDataResponse.json();
     const monthlyData = finalMonthlyData.data.generalStats;

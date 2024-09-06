@@ -36,7 +36,7 @@ const TopDevelopers = ({topDevelopers}: TopDevelopersProps) => {
   ) : (
     <div className={styles.topDeveloperSection}>
       <h2 className={styles.tableTitle}>
-        {labels.topDevelopers} <span className={styles.subHeading}>({labels.last6months})</span>
+        {labels.topDevelopers} <span className={styles.subHeading}>({labels.last30days})</span>
       </h2>
       <section className={styles.topDapps}>
         {!data || data?.length === 0 || isError ? (
