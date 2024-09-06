@@ -104,7 +104,7 @@ const fetchEcosystemGrowthMetrics = async () => {
 
     const halfYearlyDataResponse = await fetch(
       `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeHalfYearly}&protocolId=${DevPortalConstants.graphProtocolId}`,
-      { next: { revalidate: 10 } }
+      { next: { revalidate: 10 } },
     );
 
     if (!halfYearlyDataResponse.ok) {
@@ -117,7 +117,7 @@ const fetchEcosystemGrowthMetrics = async () => {
 
     const yearlyDataResponse = await fetch(
       `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeYearly}&protocolId=${DevPortalConstants.graphProtocolId}`,
-      { next: { revalidate: 10 } }
+      { next: { revalidate: 10 } },
     );
 
     if (!yearlyDataResponse.ok) {
@@ -130,8 +130,6 @@ const fetchEcosystemGrowthMetrics = async () => {
     const halfYearlyData = finalHalfYearlyData.data.generalStats;
     const finalYearlyData = await yearlyDataResponse.json();
     const yearlyData = finalYearlyData.data.generalStats;
-
-    
 
     Logger.info("Calculating growth metrics.");
 
@@ -147,7 +145,7 @@ const fetchEcosystemGrowthMetrics = async () => {
     const developersGrowth = Math.round((totalDevelopersWithinSixMonths / totalDevelopersWithIn12Months) * 100) || 0;
     const projectsGrowth = Math.round((totalProjectsWithinSixMonths / totalProjectsWithIn12Months) * 100) || 0;
     const contributionsGrowth =
-    Math.round((totalContributionsWithinSixMonths / totalContributionsWithIn12Months) * 100) || 0;
+      Math.round((totalContributionsWithinSixMonths / totalContributionsWithIn12Months) * 100) || 0;
 
     const newData = [
       {
@@ -177,63 +175,59 @@ const fetchEcosystemGrowthMetrics = async () => {
 
 const fetchGeneralStatsData = async () => {
   try {
-    Logger.info("Fetching weekly general stats data.");
-
-    const weeklyDataResponse = await fetch(
+    //Fetching Monthly general stats
+    Logger.info("Fetching Monthly general stats data.");
+    const monthlyDataResponse = await fetch(
       `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeMonthly}&protocolId=${DevPortalConstants.graphProtocolId}`,
-      { next: { revalidate: 10 } }
+      { next: { revalidate: 10 } },
     );
     Logger.info(
-      `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeMonthly}&protocolId=${DevPortalConstants.graphProtocolId}`
-    );
-
-    if (!weeklyDataResponse.ok) {
-      Logger.error(`Failed to fetch weekly general stats data: ${weeklyDataResponse.statusText}`);
-    }
-
-    const finalWeeklyData = await weeklyDataResponse.json();
-    const weeklyData = finalWeeklyData.data.genralStats;
-    Logger.info("Weekly general stats data fetched successfully.");
-
-    Logger.info("Fetching monthly general stats data.");
-
-    const monthlyDataResponse = await fetch(
-      `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeTotal}&protocolId=${DevPortalConstants.graphProtocolId}`,
-      { next: { revalidate: 10 } }
+      `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeMonthly}&protocolId=${DevPortalConstants.graphProtocolId}`,
     );
 
     if (!monthlyDataResponse.ok) {
       Logger.error(`Failed to fetch monthly general stats data: ${monthlyDataResponse.statusText}`);
     }
-
     const finalMonthlyData = await monthlyDataResponse.json();
-    const monthlyData = finalMonthlyData?.data?.generalStats;
-
+    const monthlyData = finalMonthlyData.data.generalStats;
     Logger.info("Monthly general stats data fetched successfully.");
+
+    //Fetching Total general stats
+    Logger.info("Fetching total general stats data.");
+    const totalDataResponse = await fetch(
+      `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeTotal}&protocolId=${DevPortalConstants.graphProtocolId}`,
+      { next: { revalidate: 10 } },
+    );
+    if (!totalDataResponse.ok) {
+      Logger.error(`Failed to fetch total general stats data: ${totalDataResponse.statusText}`);
+    }
+    const finalTotalData = await totalDataResponse.json();
+    const totalData = finalTotalData?.data?.generalStats;
+    Logger.info("Total general stats data fetched successfully.");
 
     const newData = [
       {
         title: "Developers",
-        totalCount: monthlyData?.totalDevelopers || 0,
-        last30DaysCount: weeklyData?.totalDevelopers || 0,
+        totalCount: totalData?.totalDevelopers || 0,
+        last30DaysCount: monthlyData?.totalDevelopers || 0,
         icon: "code",
       },
       {
         title: "Projects",
-        totalCount: monthlyData?.totalProjects || 0,
-        last30DaysCount: weeklyData?.totalProjects || 0,
+        totalCount: totalData?.totalProjects || 0,
+        last30DaysCount: monthlyData?.totalProjects || 0,
         icon: "dashboard",
       },
       {
         title: "Commits",
-        totalCount: monthlyData?.totalCommits || 0,
-        last30DaysCount: weeklyData?.totalCommits || 0,
+        totalCount: totalData?.totalCommits || 0,
+        last30DaysCount: monthlyData?.totalCommits || 0,
         icon: "commit",
       },
       {
         title: "PR Raised",
-        totalCount: monthlyData?.totalPr || 0,
-        last30DaysCount: weeklyData?.totalPr || 0,
+        totalCount: totalData?.totalPr || 0,
+        last30DaysCount: monthlyData?.totalPr || 0,
         icon: "archive",
       },
     ];
@@ -252,11 +246,11 @@ export default async function Home() {
   const projects = await getProjectData(devPortalConstant.SEARCH_KEYWORD, projectsCommitsDevelopersCount.projects);
   const contributions = await getContributionsData(
     devPortalConstant.SEARCH_KEYWORD,
-    projectsCommitsDevelopersCount.commits
+    projectsCommitsDevelopersCount.commits,
   );
   const developers = await getDevelopersData(
     devPortalConstant.SEARCH_KEYWORD,
-    projectsCommitsDevelopersCount.developers
+    projectsCommitsDevelopersCount.developers,
   );
   const topDevelopers = await fetchTopDevelopersData();
   const topDapps = await fetchTopDappsData();
