@@ -1,49 +1,32 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { errorLabels } from "@/app/constants/common/labels";
 import { FormattedTopDevsInterface } from "@/app/interface";
-import useSessionStorage from "@/app/hooks/useSessionStorage/useSessionStorage";
-import ResultTable from "../components/ResultTable";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Skeleton } from "../../shadecn/ui/skeleton";
+import ResultTable from "../components/ResultTable";
+import DevPortalConstants from "@/app/_components/dev-portal/constants"
 import labels from "../constants";
-import env, { commonLabels, errorLabels } from "@/app/constants/common/labels";
 import styles from "./TopDapps.module.scss";
 
 interface TopDevelopersProps {
-  searchKeyword: string;
+  topDevelopers: any[]
 }
 
-const TopDevelopers = ({ searchKeyword }: TopDevelopersProps) => {
-  const [data, setData] = useState<FormattedTopDevsInterface[] | null>(null);
-  const [topDevelopers, setTopDevelopers] = useSessionStorage(labels.TOP_DEVELOPERS, commonLabels.emptyString);
+const TopDevelopers = ({topDevelopers}: TopDevelopersProps) => {
+  const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      await fetchTopDevlopersData();
-    })();
-  }, []);
-
-  const fetchTopDevlopersData = async () => {
-    try {
-      if (!topDevelopers || topDevelopers.length === 0) {
-        const response = await axios.get(
-          `${env.CLIENT_RESTFUL_API_END_POINT}/api/top-developers?keyword=${searchKeyword}`
-        );
-        const responseData: FormattedTopDevsInterface[] = response.data.data;
-        setTopDevelopers(responseData);
-        setData(responseData);
-      } else {
-        setData(topDevelopers);
-      }
-    } catch (error) {
+    if (topDevelopers && topDevelopers.length > 0) {
+      setData(topDevelopers);
+      setLoading(false);
+    } else if (!topDevelopers || topDevelopers.length === 0) {
       setIsError(true);
-      console.error("Error while fetching Ecosystem Metrics data: ", error);
-    } finally {
       setLoading(false);
     }
-  };
+  }, [topDevelopers]);
 
   return loading ? (
     <div className="flex flex-col w-[585px] h-[540px] space-y-3 justify-evenly skeletonWrapper">
@@ -62,6 +45,7 @@ const TopDevelopers = ({ searchKeyword }: TopDevelopersProps) => {
           <ResultTable
             columnsData={Object.keys(data[0])}
             rowsData={data}
+            type="TopDevelopers"
           />
         )}
       </section>

@@ -1,6 +1,6 @@
 .statsCard {
   width: 290px;
-  height: fit-content;
+  height: 130px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -12,6 +12,7 @@
 
   @media screen and (max-width: 768px) {
     padding: 12px;
+    height: 106px;
   }
 
   @media screen and (max-width: 550px) {

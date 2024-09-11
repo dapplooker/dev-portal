@@ -1,49 +1,30 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { errorLabels } from "@/app/constants/common/labels";
 import { FormattedEcosystemMetricsInterface } from "@/app/interface";
-import useSessionStorage from "@/app/hooks/useSessionStorage/useSessionStorage";
+import { useEffect, useState } from "react";
 import { Skeleton } from "../../shadecn/ui/skeleton";
 import CircularProgressBar from "../components/CircularProgressBar";
-import env, { commonLabels, errorLabels } from "@/app/constants/common/labels";
 import labels from "../constants";
 import styles from "./EcosystemGrowthMetrics.module.scss";
 
 interface EcosystemGrowthMetricsProps {
-  searchKeyword: string;
+  ecosystemGrowthMetrics: any[];
 }
 
-const EcosystemGrowthMetrics = ({ searchKeyword }: EcosystemGrowthMetricsProps) => {
-  const [ecosystemMetrics, setEcosystemMetrics] = useSessionStorage(labels.ECOSYSTEM_GROWTH, commonLabels.emptyString);
-  const [data, setData] = useState<FormattedEcosystemMetricsInterface[] | null>(null);
+const EcosystemGrowthMetrics = ({ ecosystemGrowthMetrics }: EcosystemGrowthMetricsProps) => {
+  const [data, setData] = useState<FormattedEcosystemMetricsInterface[] | null>(ecosystemGrowthMetrics);
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      await fetchEcosystemMetricsData();
-    })();
-  }, []);
-
-  const fetchEcosystemMetricsData = async () => {
-    try {
-      if (!ecosystemMetrics || ecosystemMetrics.length === 0) {
-        const response = await axios.get(
-          `${env.CLIENT_RESTFUL_API_END_POINT}/api/ecosystem-growth?keyword=${searchKeyword}`
-        );
-        const metrics: FormattedEcosystemMetricsInterface[] = response.data.data;
-        setEcosystemMetrics(metrics);
-        setData(metrics);
-      } else {
-        setData(ecosystemMetrics);
-      }
-    } catch (error) {
+    if (ecosystemGrowthMetrics && ecosystemGrowthMetrics.length > 0) {
+      setData(ecosystemGrowthMetrics);
+      setLoading(false);
+    } else if (!ecosystemGrowthMetrics || ecosystemGrowthMetrics.length === 0) {
       setIsError(true);
-      console.error("Error while fetching Ecosystem Metrics data: ", error);
-    } finally {
       setLoading(false);
     }
-  };
+  }, [ecosystemGrowthMetrics]);
 
   return loading ? (
     <div className="flex flex-col w-[585px] h-[540px] space-y-3 justify-evenly skeletonWrapper">

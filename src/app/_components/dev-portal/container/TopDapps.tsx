@@ -1,49 +1,31 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { errorLabels } from "@/app/constants/common/labels";
 import axios from "axios";
-import { FormattedTopDappsInterface } from "@/app/interface";
-import useSessionStorage from "@/app/hooks/useSessionStorage/useSessionStorage";
-import ResultTable from "../components/ResultTable";
+import { useEffect, useState } from "react";
 import { Skeleton } from "../../shadecn/ui/skeleton";
+import ResultTable from "../components/ResultTable";
 import labels from "../constants";
-import env, { commonLabels, errorLabels } from "@/app/constants/common/labels";
+import DevPortalConstants from "@/app/_components/dev-portal/constants";
 import styles from "./TopDapps.module.scss";
 
 interface TopDappsProps {
-  searchKeyword: string;
+  topDapps: any
 }
 
-const TopDapps = ({ searchKeyword }: TopDappsProps) => {
-  const [topDapps, setTopDapps] = useSessionStorage(labels.TOP_PROJECTS, commonLabels.emptyString);
-  const [data, setData] = useState<FormattedTopDappsInterface[] | null>(null);
+const TopDapps = ({topDapps}: TopDappsProps) => {
+  const [data, setData] = useState(topDapps);
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      await fetchTopDappsData();
-    })();
-  }, []);
-
-  const fetchTopDappsData = async () => {
-    try {
-      if (!topDapps || topDapps.length === 0) {
-        const response = await axios.get(
-          `${env.CLIENT_RESTFUL_API_END_POINT}/api/top-projects?keyword=${searchKeyword}`
-        );
-        const responseData: FormattedTopDappsInterface[] = response.data.data;
-        setTopDapps(responseData);
-        setData(responseData);
-      } else {
-        setData(topDapps);
-      }
-    } catch (error) {
+    if (topDapps && topDapps.length > 0) {
+      setData(topDapps);
+      setLoading(false);
+    } else if (!topDapps || topDapps.length === 0) {
       setIsError(true);
-      console.error("Error while fetching Ecosystem Metrics data: ", error);
-    } finally {
       setLoading(false);
     }
-  };
+  }, [topDapps]);
 
   return loading ? (
     <div className="flex flex-col w-full h-auto space-y-3 justify-evenly skeletonWrapper">
@@ -62,6 +44,7 @@ const TopDapps = ({ searchKeyword }: TopDappsProps) => {
           <ResultTable
             columnsData={Object.keys(data[0])}
             rowsData={data}
+            type="TopDapps"
           />
         )}
       </section>

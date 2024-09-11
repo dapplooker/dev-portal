@@ -17,6 +17,7 @@ interface StatsCardProps {
 }
 
 const StatsCard = ({ statsData }: StatsCardProps) => {
+  console.log(statsData);
   const MenuIconComponent = menuIconMap[statsData.icon];
 
   return (
@@ -30,9 +31,11 @@ const StatsCard = ({ statsData }: StatsCardProps) => {
             <MenuIconComponent className={styles.icon} />
           </div>
           <h2 className={styles.totalCount}>{statsData.totalCount}</h2>
-          <h4 className={styles.subCount}>
-            +{statsData.last30DaysCount} {devPortalConstant.inlast30Days}
-          </h4>
+          {statsData.title !== "PR Raised" && (
+            <h4 className={styles.subCount}>
+              +{statsData.last30DaysCount} {devPortalConstant.inlast30Days}
+            </h4>
+          )}
         </>
       )}
     </div>

@@ -1,7 +1,14 @@
+import utils from "@/app/utils/utils";
+
 class DevPortalConstants {
+  private invertedFrequenciesMap!: Record<string, number>;
 
   get contributions(): string {
     return "Contributions";
+  }
+
+  get graphProtocolId(): number {
+    return 1;
   }
 
   get projects(): string {
@@ -105,6 +112,45 @@ class DevPortalConstants {
   get COLOR_CONTRIBUTIONS(): string {
     return "#ffa726"
   }
+
+  public get frequencyTypeWeekly(): string {
+    return 'WEEKLY'
+}
+
+public get frequencyTypeMonthly(): string {
+    return 'MONTHLY'
+}
+
+public get frequencyTypeHalfYearly(): string {
+    return 'HALF_YEARLY'
+}
+
+public get frequencyTypeYearly(): string {
+    return 'YEARLY'
+}
+
+public get frequencyTypeTotal(): string {
+    return 'TOTAL'
+}
+
+get frequencies(): Record<number, string> {
+    const oThis = this
+    return {
+        1: 'WEEKLY',
+        2: 'MONTHLY',
+        3: 'HALF_YEARLY',
+        4: 'YEARLY',
+        5: 'TOTAL'
+    }
+}
+get invertedFrequencies(): Record<string, number> {
+  const oThis = this
+
+  oThis.invertedFrequenciesMap =
+      oThis.invertedFrequenciesMap || utils.invert(oThis.frequencies)
+
+  return oThis.invertedFrequenciesMap
+}
 
 }
 
