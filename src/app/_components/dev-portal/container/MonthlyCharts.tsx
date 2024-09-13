@@ -12,6 +12,7 @@ interface MonthlyChartsProps {
   topProjects: ChartConfigInterface | any;
   topContributions: ChartConfigInterface | any;
   topDevelopers: ChartConfigInterface | any;
+  isCumulative:boolean;
 }
 
 const MonthlyCharts = ({ searchKeyword, topProjects, topContributions, topDevelopers }: MonthlyChartsProps) => {

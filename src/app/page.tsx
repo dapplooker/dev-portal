@@ -71,9 +71,9 @@ const fetchTopDappsData = async () => {
   }
 };
 
-const fetchProjectsCommitsDevelopersCount = async () => {
+const fetchProjectsCommitsDevelopersCount = async (isCumulativeData: boolean = false) => {
   try {
-    const url = `${env.apiEndpoint}/web/stats/projects-commits-developers-count?protocolId=${DevPortalConstants.graphProtocolId}`;
+    const url = `${env.apiEndpoint}/web/stats/projects-commits-developers-count?protocolId=${DevPortalConstants.graphProtocolId}&isCumulative=${isCumulativeData}`;
 
     Logger.info("Fetching data from: fetchProjectsCommitsDevelopersCount:", url);
 
@@ -104,7 +104,7 @@ const fetchEcosystemGrowthMetrics = async () => {
 
     const halfYearlyDataResponse = await fetch(
       `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeHalfYearly}&protocolId=${DevPortalConstants.graphProtocolId}`,
-      { next: { revalidate: 10 } },
+      { next: { revalidate: 10 } }
     );
 
     if (!halfYearlyDataResponse.ok) {
@@ -117,7 +117,7 @@ const fetchEcosystemGrowthMetrics = async () => {
 
     const yearlyDataResponse = await fetch(
       `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeYearly}&protocolId=${DevPortalConstants.graphProtocolId}`,
-      { next: { revalidate: 10 } },
+      { next: { revalidate: 10 } }
     );
 
     if (!yearlyDataResponse.ok) {
@@ -179,10 +179,10 @@ const fetchGeneralStatsData = async () => {
 
     const monthlyDataResponse = await fetch(
       `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeMonthly}&protocolId=${DevPortalConstants.graphProtocolId}`,
-      { next: { revalidate: 10 } },
+      { next: { revalidate: 10 } }
     );
     Logger.info(
-      `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeMonthly}&protocolId=${DevPortalConstants.graphProtocolId}`,
+      `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeMonthly}&protocolId=${DevPortalConstants.graphProtocolId}`
     );
 
     if (!monthlyDataResponse.ok) {
@@ -196,7 +196,7 @@ const fetchGeneralStatsData = async () => {
     Logger.info("Fetching total general stats data.");
     const totalDataResponse = await fetch(
       `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeTotal}&protocolId=${DevPortalConstants.graphProtocolId}`,
-      { next: { revalidate: 10 } },
+      { next: { revalidate: 10 } }
     );
     if (!totalDataResponse.ok) {
       Logger.error(`Failed to fetch total general stats data: ${totalDataResponse.statusText}`);
@@ -242,16 +242,31 @@ const fetchGeneralStatsData = async () => {
 };
 
 export default async function Home() {
-  const projectsCommitsDevelopersCount = await fetchProjectsCommitsDevelopersCount();
-  const projects = await getProjectData(devPortalConstant.SEARCH_KEYWORD, projectsCommitsDevelopersCount.projects);
-  const contributions = await getContributionsData(
+  const totalMonthlyProjectsCommitsDevelopersCount = await fetchProjectsCommitsDevelopersCount(false);
+  const totalMonthlyprojects = await getProjectData(devPortalConstant.SEARCH_KEYWORD, totalMonthlyProjectsCommitsDevelopersCount.projects);
+  const totalMonthlycontributions = await getContributionsData(
     devPortalConstant.SEARCH_KEYWORD,
-    projectsCommitsDevelopersCount.commits,
+    totalMonthlyProjectsCommitsDevelopersCount.commits,
   );
-  const developers = await getDevelopersData(
+  const totalMonthlydevelopers = await getDevelopersData(
     devPortalConstant.SEARCH_KEYWORD,
-    projectsCommitsDevelopersCount.developers,
+    totalMonthlyProjectsCommitsDevelopersCount.developers,
   );
+
+  const cumulativeMonthlyProjectsCommitsDevelopersCount = await fetchProjectsCommitsDevelopersCount(true);
+  const cumulativeMonthlyprojects = await getProjectData(
+    devPortalConstant.SEARCH_KEYWORD,
+    cumulativeMonthlyProjectsCommitsDevelopersCount.projects
+  );
+  const cumulativeMonthlycontributions = await getContributionsData(
+    devPortalConstant.SEARCH_KEYWORD,
+    cumulativeMonthlyProjectsCommitsDevelopersCount.commits
+  );
+  const cumulativeMonthlydevelopers = await getDevelopersData(
+    devPortalConstant.SEARCH_KEYWORD,
+    cumulativeMonthlyProjectsCommitsDevelopersCount.developers
+  );
+
   const topDevelopers = await fetchTopDevelopersData();
   const topDapps = await fetchTopDappsData();
   const generalStats = await fetchGeneralStatsData();
@@ -260,11 +275,19 @@ export default async function Home() {
   return (
     <main className={`${styles.layoutContent} bitool-container`}>
       <GeneralStats generalStats={generalStats} />
+      {/* <MonthlyCharts
+        searchKeyword={devPortalConstant.SEARCH_KEYWORD}
+        topProjects={totalMonthlyprojects?.data}
+        topContributions={totalMonthlycontributions!?.data}
+        topDevelopers={totalMonthlydevelopers!?.data}
+        isCumulative = {false}
+      /> */}
       <MonthlyCharts
         searchKeyword={devPortalConstant.SEARCH_KEYWORD}
-        topProjects={projects?.data}
-        topContributions={contributions!?.data}
-        topDevelopers={developers!?.data}
+        topProjects={cumulativeMonthlyprojects?.data}
+        topContributions={cumulativeMonthlycontributions!?.data}
+        topDevelopers={cumulativeMonthlydevelopers!?.data}
+        isCumulative = {true}
       />
       <div className={styles.contentWrapper}>
         <EcosystemGrowthMetrics ecosystemGrowthMetrics={ecosystemGrowthMetrics} />
