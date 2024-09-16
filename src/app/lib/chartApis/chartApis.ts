@@ -10,7 +10,7 @@ const shouldSkipMonth = (range: string): boolean => {
   return month === today.format("YYYY-MM") && today.date() < 21;
 };
 
-export const getProjectData = async (searchKeyword: string, projects: any[]) => {
+export const getProjectData = async (searchKeyword: string, projects: any[], isCumulative: boolean) => {
   try {
     const keys: any[] = [];
     const values: any[] = [];
@@ -23,7 +23,7 @@ export const getProjectData = async (searchKeyword: string, projects: any[]) => 
 
     const projectsChartDetails: ChartConfigInterface = {
       chartType: "line",
-      chartTitle: devPortalConstant.activeProjectsMonthly,
+      chartTitle: isCumulative ? devPortalConstant.activeProjectsCumulative : devPortalConstant.activeProjectsMonthly,
       xAxisValues: keys,
       yAxisValues: values,
       xTitle: devPortalConstant.months,
@@ -37,7 +37,7 @@ export const getProjectData = async (searchKeyword: string, projects: any[]) => 
   }
 };
 
-export const getContributionsData = async (KEYWORD: string, commits: any[]) => {
+export const getContributionsData = async (KEYWORD: string, commits: any[], isCumulative: boolean = false) => {
   try {
     const keys: any[] = [];
     const values: any[] = [];
@@ -50,7 +50,9 @@ export const getContributionsData = async (KEYWORD: string, commits: any[]) => {
 
     const contributionsChartDetails: ChartConfigInterface = {
       chartType: "line",
-      chartTitle: devPortalConstant.activeContributionsMonthly,
+      chartTitle: isCumulative
+        ? devPortalConstant.activeContributionsCumulative
+        : devPortalConstant.activeContributionsMonthly,
       xAxisValues: keys,
       yAxisValues: values,
       xTitle: devPortalConstant.months,
@@ -64,7 +66,7 @@ export const getContributionsData = async (KEYWORD: string, commits: any[]) => {
   }
 };
 
-export const getDevelopersData = async (KEYWORD: string, developers: any[]) => {
+export const getDevelopersData = async (KEYWORD: string, developers: any[], isCumulative: boolean = false) => {
   try {
     const keys: any[] = [];
     const values: any[] = [];
@@ -77,7 +79,9 @@ export const getDevelopersData = async (KEYWORD: string, developers: any[]) => {
 
     const contributionsChartDetails: ChartConfigInterface = {
       chartType: "bar",
-      chartTitle: devPortalConstant.activeDevelopersMonthly,
+      chartTitle: isCumulative
+        ? devPortalConstant.activeDevelopersCumulative
+        : devPortalConstant.activeDevelopersMonthly,
       xAxisValues: keys,
       yAxisValues: values,
       xTitle: devPortalConstant.months,

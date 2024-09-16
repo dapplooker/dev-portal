@@ -27,8 +27,20 @@ class DevPortalConstants {
     return "Active Projects Monthly";
   }
 
+  get activeProjectsCumulative(): string {
+    return "Cumulative Active Projects";
+  }
+
   get activeContributionsMonthly(): string {
     return "Active Contributions Monthly";
+  }
+
+  get activeContributionsCumulative(): string {
+    return "Cumulative Active Contributions";
+  }
+
+  get activeDevelopersCumulative(): string {
+    return "Cumulative Active Developers and Projects";
   }
 
   get activeDevelopersMonthly(): string {

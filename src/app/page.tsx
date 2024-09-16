@@ -243,28 +243,35 @@ const fetchGeneralStatsData = async () => {
 
 export default async function Home() {
   const totalMonthlyProjectsCommitsDevelopersCount = await fetchProjectsCommitsDevelopersCount(false);
-  const totalMonthlyprojects = await getProjectData(devPortalConstant.SEARCH_KEYWORD, totalMonthlyProjectsCommitsDevelopersCount.projects);
+  const totalMonthlyprojects = await getProjectData(
+    devPortalConstant.SEARCH_KEYWORD,
+    totalMonthlyProjectsCommitsDevelopersCount.projects,
+    false
+  );
   const totalMonthlycontributions = await getContributionsData(
     devPortalConstant.SEARCH_KEYWORD,
-    totalMonthlyProjectsCommitsDevelopersCount.commits,
+    totalMonthlyProjectsCommitsDevelopersCount.commits
   );
   const totalMonthlydevelopers = await getDevelopersData(
     devPortalConstant.SEARCH_KEYWORD,
-    totalMonthlyProjectsCommitsDevelopersCount.developers,
+    totalMonthlyProjectsCommitsDevelopersCount.developers
   );
 
   const cumulativeMonthlyProjectsCommitsDevelopersCount = await fetchProjectsCommitsDevelopersCount(true);
   const cumulativeMonthlyprojects = await getProjectData(
     devPortalConstant.SEARCH_KEYWORD,
-    cumulativeMonthlyProjectsCommitsDevelopersCount.projects
+    cumulativeMonthlyProjectsCommitsDevelopersCount.projects,
+    true
   );
   const cumulativeMonthlycontributions = await getContributionsData(
     devPortalConstant.SEARCH_KEYWORD,
-    cumulativeMonthlyProjectsCommitsDevelopersCount.commits
+    cumulativeMonthlyProjectsCommitsDevelopersCount.commits,
+    true
   );
   const cumulativeMonthlydevelopers = await getDevelopersData(
     devPortalConstant.SEARCH_KEYWORD,
-    cumulativeMonthlyProjectsCommitsDevelopersCount.developers
+    cumulativeMonthlyProjectsCommitsDevelopersCount.developers,
+    true
   );
 
   const topDevelopers = await fetchTopDevelopersData();
@@ -287,7 +294,7 @@ export default async function Home() {
         topProjects={cumulativeMonthlyprojects?.data}
         topContributions={cumulativeMonthlycontributions!?.data}
         topDevelopers={cumulativeMonthlydevelopers!?.data}
-        isCumulative = {true}
+        isCumulative={true}
       />
       <div className={styles.contentWrapper}>
         <EcosystemGrowthMetrics ecosystemGrowthMetrics={ecosystemGrowthMetrics} />
