@@ -5,7 +5,7 @@ class ChartConfig {
 
   public getChartConfig(configs: ChartConfigInterface) {
 
-    const { chartType, xAxisValues, yAxisValues, xTitle, yTitle, chartTitle, strokeColor } = configs;
+    const { chartType, xAxisValues, yAxisValues, xTitle, yTitle, chartTitle, strokeColor, subtitle } = configs;
 
     const chartData = {
       labels: [...xAxisValues],
@@ -52,6 +52,20 @@ class ChartConfig {
             left: 20, // Padding from the left side
             top: 10, // Padding from the top
           },
+        },
+        subtitle: {
+          display: true,
+          text: subtitle,
+          color: "#fff", 
+          font: {
+            size: 10, 
+            weight: "normal", 
+            family: 'Arial', 
+          },
+          padding: {
+            top: 10, 
+          },
+          align: 'start', 
         },
       },
       scales: {
@@ -103,7 +117,7 @@ class ChartConfig {
 
   public getStackedBarChartData(responseDataSet: ChartConfigInterface, dataSet2: ChartConfigInterface) {
 
-    const { chartTitle, xAxisValues, yAxisValues, xTitle, yTitle }: ChartConfigInterface = responseDataSet;
+    const { chartTitle, xAxisValues, yAxisValues, xTitle, yTitle, subtitle }: ChartConfigInterface = responseDataSet;
 
     const barColor = "#4DD0E1";
     const stackedBarColor = "#ffa726";
@@ -159,6 +173,20 @@ class ChartConfig {
             left: 20, // Padding from the left side
             top: 10, // Padding from the top
           },
+        },
+        subtitle: {
+          display: true,
+          text: subtitle,
+          color: "#fff", 
+          font: {
+            size: 10, 
+            weight: "normal", 
+            family: 'Arial', 
+          },
+          padding: {
+            top: 10, 
+          },
+          align: 'start', 
         },
       },
       scales: {

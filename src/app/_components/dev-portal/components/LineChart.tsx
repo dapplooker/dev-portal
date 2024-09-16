@@ -16,10 +16,11 @@ import {
 import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import { Skeleton } from "../../shadecn/ui/skeleton";
+import subtitlePlugin from '@/app/lib/apexCharts/chartSubtitle'; 
 import devPortalConstant from "../constants";
 import styles from "./LineChart.module.scss";
 
-ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Title, Tooltip, Legend);
+ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Title, Tooltip, Legend, subtitlePlugin);
 
 interface LineChartProps {
   searchKeyword: string;

@@ -2,6 +2,7 @@
 import { errorLabels } from "@/app/constants";
 import { ChartConfigInterface, StackedBarChartData } from "@/app/interface";
 import ChartData from "@/app/lib/apexCharts/chartConfig";
+import subtitlePlugin from "@/app/lib/apexCharts/chartSubtitle";
 import utils from "@/app/utils/utils";
 import { BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, Title, Tooltip } from "chart.js";
 import { useEffect, useState } from "react";
@@ -9,7 +10,7 @@ import { Bar } from "react-chartjs-2";
 import { Skeleton } from "../../shadecn/ui/skeleton";
 import styles from "./LineChart.module.scss";
 
-ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
+ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend, subtitlePlugin);
 
 interface BarChartProps {
   searchKeyword: string;
@@ -54,6 +55,7 @@ const BarChart = ({ searchKeyword, endpointKeyName, secondDataSet, apiData }: Ba
         xTitle: secondDataSet?.yAxisTitle!,
         yAxisValues: secondDataSet?.yAxisValues!,
         xAxisValues: secondDataSet?.yAxisValues!,
+        subtitle: ""
       };
 
       const { chartData, options } = ChartData.getStackedBarChartData(captureRes, dataSet2Config);

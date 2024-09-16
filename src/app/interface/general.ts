@@ -3,6 +3,7 @@ export interface ChartConfigInterface {
   xAxisValues: any[],
   yAxisValues: any[];
   chartTitle: string;
+  subtitle:string;
   xTitle: string;
   yTitle: string;
   strokeColor?: string;

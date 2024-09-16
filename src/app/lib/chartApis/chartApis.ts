@@ -28,6 +28,7 @@ export const getProjectData = async (searchKeyword: string, projects: any[], isC
       yAxisValues: values,
       xTitle: devPortalConstant.months,
       yTitle: devPortalConstant.projects,
+      subtitle: '(Last 6 months)'
     };
 
     return { data: projectsChartDetails };
@@ -57,6 +58,7 @@ export const getContributionsData = async (KEYWORD: string, commits: any[], isCu
       yAxisValues: values,
       xTitle: devPortalConstant.months,
       yTitle: devPortalConstant.contributions,
+      subtitle: '(Last 6 months)'
     };
 
     return { data: contributionsChartDetails };
@@ -86,6 +88,7 @@ export const getDevelopersData = async (KEYWORD: string, developers: any[], isCu
       yAxisValues: values,
       xTitle: devPortalConstant.months,
       yTitle: devPortalConstant.developers,
+      subtitle: '(Last 6 months)'
     };
 
     return { data: contributionsChartDetails };
