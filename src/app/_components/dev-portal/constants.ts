@@ -11,6 +11,10 @@ class DevPortalConstants {
     return 1;
   }
 
+  get celoProtocolId(): number {
+    return 2;
+  }
+
   get projects(): string {
     return "Projects";
   }

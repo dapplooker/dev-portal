@@ -90,6 +90,25 @@ export const commonLabels = {
   invalidModalName: "INVALID_MODAL_NAME",
   dollarSymbol: "$",
   percentageSymbol: "%",
+  networksList: [
+    {
+      src: "/assets/img/integration-subgraph.png",
+      title: "The Graph",
+      route: "https://graphspy.dapplooker.com/",
+      localRoute: "/the-graph",
+    },
+
+    {
+      src: "/assets/svg/celo-new-colored-logo.svg",
+      title: "Celo",
+      route: "https://celospy.com/",
+      localRoute: "/celo",
+    },
+  ],
+  protocolList: {
+    'the-graph':{protocolId:1, img:'/assets/img/integration-subgraph.png'},
+    'celo':{protocolId:2, img: '/assets/svg/celo-new-colored-logo.svg'}
+  }
 };
 
 export const errorLabels = {

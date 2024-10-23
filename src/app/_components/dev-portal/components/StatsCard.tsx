@@ -17,7 +17,6 @@ interface StatsCardProps {
 }
 
 const StatsCard = ({ statsData }: StatsCardProps) => {
-  console.log(statsData);
   const MenuIconComponent = menuIconMap[statsData.icon];
 
   return (

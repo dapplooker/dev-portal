@@ -1,0 +1,53 @@
+
+.wrapperContainer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .errorContainer {
+    max-width: 450px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+  .errorSymbol {
+    width: 100px;
+  }
+  .errorTitle {
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    color: #fff;
+  }
+  .errorDescription {
+    color: #fff;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: center;
+    .errorRedirectLink {
+      text-decoration: underline;
+    }
+  }
+  .tryAgainCta {
+    display: flex;
+    padding: 12px 40px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 8px;
+    background: rgba(0, 120, 255, 0.5);
+    transition: 0.3s all ease-in-out;
+    &:hover {
+      background: rgba(0, 119, 255, 0.633);
+  }
+  }
+}

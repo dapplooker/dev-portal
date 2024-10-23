@@ -1,0 +1,108 @@
+
+.selectNetworkModalContainer {
+    max-width: 864px;
+    max-height: 240px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: #16110f;
+    padding: 40px;
+    @media screen and (max-width: 900px) {
+      width: 460px;
+      max-height: fit-content;
+    }
+    @media screen and (max-width: 520px) {
+      width: 310px;
+      max-height: fit-content;
+      padding: 30px;
+    }
+    .networksList {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      column-gap: 48px;
+      row-gap: 48px;
+      @media screen and (max-width: 900px) {
+        flex-wrap: wrap;
+        column-gap: 28px;
+        row-gap: 28px;
+      }
+  
+      .listItem {
+        .networkButton {
+          width: 160px;
+          height: 160px;
+          padding: 20px;
+          display: flex;
+          flex-direction: column;
+          row-gap: 14px;
+          justify-content: center;
+          align-items: center;
+          border-radius: var(--space-gap12, 12px);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          background: rgba(255, 255, 255, 0.08);
+          cursor: pointer;
+          transition:
+            background 0.3s ease,
+            border 0.3s ease;
+  
+          &:hover {
+            .image {
+              transform: scale(1.05);
+              transition: transform 0.3s ease-in-out;
+            }
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+          }
+          @media screen and (max-width: 520px) {
+            width: 100px;
+            height: 100px;
+          }
+  
+          .imageContainer {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .image {
+              width: 80px;
+              transition: transform 0.3s ease;
+              @media screen and (max-width: 520px) {
+                width: 40px;
+              }
+            }
+          }
+  
+          .title {
+            color: #fff;
+            text-align: center;
+            font-family: "Heebo", sans-serif;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+            letter-spacing: 0.9px;
+            @media screen and (max-width: 520px) {
+              font-size: 12px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .networkTrigger {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding: 10px;
+    border-radius: 8px;
+    transition: 0.2s all ease-in-out;
+    &:hover{
+     background-color:  #ffffff0e;
+    }
+    .networkImage {
+      width: 20px;
+      height: 20px;
+      margin-right: 6px;
+    }
+  }

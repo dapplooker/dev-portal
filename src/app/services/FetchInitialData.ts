@@ -1,17 +1,8 @@
-import { getContributionsData, getDevelopersData, getProjectData } from "./lib/chartApis/chartApis";
+import Logger from "../utils/Logger";
 import { default as devPortalConstant, default as DevPortalConstants } from "@/app/_components/dev-portal/constants";
+import env from "./../constants/common/labels";
 
-import EcosystemGrowthMetrics from "@/app/_components/dev-portal/container/EcosystemGrowthMetrics";
-import GeneralStats from "@/app/_components/dev-portal/container/GeneralStats";
-import MonthlyCharts from "@/app/_components/dev-portal/container/MonthlyCharts";
-import TopDapps from "@/app/_components/dev-portal/container/TopDapps";
-import TopDevelopers from "@/app/_components/dev-portal/container/TopDevelopers";
-
-import env from "./constants/common/labels";
-import Logger from "./utils/Logger";
-import styles from "./layout.module.scss";
-
-const fetchTopDevelopersData = async () => {
+export const fetchTopDevelopersData = async (protocolId:number=1) => {
   try {
     const endDate = new Date();
     const startDate = new Date();
@@ -19,7 +10,7 @@ const fetchTopDevelopersData = async () => {
 
     const startDateString = startDate.toISOString().split("T")[0];
     const endDateString = endDate.toISOString().split("T")[0];
-    const url = `${env.apiEndpoint}/web/stats/top-developers?protocolId=${DevPortalConstants.graphProtocolId}&startDate=${startDateString}&endDate=${endDateString}`;
+    const url = `${env.apiEndpoint}/web/stats/top-developers?protocolId=${protocolId}&startDate=${startDateString}&endDate=${endDateString}`;
 
     Logger.info("Fetching Top Developers data from:", url);
 
@@ -44,9 +35,9 @@ const fetchTopDevelopersData = async () => {
   }
 };
 
-const fetchTopDappsData = async () => {
+export const fetchTopDappsData = async (protocolId:number=1) => {
   try {
-    const url = `${env.apiEndpoint}/web/stats/top-projects?protocolId=${DevPortalConstants.graphProtocolId}`;
+    const url = `${env.apiEndpoint}/web/stats/top-projects?protocolId=${protocolId}`;
 
     Logger.info("Fetching Top Dapps data from:", url);
 
@@ -71,9 +62,9 @@ const fetchTopDappsData = async () => {
   }
 };
 
-const fetchProjectsCommitsDevelopersCount = async (isCumulativeData: boolean = false) => {
+export const fetchProjectsCommitsDevelopersCount = async (isCumulativeData: boolean = false, protocolId:number=1) => {
   try {
-    const url = `${env.apiEndpoint}/web/stats/projects-commits-developers-count?protocolId=${DevPortalConstants.graphProtocolId}&isCumulative=${isCumulativeData}`;
+    const url = `${env.apiEndpoint}/web/stats/projects-commits-developers-count?protocolId=${protocolId}&isCumulative=${isCumulativeData}`;
 
     Logger.info("Fetching data from: fetchProjectsCommitsDevelopersCount:", url);
 
@@ -98,12 +89,12 @@ const fetchProjectsCommitsDevelopersCount = async (isCumulativeData: boolean = f
   }
 };
 
-const fetchEcosystemGrowthMetrics = async () => {
+export const fetchEcosystemGrowthMetrics = async (protocolId:number=1) => {
   try {
     Logger.info("Fetching half-yearly general stats data.");
 
     const halfYearlyDataResponse = await fetch(
-      `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeHalfYearly}&protocolId=${DevPortalConstants.graphProtocolId}`,
+      `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeHalfYearly}&protocolId=${protocolId}`,
       { next: { revalidate: 10 } }
     );
 
@@ -116,7 +107,7 @@ const fetchEcosystemGrowthMetrics = async () => {
     Logger.info("Fetching yearly general stats data.");
 
     const yearlyDataResponse = await fetch(
-      `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeYearly}&protocolId=${DevPortalConstants.graphProtocolId}`,
+      `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeYearly}&protocolId=${protocolId}`,
       { next: { revalidate: 10 } }
     );
 
@@ -130,8 +121,6 @@ const fetchEcosystemGrowthMetrics = async () => {
     const halfYearlyData = finalHalfYearlyData.data.generalStats;
     const finalYearlyData = await yearlyDataResponse.json();
     const yearlyData = finalYearlyData.data.generalStats;
-
-    Logger.info("Calculating growth metrics.");
 
     const totalDevelopersWithIn12Months = yearlyData.totalDevelopers;
     const totalDevelopersWithinSixMonths = halfYearlyData.totalDevelopers;
@@ -173,16 +162,16 @@ const fetchEcosystemGrowthMetrics = async () => {
   }
 };
 
-const fetchGeneralStatsData = async () => {
+export const fetchGeneralStatsData = async (protocolId:number=1) => {
   try {
     Logger.info("Fetching monthly general stats data.");
 
     const monthlyDataResponse = await fetch(
-      `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeMonthly}&protocolId=${DevPortalConstants.graphProtocolId}`,
+      `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeMonthly}&protocolId=${protocolId}`,
       { next: { revalidate: 10 } }
     );
     Logger.info(
-      `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeMonthly}&protocolId=${DevPortalConstants.graphProtocolId}`
+      `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeMonthly}&protocolId=${protocolId}`
     );
 
     if (!monthlyDataResponse.ok) {
@@ -195,7 +184,7 @@ const fetchGeneralStatsData = async () => {
     //Fetching Total general stats
     Logger.info("Fetching total general stats data.");
     const totalDataResponse = await fetch(
-      `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeTotal}&protocolId=${DevPortalConstants.graphProtocolId}`,
+      `${env.apiEndpoint}/web/stats/general-stats?frequency=${DevPortalConstants.frequencyTypeTotal}&protocolId=${protocolId}`,
       { next: { revalidate: 10 } }
     );
     if (!totalDataResponse.ok) {
@@ -240,67 +229,3 @@ const fetchGeneralStatsData = async () => {
     return [];
   }
 };
-
-export default async function Home() {
-  const totalMonthlyProjectsCommitsDevelopersCount = await fetchProjectsCommitsDevelopersCount(false);
-  const totalMonthlyprojects = await getProjectData(
-    devPortalConstant.SEARCH_KEYWORD,
-    totalMonthlyProjectsCommitsDevelopersCount.projects,
-    false
-  );
-  const totalMonthlycontributions = await getContributionsData(
-    devPortalConstant.SEARCH_KEYWORD,
-    totalMonthlyProjectsCommitsDevelopersCount.commits
-  );
-  const totalMonthlydevelopers = await getDevelopersData(
-    devPortalConstant.SEARCH_KEYWORD,
-    totalMonthlyProjectsCommitsDevelopersCount.developers
-  );
-
-  const cumulativeMonthlyProjectsCommitsDevelopersCount = await fetchProjectsCommitsDevelopersCount(true);
-  const cumulativeMonthlyprojects = await getProjectData(
-    devPortalConstant.SEARCH_KEYWORD,
-    cumulativeMonthlyProjectsCommitsDevelopersCount.projects,
-    true
-  );
-  const cumulativeMonthlycontributions = await getContributionsData(
-    devPortalConstant.SEARCH_KEYWORD,
-    cumulativeMonthlyProjectsCommitsDevelopersCount.commits,
-    true
-  );
-  const cumulativeMonthlydevelopers = await getDevelopersData(
-    devPortalConstant.SEARCH_KEYWORD,
-    cumulativeMonthlyProjectsCommitsDevelopersCount.developers,
-    true
-  );
-
-  const topDevelopers = await fetchTopDevelopersData();
-  const topDapps = await fetchTopDappsData();
-  const generalStats = await fetchGeneralStatsData();
-  const ecosystemGrowthMetrics = await fetchEcosystemGrowthMetrics();
-
-  return (
-    <main className={`${styles.layoutContent} bitool-container`}>
-      <GeneralStats generalStats={generalStats} />
-      {/* <MonthlyCharts
-        searchKeyword={devPortalConstant.SEARCH_KEYWORD}
-        topProjects={totalMonthlyprojects?.data}
-        topContributions={totalMonthlycontributions!?.data}
-        topDevelopers={totalMonthlydevelopers!?.data}
-        isCumulative = {false}
-      /> */}
-      <MonthlyCharts
-        searchKeyword={devPortalConstant.SEARCH_KEYWORD}
-        topProjects={cumulativeMonthlyprojects?.data}
-        topContributions={cumulativeMonthlycontributions!?.data}
-        topDevelopers={cumulativeMonthlydevelopers!?.data}
-        isCumulative={true}
-      />
-      <div className={styles.contentWrapper}>
-        <EcosystemGrowthMetrics ecosystemGrowthMetrics={ecosystemGrowthMetrics} />
-        <TopDevelopers topDevelopers={topDevelopers} />
-      </div>
-      <TopDapps topDapps={topDapps} />
-    </main>
-  );
-}
