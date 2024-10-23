@@ -5,7 +5,6 @@ import MonthlyCharts from "../_components/dev-portal/container/MonthlyCharts";
 import TopDapps from "../_components/dev-portal/container/TopDapps";
 import TopDevelopers from "../_components/dev-portal/container/TopDevelopers";
 import Navbar from "../_components/ui/components/Navbar/Navbar";
-import { Container } from "../_components/ui/styledComponents/Container.styled";
 import styles from "./DevPortalContainer.module.scss";
 
 interface DevPortalContainerProps {
@@ -31,9 +30,7 @@ function DevPortalContainer({
 }: DevPortalContainerProps) {
   return (
     <div className={styles.bitoolContainer}>
-      <Container>
-        <Navbar protocol={protocol} />
-      </Container>
+      <Navbar protocol={protocol} />
       <div className={styles.titleWrapper}>
         <h1 className={`${styles.pageTitle}`}>{devPortalConstant.theGraphDeveloperEcosystem}</h1>
       </div>

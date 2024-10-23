@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./Footer.module.scss";
+import { Container } from "../../styledComponents/Container.styled";
 
 const Footer = () => {
   const iconMapping: { [key: string]: IconProp } = {
@@ -27,7 +28,7 @@ const Footer = () => {
 
   return (
     <footer className={styles.footerContainer}>
-      <div className={`${styles.footerSubContainer} bitool-container`}>
+      <Container className={`${styles.footerSubContainer}`}>
         <div className={styles.footerContent}>
           <div className={styles.left}>
             <div className={styles.poweredBy}>
@@ -69,7 +70,7 @@ const Footer = () => {
           </div>
         </div>
         <hr className={styles.divider} />
-      </div>
+      </Container>
     </footer>
   );
 };

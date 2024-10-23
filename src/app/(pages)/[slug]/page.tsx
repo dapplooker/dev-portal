@@ -13,7 +13,7 @@ import { Container } from "@/app/_components/ui/styledComponents/Container.style
 import { commonLabels } from "@/app/constants";
 import styles from "./page.module.scss";
 
-export default async function Page({ params }: { params: { slug: string } }) {
+export default async function Page({ params }: { params: { slug: string }}) {
   const protocolList = commonLabels.protocolList;
   const currentProtocol = protocolList[params.slug as "the-graph" | "celo"].protocolId || null;
 

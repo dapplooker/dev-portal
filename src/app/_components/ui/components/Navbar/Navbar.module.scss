@@ -8,10 +8,8 @@
     display: flex;
   }
   @media screen and (max-width: 480px) {
-    height: 5vh;
     .brandContainer {
       transform: scale(0.7);
     }
   }
-  
 }
