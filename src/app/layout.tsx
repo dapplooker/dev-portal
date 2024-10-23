@@ -34,12 +34,7 @@ export default function RootLayout({
         <Suspense>
           <section>
             <main className={styles.main}>
-              <Container>
-                <Navbar />
-              </Container>
-              <div className={styles.titleWrapper}>
-                <h1 className={`${styles.pageTitle}`}>{devPortalConstant.theGraphDeveloperEcosystem}</h1>
-              </div>
+              
               {children}
               <Footer />
             </main>

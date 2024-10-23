@@ -63,6 +63,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
       ecosystemGrowthMetrics={ecosystemGrowthMetrics}
       topDevelopers={topDevelopers}
       topDapps={topDapps}
+      protocol={protocolList[params.slug as "the-graph" | "celo"]}
     />
   );
 }

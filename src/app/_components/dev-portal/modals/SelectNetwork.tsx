@@ -6,16 +6,19 @@ import { commonLabels } from "@/app/constants";
 import styles from "./SelectNetwork.module.scss";
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from "../../shadecn/ui/Dialog";
 
-function SelectNetworkModal() {
+interface SelectNetworkModalProps {
+  protocol:any
+}
+function SelectNetworkModal({protocol}:SelectNetworkModalProps) {
   const networksList = commonLabels.networksList;
   return (
     <Dialog>
       <DialogTrigger className={styles.networkTrigger}>
-        {/* <img
+        <img
           className={styles.networkImage}
-          src={`${commonLabels.CLOUDFRONT_BASE_URL}/assets/img/integration-subgraph.png`}
+          src={`${commonLabels.CLOUDFRONT_BASE_URL}${protocol.img}`}
           alt=""
-        /> */}
+        />
         Select Network
       </DialogTrigger>
       <DialogContent className="w-fit h-fit bg-transparent">

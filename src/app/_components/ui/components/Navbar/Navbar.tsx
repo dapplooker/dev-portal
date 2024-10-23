@@ -3,7 +3,10 @@ import { commonLabels } from "@/app/constants";
 import Link from "next/link";
 import styles from "./Navbar.module.scss";
 
-function Navbar() {
+interface NavbarProps {
+  protocol: any
+}
+function Navbar({protocol}: NavbarProps) {
   return (
     <header className={styles.navbar}>
       <Link
@@ -18,7 +21,7 @@ function Navbar() {
           height="44px"
         />
       </Link>
-      <SelectNetworkModal/>
+      <SelectNetworkModal protocol={protocol}/>
     </header>
   );
 }
