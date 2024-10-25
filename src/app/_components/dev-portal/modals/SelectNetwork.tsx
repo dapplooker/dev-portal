@@ -1,15 +1,17 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import React from "react";
 import Link from "next/link";
-import env from "@/app/constants/common/labels";
-import { commonLabels } from "@/app/constants";
-import styles from "./SelectNetwork.module.scss";
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from "../../shadecn/ui/Dialog";
+import { commonLabels } from "@/app/constants";
+import env from "@/app/constants/common/labels";
+import styles from "./SelectNetwork.module.scss";
 
 interface SelectNetworkModalProps {
-  protocol:any
+  protocol: any;
 }
-function SelectNetworkModal({protocol}:SelectNetworkModalProps) {
+
+function SelectNetworkModal({ protocol }: SelectNetworkModalProps) {
   const networksList = commonLabels.networksList;
   return (
     <Dialog>
@@ -19,18 +21,21 @@ function SelectNetworkModal({protocol}:SelectNetworkModalProps) {
           src={`${commonLabels.CLOUDFRONT_BASE_URL}${protocol.img}`}
           alt=""
         />
-        Select Network
+        {commonLabels.selectNetwork}
       </DialogTrigger>
       <DialogContent className="w-fit h-fit bg-transparent">
-      <div className={styles.selectNetworkModalContainer}>
+        <div className={styles.selectNetworkModalContainer}>
           <ul className={styles.networksList}>
             {networksList.map((network, index) => (
-              <li key={index} className={styles.listItem}>
-                <Link
-                  href={env.MODE === "production" ? network.route : network.localRoute}
-                  className={styles.networkButton}
-                >
-                  <DialogClose asChild>
+              <li
+                key={index}
+                className={styles.listItem}
+              >
+                <Link href={env.MODE === "production" ? network.route : network.localRoute}>
+                  <DialogClose
+                    asChild
+                    className={styles.networkButton}
+                  >
                     <div>
                       <div className={styles.imageContainer}>
                         <img

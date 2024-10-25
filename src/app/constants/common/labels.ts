@@ -111,6 +111,7 @@ export const commonLabels = {
   },
   theGraphProtocolEndpoint: "the-graph",
   celoProtocolEndpoint: "celo",
+  selectNetwork: "Select Network",
 };
 
 export const errorLabels = {

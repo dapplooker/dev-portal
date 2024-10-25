@@ -1,12 +1,13 @@
+/* eslint-disable @next/next/no-img-element */
+import Link from "next/link";
 import SelectNetworkModal from "@/app/_components/dev-portal/modals/SelectNetwork";
 import { commonLabels } from "@/app/constants";
-import Link from "next/link";
 import styles from "./Navbar.module.scss";
 
 interface NavbarProps {
-  protocol: any
+  protocol: any;
 }
-function Navbar({protocol}: NavbarProps) {
+function Navbar({ protocol }: NavbarProps) {
   return (
     <header className={styles.navbar}>
       <Link
@@ -21,7 +22,7 @@ function Navbar({protocol}: NavbarProps) {
           height="44px"
         />
       </Link>
-      <SelectNetworkModal protocol={protocol}/>
+      <SelectNetworkModal protocol={protocol} />
     </header>
   );
 }

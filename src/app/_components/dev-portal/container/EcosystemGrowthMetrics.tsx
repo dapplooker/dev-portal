@@ -1,9 +1,9 @@
 "use client";
-import { errorLabels } from "@/app/constants/common/labels";
-import { FormattedEcosystemMetricsInterface } from "@/app/interface";
 import { useEffect, useState } from "react";
+import { FormattedEcosystemMetricsInterface } from "@/app/interface";
 import { Skeleton } from "../../shadecn/ui/skeleton";
 import CircularProgressBar from "../components/CircularProgressBar";
+import { errorLabels } from "@/app/constants/common/labels";
 import labels from "../constants";
 import styles from "./EcosystemGrowthMetrics.module.scss";
 

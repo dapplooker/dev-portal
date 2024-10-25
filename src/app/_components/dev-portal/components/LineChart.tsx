@@ -1,8 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { errorLabels } from "@/app/constants";
-import { ChartConfigInterface, StackedBarChartData } from "@/app/interface";
-import ChartData from "@/app/lib/apexCharts/chartConfig";
-import utils from "@/app/utils/utils";
+import { useEffect, useState } from "react";
+import { Line } from "react-chartjs-2";
 import {
   CategoryScale,
   Chart as ChartJS,
@@ -13,11 +12,13 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
-import { useEffect, useState } from "react";
-import { Line } from "react-chartjs-2";
+import { ChartConfigInterface, StackedBarChartData } from "@/app/interface";
 import { Skeleton } from "../../shadecn/ui/skeleton";
-import subtitlePlugin from '@/app/lib/apexCharts/chartSubtitle'; 
+import utils from "@/app/utils/utils";
+import ChartData from "@/app/lib/apexCharts/chartConfig";
+import subtitlePlugin from "@/app/lib/apexCharts/chartSubtitle";
 import devPortalConstant from "../constants";
+import { errorLabels } from "@/app/constants";
 import styles from "./LineChart.module.scss";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Title, Tooltip, Legend, subtitlePlugin);

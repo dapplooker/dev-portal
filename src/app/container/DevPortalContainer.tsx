@@ -1,10 +1,10 @@
-import devPortalConstant from "../_components/dev-portal/constants";
 import EcosystemGrowthMetrics from "../_components/dev-portal/container/EcosystemGrowthMetrics";
 import GeneralStats from "../_components/dev-portal/container/GeneralStats";
 import MonthlyCharts from "../_components/dev-portal/container/MonthlyCharts";
 import TopDapps from "../_components/dev-portal/container/TopDapps";
 import TopDevelopers from "../_components/dev-portal/container/TopDevelopers";
 import Navbar from "../_components/ui/components/Navbar/Navbar";
+import devPortalConstant from "../_components/dev-portal/constants";
 import styles from "./DevPortalContainer.module.scss";
 
 interface DevPortalContainerProps {
@@ -29,10 +29,10 @@ function DevPortalContainer({
   protocol,
 }: DevPortalContainerProps) {
   return (
-    <div className={styles.bitoolContainer}>
+    <div className={styles.devPortalContainer}>
       <Navbar protocol={protocol} />
       <div className={styles.titleWrapper}>
-        <h1 className={`${styles.pageTitle}`}>{devPortalConstant.theGraphDeveloperEcosystem}</h1>
+        <h1 className={`${styles.pageTitle}`}>{devPortalConstant.pageTitle(protocol.protocolId)}</h1>
       </div>
       <GeneralStats generalStats={generalStats} />
       <MonthlyCharts

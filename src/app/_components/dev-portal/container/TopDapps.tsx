@@ -1,18 +1,16 @@
 "use client";
 import { errorLabels } from "@/app/constants/common/labels";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Skeleton } from "../../shadecn/ui/skeleton";
 import ResultTable from "../components/ResultTable";
 import labels from "../constants";
-import DevPortalConstants from "@/app/_components/dev-portal/constants";
 import styles from "./TopDapps.module.scss";
 
 interface TopDappsProps {
-  topDapps: any
+  topDapps: any;
 }
 
-const TopDapps = ({topDapps}: TopDappsProps) => {
+const TopDapps = ({ topDapps }: TopDappsProps) => {
   const [data, setData] = useState(topDapps);
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);

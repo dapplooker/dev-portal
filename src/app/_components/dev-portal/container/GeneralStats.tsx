@@ -1,10 +1,11 @@
 "use client";
-import { errorLabels } from "@/app/constants/common/labels";
-import { FormattedGeneralStatsResponse } from "@/app/interface";
 import { useEffect, useState } from "react";
+import { FormattedGeneralStatsResponse } from "@/app/interface";
 import { Skeleton } from "../../shadecn/ui/skeleton";
 import StatsCard from "../components/StatsCard";
+import { errorLabels } from "@/app/constants/common/labels";
 import styles from "./GeneralStats.module.scss";
+import statsCardStyles from "../components/StatsCard.module.scss";
 
 interface GeneralStats {
   generalStats: any[];
@@ -31,7 +32,7 @@ const GeneralStats = ({ generalStats }: GeneralStats) => {
         Array.from(Array(4).keys()).map((_, index) => (
           <Skeleton
             key={index}
-            className="h-[125px] w-[290px] rounded-xl"
+            className={`${statsCardStyles.statsCard} ${styles.hideBorder}`}
           />
         ))
       ) : isError || !data ? (
