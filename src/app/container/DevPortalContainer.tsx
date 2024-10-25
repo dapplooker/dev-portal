@@ -9,9 +9,9 @@ import styles from "./DevPortalContainer.module.scss";
 
 interface DevPortalContainerProps {
   generalStats: any;
-  cumulativeMonthlyprojects: any;
-  cumulativeMonthlycontributions: any;
-  cumulativeMonthlydevelopers: any;
+  cumulativeMonthlyProjects: any;
+  cumulativeMonthlyContributions: any;
+  cumulativeMonthlyDevelopers: any;
   ecosystemGrowthMetrics: any;
   topDevelopers: any;
   topDapps: any;
@@ -20,9 +20,9 @@ interface DevPortalContainerProps {
 
 function DevPortalContainer({
   generalStats,
-  cumulativeMonthlyprojects,
-  cumulativeMonthlycontributions,
-  cumulativeMonthlydevelopers,
+  cumulativeMonthlyProjects,
+  cumulativeMonthlyContributions,
+  cumulativeMonthlyDevelopers,
   ecosystemGrowthMetrics,
   topDevelopers,
   topDapps,
@@ -37,9 +37,9 @@ function DevPortalContainer({
       <GeneralStats generalStats={generalStats} />
       <MonthlyCharts
         searchKeyword={devPortalConstant.SEARCH_KEYWORD}
-        topProjects={cumulativeMonthlyprojects?.data}
-        topContributions={cumulativeMonthlycontributions!?.data}
-        topDevelopers={cumulativeMonthlydevelopers!?.data}
+        topProjects={cumulativeMonthlyProjects?.data}
+        topContributions={cumulativeMonthlyContributions!?.data}
+        topDevelopers={cumulativeMonthlyDevelopers!?.data}
         isCumulative={true}
       />
       <div className={styles.contentWrapper}>

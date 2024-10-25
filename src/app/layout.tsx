@@ -1,8 +1,8 @@
 import { Instrument_Sans } from "next/font/google";
 import { Suspense } from "react";
 import Footer from "./_components/ui/components/Footer/Footer";
-import "./globals.scss";
 import styles from "./layout.module.scss";
+import "./globals.scss";
 
 const instrumentSans = Instrument_Sans({
   weight: ["400", "500", "600", "700"],
@@ -30,10 +30,7 @@ export default function RootLayout({
       <body className={instrumentSans.className}>
         <Suspense>
           <section>
-            <main className={styles.main}>
-              {children}
-              <Footer />
-            </main>
+            <main className={styles.main}>{children}</main>
           </section>
         </Suspense>
       </body>

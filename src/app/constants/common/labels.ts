@@ -106,9 +106,11 @@ export const commonLabels = {
     },
   ],
   protocolList: {
-    'the-graph':{protocolId:1, img:'/assets/img/integration-subgraph.png'},
-    'celo':{protocolId:2, img: '/assets/svg/celo-new-colored-logo.svg'}
-  }
+    "the-graph": { protocolId: 1, img: "/assets/img/integration-subgraph.png" },
+    celo: { protocolId: 2, img: "/assets/svg/celo-new-colored-logo.svg" },
+  },
+  theGraphProtocolEndpoint: "the-graph",
+  celoProtocolEndpoint: "celo",
 };
 
 export const errorLabels = {
@@ -121,7 +123,7 @@ export const errorLabels = {
 // Object for routes
 export const routes = {
   home: `${env.BASE_URL}/`,
-  github: `https://github.com/`
+  github: `https://github.com/`,
   // Add more route properties as needed
 };
 
@@ -138,13 +140,12 @@ export const monthsMap = {
   10: "Oct",
   11: "Nov",
   12: "Dec",
-}
-
+};
 
 export const footerLabels = {
-  poweredBy: "Powered By", 
+  poweredBy: "Powered By",
   joinUs: "Join Us",
-  dapplookerRoute:'https://dapplooker.com/', 
+  dapplookerRoute: "https://dapplooker.com/",
   socialLinks: [
     {
       tabName: "faTwitter",
@@ -182,4 +183,4 @@ export const footerLabels = {
       svgName: "fa-brands fa-medium",
     },
   ],
-}
+};
