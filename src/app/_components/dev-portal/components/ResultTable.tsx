@@ -1,10 +1,10 @@
 "use client";
-import { commonLabels } from "@/app/constants";
-import { ColumnDef, flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table";
-import millify from "millify";
-import Link from "next/link";
 import { useState } from "react";
+import Link from "next/link";
+import millify from "millify";
+import { ColumnDef, flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../shadecn/ui/table";
+import { commonLabels } from "@/app/constants";
 import devPortalConstant from "../constants";
 import styles from "./ResultTable.module.scss";
 
@@ -17,19 +17,22 @@ interface ResultTableProps {
 const ResultTable = ({ columnsData, rowsData, type }: ResultTableProps) => {
   const [modifiedRowsData, setModifiedRowsData] = useState(rowsData);
 
-  const filteredColumnsData = columnsData.filter(column => column !== "GITHUB_URL" && column !== "AVATAR_URL");
+  const filteredColumnsData = columnsData.filter((column) => column !== "GITHUB_URL" && column !== "AVATAR_URL");
   const { STARS, FORKS, COMMITS, NAME, PROJECT_NAME } = devPortalConstant.tableColNames;
 
   const columns: ColumnDef<unknown, any>[] = [
     ...filteredColumnsData.map((column) => {
-      if (column === "NAME" || column === 'PROJECT_NAME') {
+      if (column === "NAME" || column === "PROJECT_NAME") {
         return {
           accessorKey: column,
           header: () => <div>{column}</div>,
           cell: ({ row }: { row: any }) => {
             const githubUrl = row.original?.GITHUB_URL;
             const avatarUrl = row.original?.AVATAR_URL;
-            const name = type === "TopDevelopers" ? row.original?.NAME || 'Loading...' : row.original?.PROJECT_NAME || 'Loading...';
+            const name =
+              type === "TopDevelopers"
+                ? row.original?.NAME || "Loading..."
+                : row.original?.PROJECT_NAME || "Loading...";
             return (
               <div className={styles.projectInfoWrapper}>
                 <img
@@ -88,9 +91,7 @@ const ResultTable = ({ columnsData, rowsData, type }: ResultTableProps) => {
                       className={styles.tableColumn}
                       key={header.id}
                     >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(header.column.columnDef.header, header.getContext())}
+                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
                   ))}
                 </TableRow>

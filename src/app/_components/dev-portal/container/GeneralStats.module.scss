@@ -2,12 +2,16 @@
   width: 100%;
   height: auto;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   gap: 20px;
 
-  @media screen and (max-width: 550px) {
+  @media screen and (max-width: 768px) {
     flex-wrap: wrap;
+  }
+
+  @media screen and (max-width: 480px) {
+    gap: 15px;
   }
 
   .showErrorMsg {
@@ -27,4 +31,8 @@
       font-weight: 500;
     }
   }
+}
+
+.hideBorder {
+  border: none;
 }

@@ -1,9 +1,8 @@
-import { Suspense } from "react";
 import { Instrument_Sans } from "next/font/google";
-import "./globals.scss";
-import styles from "./layout.module.scss";
-import devPortalConstant from "./_components/dev-portal/constants";
+import { Suspense } from "react";
 import Footer from "./_components/ui/components/Footer/Footer";
+import styles from "./layout.module.scss";
+import "./globals.scss";
 
 const instrumentSans = Instrument_Sans({
   weight: ["400", "500", "600", "700"],
@@ -31,13 +30,7 @@ export default function RootLayout({
       <body className={instrumentSans.className}>
         <Suspense>
           <section>
-            <main className={styles.main}>
-              <div className={styles.titleWrapper}>
-                <h1 className={`${styles.pageTitle}`}>{devPortalConstant.theGraphDeveloperEcosystem}</h1>
-              </div>
-              {children}
-              <Footer/>
-            </main>
+            <main className={styles.main}>{children}</main>
           </section>
         </Suspense>
       </body>

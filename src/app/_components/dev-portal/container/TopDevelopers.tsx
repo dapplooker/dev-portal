@@ -1,19 +1,16 @@
 "use client";
-import { errorLabels } from "@/app/constants/common/labels";
-import { FormattedTopDevsInterface } from "@/app/interface";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Skeleton } from "../../shadecn/ui/skeleton";
 import ResultTable from "../components/ResultTable";
-import DevPortalConstants from "@/app/_components/dev-portal/constants"
+import { errorLabels } from "@/app/constants/common/labels";
 import labels from "../constants";
 import styles from "./TopDapps.module.scss";
 
 interface TopDevelopersProps {
-  topDevelopers: any[]
+  topDevelopers: any[];
 }
 
-const TopDevelopers = ({topDevelopers}: TopDevelopersProps) => {
+const TopDevelopers = ({ topDevelopers }: TopDevelopersProps) => {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);

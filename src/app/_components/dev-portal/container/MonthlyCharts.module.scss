@@ -2,11 +2,15 @@
   width: 100%;
   height: auto;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 30px;
+  column-gap: 30px;
 
   @media screen and (max-width: 768px) {
     flex-direction: column;
+    row-gap: 30px;
+  }
+  @media screen and (max-width: 480px) {
+    row-gap: 15px;
   }
 }

@@ -11,6 +11,10 @@ class DevPortalConstants {
     return 1;
   }
 
+  get celoProtocolId(): number {
+    return 2;
+  }
+
   get projects(): string {
     return "Projects";
   }
@@ -75,6 +79,15 @@ class DevPortalConstants {
     return "The Graph Developer Ecosystem";
   }
 
+  pageTitle(protocolId: number): string {
+    const portals: any = {
+      1: "Graph",
+      2: "Celo",
+    };
+
+    return `The ${portals[protocolId]} Developer Ecosystem`;
+  }
+
   get SEARCH_KEYWORD(): string {
     return "subgraph";
   }
@@ -86,27 +99,27 @@ class DevPortalConstants {
       COMMITS: "commits",
       PROJECT_NAME: "project name",
       NAME: "name",
-    }
+    };
   }
 
   get GENERAL_STATS(): string {
-    return "general-stats"
+    return "general-stats";
   }
 
   get ECOSYSTEM_GROWTH(): string {
-    return "ecosystem-growth"
+    return "ecosystem-growth";
   }
 
   get MONTHLY_PROJECT(): string {
-    return "monthly-projects"
+    return "monthly-projects";
   }
 
   get MONTHLY_CONTRIBUTIONS(): string {
-    return "monthly-contributions"
+    return "monthly-contributions";
   }
 
   get MONTHLY_DEVELOPERS(): string {
-    return "monthly-developers"
+    return "monthly-developers";
   }
 
   get TOP_PROJECTS(): string {
@@ -114,56 +127,54 @@ class DevPortalConstants {
   }
 
   get TOP_DEVELOPERS(): string {
-    return "top-developers"
+    return "top-developers";
   }
 
   get COLOR_PROJECTS(): string {
-    return "#4DD0E1"
+    return "#4DD0E1";
   }
 
   get COLOR_CONTRIBUTIONS(): string {
-    return "#ffa726"
+    return "#ffa726";
   }
 
   public get frequencyTypeWeekly(): string {
-    return 'WEEKLY'
-}
+    return "WEEKLY";
+  }
 
-public get frequencyTypeMonthly(): string {
-    return 'MONTHLY'
-}
+  public get frequencyTypeMonthly(): string {
+    return "MONTHLY";
+  }
 
-public get frequencyTypeHalfYearly(): string {
-    return 'HALF_YEARLY'
-}
+  public get frequencyTypeHalfYearly(): string {
+    return "HALF_YEARLY";
+  }
 
-public get frequencyTypeYearly(): string {
-    return 'YEARLY'
-}
+  public get frequencyTypeYearly(): string {
+    return "YEARLY";
+  }
 
-public get frequencyTypeTotal(): string {
-    return 'TOTAL'
-}
+  public get frequencyTypeTotal(): string {
+    return "TOTAL";
+  }
 
-get frequencies(): Record<number, string> {
-    const oThis = this
+  get frequencies(): Record<number, string> {
+    const oThis = this;
     return {
-        1: 'WEEKLY',
-        2: 'MONTHLY',
-        3: 'HALF_YEARLY',
-        4: 'YEARLY',
-        5: 'TOTAL'
-    }
-}
-get invertedFrequencies(): Record<string, number> {
-  const oThis = this
+      1: "WEEKLY",
+      2: "MONTHLY",
+      3: "HALF_YEARLY",
+      4: "YEARLY",
+      5: "TOTAL",
+    };
+  }
+  get invertedFrequencies(): Record<string, number> {
+    const oThis = this;
 
-  oThis.invertedFrequenciesMap =
-      oThis.invertedFrequenciesMap || utils.invert(oThis.frequencies)
+    oThis.invertedFrequenciesMap = oThis.invertedFrequenciesMap || utils.invert(oThis.frequencies);
 
-  return oThis.invertedFrequenciesMap
-}
-
+    return oThis.invertedFrequenciesMap;
+  }
 }
 
 const devPortalConstant = new DevPortalConstants();
