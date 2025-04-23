@@ -94,14 +94,14 @@ export const commonLabels = {
     {
       src: "/assets/img/integration-subgraph.png",
       title: "The Graph",
-      route: "https://graphspy.dapplooker.com/",
+      route: "https://dev.dapplooker.com/the-graph",
       localRoute: "/the-graph",
     },
 
     {
       src: "/assets/svg/celo-new-colored-logo.svg",
       title: "Celo",
-      route: "https://celospy.com/",
+      route: "https://dev.dapplooker.com/celo",
       localRoute: "/celo",
     },
   ],
