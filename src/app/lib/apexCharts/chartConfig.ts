@@ -39,34 +39,34 @@ class ChartConfig {
             },
           },
         },
-        title: {
-          display: true,
-          text: chartTitle,
-          align: "start", // Align title to the left
-          color: "#fff", // Title color
-          font: {
-            size: 18, // Title font size
-            weight: "bold", // Title font weight
-          },
-          padding: {
-            left: 20, // Padding from the left side
-            top: 10, // Padding from the top
-          },
-        },
-        subtitle: {
-          display: true,
-          text: subtitle,
-          color: "#fff", 
-          font: {
-            size: 10, 
-            weight: "normal", 
-            family: 'Arial', 
-          },
-          padding: {
-            top: 10, 
-          },
-          align: 'start', 
-        },
+        // title: {
+        //   display: true,
+        //   text: chartTitle,
+        //   align: "start", // Align title to the left
+        //   color: "#fff", // Title color
+        //   font: {
+        //     size: 18, // Title font size
+        //     weight: "bold", // Title font weight
+        //   },
+        //   padding: {
+        //     left: 20, // Padding from the left side
+        //     top: 10, // Padding from the top
+        //   },
+        // },
+        // subtitle: {
+        //   display: true,
+        //   text: subtitle,
+        //   color: "#fff", 
+        //   font: {
+        //     size: 10, 
+        //     weight: "normal", 
+        //     family: 'Arial', 
+        //   },
+        //   padding: {
+        //     top: 10, 
+        //   },
+        //   align: 'start', 
+        // },
       },
       scales: {
         x: {

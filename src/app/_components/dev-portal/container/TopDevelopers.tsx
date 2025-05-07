@@ -1,9 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { Skeleton } from "../../shadecn/ui/skeleton";
 import ResultTable from "../components/ResultTable";
 import { errorLabels } from "@/app/constants/common/labels";
 import labels from "../constants";
+import { tooltipDescription } from "../tooltipDescriptions";
+import HoveredTooltip from "../../ui/components/Tooltip/HoveredTooltip";
 import styles from "./TopDapps.module.scss";
 
 interface TopDevelopersProps {
@@ -31,9 +34,14 @@ const TopDevelopers = ({ topDevelopers }: TopDevelopersProps) => {
       <Skeleton className="h-full w-full rounded-xl" />
     </div>
   ) : (
-    <div className={styles.topDeveloperSection}>
+    <div className={`${styles.topDeveloperSection}`}>
       <h2 className={styles.tableTitle}>
-        {labels.topDevelopers} <span className={styles.subHeading}>({labels.last30days})</span>
+          {labels.topDevelopers} <span className={styles.subHeading}>({labels.last30days})</span>
+          <span className="">
+              <HoveredTooltip content={tooltipDescription("Top Developers")}>
+                {<InfoCircledIcon className="text-xl"/>}
+              </HoveredTooltip>
+          </span>
       </h2>
       <section className={styles.topDapps}>
         {!data || data?.length === 0 || isError ? (

@@ -1,15 +1,17 @@
-import React from "react";
-import { ArchiveIcon, CodeIcon, CommitIcon, DashboardIcon } from "@radix-ui/react-icons";
-import { FormattedGeneralStatsResponse } from "@/app/interface";
-import devPortalConstant from "../constants";
-import { errorLabels } from "@/app/constants";
-import styles from "./StatsCard.module.scss";
+import React from 'react';
+import { ArchiveIcon, CodeIcon, CommitIcon, DashboardIcon, InfoCircledIcon, SunIcon } from '@radix-ui/react-icons';
+import { FormattedGeneralStatsResponse } from '@/app/interface';
+import devPortalConstant from '../constants';
+import { errorLabels } from '@/app/constants';
+import styles from './StatsCard.module.scss';
+import HoveredTooltip from '../../ui/components/Tooltip/HoveredTooltip';
+import { tooltipDescription } from '../tooltipDescriptions';
 
 const menuIconMap: { [key: string]: React.ElementType } = {
   code: CodeIcon,
   dashboard: DashboardIcon,
   commit: CommitIcon,
-  archive: ArchiveIcon,
+  archive: ArchiveIcon
 };
 
 interface StatsCardProps {
@@ -27,10 +29,15 @@ const StatsCard = ({ statsData }: StatsCardProps) => {
         <>
           <div className={styles.cardHeader}>
             <h3 className={styles.cardTitle}>{statsData.title}</h3>
+            <div className='flex'>
+              <HoveredTooltip content={tooltipDescription(statsData.title)}>
+                {<InfoCircledIcon />}
+              </HoveredTooltip>
+            </div>
             <MenuIconComponent className={styles.icon} />
           </div>
           <h2 className={styles.totalCount}>{statsData.totalCount}</h2>
-          {statsData.title !== "PR Raised" && (
+          {statsData.title !== 'PR Raised' && (
             <h4 className={styles.subCount}>
               +{statsData.last30DaysCount} {devPortalConstant.inlast30Days}
             </h4>

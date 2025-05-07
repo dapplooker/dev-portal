@@ -9,6 +9,9 @@ import ChartData from "@/app/lib/apexCharts/chartConfig";
 import utils from "@/app/utils/utils";
 import { errorLabels } from "@/app/constants";
 import styles from "./LineChart.module.scss";
+import HoveredTooltip from "../../ui/components/Tooltip/HoveredTooltip";
+import { tooltipDescription } from "../tooltipDescriptions";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend, subtitlePlugin);
 
@@ -69,7 +72,18 @@ const BarChart = ({ searchKeyword, endpointKeyName, secondDataSet, apiData }: Ba
   return loading ? (
     <Skeleton className="h-[350px] w-full rounded-xl skeletonWrapper" />
   ) : (
-    <div className={`${styles.activeProjectChartWrapper} ${styles.barChartWrapper}`}>
+      
+    <div className={`w-full`}>
+      <h2 className={styles.tableTitle}>
+        {apiData.chartTitle} <span className={styles.subHeading}>{apiData.subtitle}</span>
+        <span className="">
+          <HoveredTooltip content={tooltipDescription(apiData.chartTitle)}>
+            {<InfoCircledIcon className="text-xl"/>}
+          </HoveredTooltip>
+        </span>
+      </h2>
+        
+      <div className={`${styles.activeProjectChartWrapper} ${styles.barChartWrapper}`}>
       {!utils.validateNonEmptyObject(data) || isError ? (
         <h1 className={styles.noDataFound}>{errorLabels.oopsNoDataFound}</h1>
       ) : (
@@ -78,6 +92,8 @@ const BarChart = ({ searchKeyword, endpointKeyName, secondDataSet, apiData }: Ba
           options={data?.options as any}
         />
       )}
+      </div>
+        
     </div>
   );
 };

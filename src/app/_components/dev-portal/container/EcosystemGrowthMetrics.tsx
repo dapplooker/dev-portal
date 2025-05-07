@@ -6,6 +6,9 @@ import CircularProgressBar from "../components/CircularProgressBar";
 import { errorLabels } from "@/app/constants/common/labels";
 import labels from "../constants";
 import styles from "./EcosystemGrowthMetrics.module.scss";
+import HoveredTooltip from "../../ui/components/Tooltip/HoveredTooltip";
+import { tooltipDescription } from "../tooltipDescriptions";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
 
 interface EcosystemGrowthMetricsProps {
   ecosystemGrowthMetrics: any[];
@@ -45,8 +48,12 @@ const EcosystemGrowthMetrics = ({ ecosystemGrowthMetrics }: EcosystemGrowthMetri
   ) : (
     <>
       <section className={styles.ecosystemGrowthMetricsSection}>
-        <h3 className={styles.sectionTitle}>
-          {labels.ecosystemGrowth} <span className={styles.subHeading}>({labels.last6months})</span>
+        <h3 className={styles.sectionTitle}>{labels.ecosystemGrowth} <span className={styles.subHeading}>{" "}({labels.last6months})</span>
+            <span className="">
+              <HoveredTooltip content={tooltipDescription("Ecosystem Growth")}>
+                {<InfoCircledIcon className="text-xl"/>}
+              </HoveredTooltip>
+            </span>
         </h3>
 
         <div className={styles.contentWrapper}>

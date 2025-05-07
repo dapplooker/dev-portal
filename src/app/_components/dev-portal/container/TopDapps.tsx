@@ -1,8 +1,11 @@
 "use client";
 import { errorLabels } from "@/app/constants/common/labels";
 import { useEffect, useState } from "react";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { Skeleton } from "../../shadecn/ui/skeleton";
 import ResultTable from "../components/ResultTable";
+import HoveredTooltip from "../../ui/components/Tooltip/HoveredTooltip";
+import { tooltipDescription } from "../tooltipDescriptions";
 import labels from "../constants";
 import styles from "./TopDapps.module.scss";
 
@@ -33,7 +36,12 @@ const TopDapps = ({ topDapps }: TopDappsProps) => {
   ) : (
     <div className={styles.sectionWrapper}>
       <h2 className={styles.tableTitle}>
-        {labels.topProjects} <span className={styles.subHeading}>({labels.last30days})</span>
+          {labels.topProjects} <span className={styles.subHeading}>({labels.last30days})</span>
+          <span className="">
+              <HoveredTooltip content={tooltipDescription("Top Projects")}>
+                {<InfoCircledIcon className="text-xl"/>}
+              </HoveredTooltip>
+          </span>
       </h2>
       <section className={styles.topDapps}>
         {!data || data?.length === 0 || isError ? (

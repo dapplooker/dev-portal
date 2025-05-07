@@ -20,6 +20,9 @@ import subtitlePlugin from "@/app/lib/apexCharts/chartSubtitle";
 import devPortalConstant from "../constants";
 import { errorLabels } from "@/app/constants";
 import styles from "./LineChart.module.scss";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
+import { tooltipDescription } from "../tooltipDescriptions";
+import HoveredTooltip from "../../ui/components/Tooltip/HoveredTooltip"
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Title, Tooltip, Legend, subtitlePlugin);
 
@@ -79,11 +82,22 @@ const LineChart = ({ searchKeyword, endpointKeyName, onHandleCommonData, apiData
       });
     }
   };
+  console.log("apiData",apiData)
 
   return loading ? (
     <Skeleton className="h-[350px] w-[600px] rounded-xl skeletonWrapper" />
   ) : (
-    <div className={styles.activeProjectChartWrapper}>
+      <div className={styles.chartContainer}>
+        <h2 className={styles.tableTitle}>
+          {apiData.chartTitle} <span className={styles.subHeading}>{apiData.subtitle}</span>
+          <span className="">
+              <HoveredTooltip content={tooltipDescription(apiData.chartTitle)}>
+                {<InfoCircledIcon className="text-xl"/>}
+              </HoveredTooltip>
+          </span>
+        </h2>
+      
+      <div className={styles.activeProjectChartWrapper}>
       {!utils.validateNonEmptyObject(data) || isError ? (
         <h1 className={styles.noDataFound}>{errorLabels.oopsNoDataFound}</h1>
       ) : (
@@ -92,7 +106,8 @@ const LineChart = ({ searchKeyword, endpointKeyName, onHandleCommonData, apiData
           options={data?.options as any}
         />
       )}
-    </div>
+        </div>
+      </div>
   );
 };
 
